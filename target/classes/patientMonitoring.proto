@@ -1,0 +1,45 @@
+syntax = "proto3";
+ 
+ option java_multiple_files = true;
+ option java_package = "patientMonitoring";
+ option java_outer_classname = "PatientMonitoringServiceImpl";
+ 
+  //package patientMonitoringService
+ package patientMonitoring;
+ 
+ service PatientMonitoringService {
+ 	
+ 	//Unary call
+ 	rpc monitoringDeviceOnOff(DeviceRequest) returns (DeviceResponse);
+ 
+ 	//Bidirectional
+ 	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){}
+ 
+ }
+ 
+ //Urinary call 
+ message DeviceRequest{
+ 
+  	bool deviceStatus = 1;
+  
+ }
+ 
+ message DeviceResponse{
+ 
+ 	bool deviceStatus = 1;
+ 
+ }
+ 
+ //Bidirectioonal
+ message PressureRequest{
+  
+ 	float systolic = 1;
+ 	float diastolic = 2;
+ 	
+ }
+ 
+ message PressureResponse{
+ 
+ 	float result = 1;
+ 	
+ }
