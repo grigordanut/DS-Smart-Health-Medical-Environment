@@ -1,4 +1,4 @@
-package heathtServiceMonitoring;
+package healthtServiceMonitoring;
 
 import java.awt.EventQueue;
 
@@ -41,6 +41,7 @@ public class healthServiceGUI implements ActionListener {
 	
 	JToggleButton tglbtn_deviceOnOff;
 	private JTextField txt_showStatus;	
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -187,6 +188,15 @@ public class healthServiceGUI implements ActionListener {
 		txt_showStatus.setBounds(460, 75, 45, 35);
 		frmSmartHealthEnvironment.getContentPane().add(txt_showStatus);
 		txt_showStatus.setColumns(10);		
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(69, 167, 45, 13);
+		frmSmartHealthEnvironment.getContentPane().add(lblNewLabel);
+		
+		textField = new JTextField();
+		textField.setBounds(56, 203, 96, 19);
+		frmSmartHealthEnvironment.getContentPane().add(textField);
+		textField.setColumns(10);
 	}
 
 	@Override
@@ -222,5 +232,4 @@ public class healthServiceGUI implements ActionListener {
 		}
 		
 	}
-
 }
