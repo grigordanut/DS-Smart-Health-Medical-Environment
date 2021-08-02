@@ -5,7 +5,7 @@ package patientMonitoring;
 
 /**
  * <pre>
- *Urinary call 
+ *Unary call 
  * </pre>
  *
  * Protobuf type {@code patientMonitoring.DeviceRequest}
@@ -252,7 +252,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   *Urinary call 
+   *Unary call 
    * </pre>
    *
    * Protobuf type {@code patientMonitoring.DeviceRequest}

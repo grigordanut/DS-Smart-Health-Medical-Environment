@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private PressureResponse() {
-    result_ = 0F;
+    result_ = "";
   }
 
   @java.lang.Override
@@ -43,9 +43,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 13: {
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
 
-            result_ = input.readFloat();
+            result_ = s;
             break;
           }
           default: {
@@ -81,12 +82,37 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int RESULT_FIELD_NUMBER = 1;
-  private float result_;
+  private volatile java.lang.Object result_;
   /**
-   * <code>float result = 1;</code>
+   * <code>string result = 1;</code>
    */
-  public float getResult() {
-    return result_;
+  public java.lang.String getResult() {
+    java.lang.Object ref = result_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      result_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string result = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getResultBytes() {
+    java.lang.Object ref = result_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      result_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -103,8 +129,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (result_ != 0F) {
-      output.writeFloat(1, result_);
+    if (!getResultBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, result_);
     }
     unknownFields.writeTo(output);
   }
@@ -115,9 +141,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (result_ != 0F) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeFloatSize(1, result_);
+    if (!getResultBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, result_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -135,10 +160,8 @@ private static final long serialVersionUID = 0L;
     patientMonitoring.PressureResponse other = (patientMonitoring.PressureResponse) obj;
 
     boolean result = true;
-    result = result && (
-        java.lang.Float.floatToIntBits(getResult())
-        == java.lang.Float.floatToIntBits(
-            other.getResult()));
+    result = result && getResult()
+        .equals(other.getResult());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -151,8 +174,7 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + RESULT_FIELD_NUMBER;
-    hash = (53 * hash) + java.lang.Float.floatToIntBits(
-        getResult());
+    hash = (53 * hash) + getResult().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -286,7 +308,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      result_ = 0F;
+      result_ = "";
 
       return this;
     }
@@ -363,8 +385,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(patientMonitoring.PressureResponse other) {
       if (other == patientMonitoring.PressureResponse.getDefaultInstance()) return this;
-      if (other.getResult() != 0F) {
-        setResult(other.getResult());
+      if (!other.getResult().isEmpty()) {
+        result_ = other.result_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -395,28 +418,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private float result_ ;
+    private java.lang.Object result_ = "";
     /**
-     * <code>float result = 1;</code>
+     * <code>string result = 1;</code>
      */
-    public float getResult() {
-      return result_;
+    public java.lang.String getResult() {
+      java.lang.Object ref = result_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        result_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
-     * <code>float result = 1;</code>
+     * <code>string result = 1;</code>
      */
-    public Builder setResult(float value) {
-      
+    public com.google.protobuf.ByteString
+        getResultBytes() {
+      java.lang.Object ref = result_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        result_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string result = 1;</code>
+     */
+    public Builder setResult(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
       result_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>float result = 1;</code>
+     * <code>string result = 1;</code>
      */
     public Builder clearResult() {
       
-      result_ = 0F;
+      result_ = getDefaultInstance().getResult();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string result = 1;</code>
+     */
+    public Builder setResultBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      result_ = value;
       onChanged();
       return this;
     }

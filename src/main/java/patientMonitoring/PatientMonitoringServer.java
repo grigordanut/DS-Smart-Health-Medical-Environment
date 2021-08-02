@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
+import javax.swing.JOptionPane;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -121,6 +122,8 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		
 	}
 	
+	//GRPC Unary procedure call
+	//TURN ON/OFF Monitoring Device	
 	@Override
 	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {
 		
@@ -141,6 +144,90 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		responseObserver.onNext(response);
 		responseObserver.onCompleted();
 		
+	}
+	
+	//Bidirectional
+	public StreamObserver<PressureRequest> bloodPressure(StreamObserver<PressureResponse> responseObserver){
+		return new StreamObserver<PressureRequest>() {
+
+			float systolic = (float) 110.0;
+			float diastolic = (float) 70.0;
+			
+			@Override
+			public void onNext(PressureRequest value) {
+				
+				System.out.println("Blood Pressure results with systolic: " + value.getSystolic() +"/mmHg");
+				System.out.println("Blood Pressure results with diastolic: " + value.getDiastolic() + "/mmHg");
+				
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCompleted() {
+				
+				System.out.println("Receiving systolic value: " + systolic + "/mmHg");
+				System.out.println("Receiving diastolic value: " + diastolic + "/mmHg");
+				
+				String result = "";
+				
+				if (((int)systolic >= 0 && systolic < 70) && ((int)diastolic >= 30)){
+					JOptionPane.showMessageDialog(null, "The Systolic figures are too low!");
+					
+					result = ("The Systolic figures are too low!");
+					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
+				}
+				
+				
+				//Low Blood Presure				
+				else if (((int)systolic > 70) && ((int)diastolic >= 0 && diastolic < 30)){					
+					JOptionPane.showMessageDialog(null, "The Diastolic are too low!"); 
+				}				
+				//Low Blood Presure				
+				else if (((int)systolic >= 0 && systolic < 70) && ((int)diastolic >= 0 && diastolic < 30)){					
+					JOptionPane.showMessageDialog(null, "Both figures Systolic and Diastolic are too low!"); 
+				}
+				
+				//Low Blood Presure				
+				else if (((int)systolic >= 70 && systolic < 90) || ((int)diastolic >= 30 && diastolic < 60)){					
+					JOptionPane.showMessageDialog(null, "Low Blood Presure!"); 
+				}
+				//Normal Blood Presure
+				else if (((int) systolic >= 90 && systolic < 120) && ((int) diastolic >= 60 && diastolic < 80 )) {
+					JOptionPane.showMessageDialog(null, "Normal Blood Presure!"); 
+				}
+				//Prehypertision (High Normale)
+				else if (((int) systolic >= 120 && systolic < 120) && ((int) diastolic >= 80 && diastolic < 90 )) {
+					JOptionPane.showMessageDialog(null, "Prehypertision (High Normale)!"); 
+				}				
+				//Hypertision Stage 1
+				else if (((int) systolic >= 140 && systolic < 160) && ((int) diastolic >= 90 && diastolic < 100 )) {
+					JOptionPane.showMessageDialog(null, "Hypertision Stage 1!"); 
+				}				
+				//Hypertision Stage 2
+				else if (((int) systolic >= 160 && systolic < 180) && ((int) diastolic >= 100 && diastolic < 110 )) {
+					JOptionPane.showMessageDialog(null, "Hypertision Stage 2!"); 
+				}
+				//Hypertensive Crisis (Medical Emergency)
+				else if (((int) systolic >= 180 && systolic < 200) && ((int) diastolic >= 110 && diastolic < 120 )) {
+					JOptionPane.showMessageDialog(null, "Hypertision Stage 2!"); 
+				}	
+				
+				else {
+					JOptionPane.showMessageDialog(null, "Enter a valid blood Presure figures"); 
+				}				
+				
+				responseObserver.onCompleted();
+				
+			}
+			
+		};
 	}
 
 }

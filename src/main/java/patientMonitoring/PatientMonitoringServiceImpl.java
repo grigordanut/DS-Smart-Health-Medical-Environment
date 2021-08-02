@@ -48,7 +48,7 @@ public final class PatientMonitoringServiceImpl {
       "\001(\010\"&\n\016DeviceResponse\022\024\n\014deviceStatus\030\001 " +
       "\001(\010\"6\n\017PressureRequest\022\020\n\010systolic\030\001 \001(\002" +
       "\022\021\n\tdiastolic\030\002 \001(\002\"\"\n\020PressureResponse\022" +
-      "\016\n\006result\030\001 \001(\0022\330\001\n\030PatientMonitoringSer" +
+      "\016\n\006result\030\001 \001(\t2\330\001\n\030PatientMonitoringSer" +
       "vice\022\\\n\025monitoringDeviceOnOff\022 .patientM" +
       "onitoring.DeviceRequest\032!.patientMonitor" +
       "ing.DeviceResponse\022^\n\rbloodPressure\022\".pa" +

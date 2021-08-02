@@ -8,7 +8,12 @@ public interface PressureResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>float result = 1;</code>
+   * <code>string result = 1;</code>
    */
-  float getResult();
+  java.lang.String getResult();
+  /**
+   * <code>string result = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getResultBytes();
 }

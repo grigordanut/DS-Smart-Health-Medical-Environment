@@ -5,7 +5,7 @@ package patientMonitoring;
 
 /**
  * <pre>
- *Bidirectioonal
+ *Bidirectioonal call
  * </pre>
  *
  * Protobuf type {@code patientMonitoring.PressureRequest}
@@ -283,7 +283,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   *Bidirectioonal
+   *Bidirectioonal call
    * </pre>
    *
    * Protobuf type {@code patientMonitoring.PressureRequest}

@@ -17,7 +17,7 @@ syntax = "proto3";
  
  }
  
- //Urinary call 
+ //Unary call 
  message DeviceRequest{
  
   	bool deviceStatus = 1;
@@ -30,7 +30,7 @@ syntax = "proto3";
  
  }
  
- //Bidirectioonal
+ //Bidirectioonal call
  message PressureRequest{
   
  	float systolic = 1;
@@ -40,6 +40,6 @@ syntax = "proto3";
  
  message PressureResponse{
  
- 	float result = 1;
+ 	string result = 1;
  	
  }

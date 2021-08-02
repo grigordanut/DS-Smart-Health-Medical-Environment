@@ -16,19 +16,25 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import patientMonitoring.DeviceRequest;
 import patientMonitoring.DeviceResponse;
 import patientMonitoring.PatientMonitoringServiceGrpc;
 import patientMonitoring.PatientMonitoringServiceGrpc.PatientMonitoringServiceBlockingStub;
 import patientMonitoring.PatientMonitoringServiceGrpc.PatientMonitoringServiceStub;
+import patientMonitoring.PressureResponse;
 
 import java.awt.Color;
 import javax.swing.JToggleButton;
 import javax.swing.JTextField;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
 
 public class healthServiceGUI implements ActionListener {
 	
@@ -37,11 +43,17 @@ public class healthServiceGUI implements ActionListener {
 	
 	private ServiceInfo serviceInfo;
 
-	private JFrame frmSmartHealthEnvironment;
+	private JFrame frame;	
 	
 	JToggleButton tglbtn_deviceOnOff;
 	private JTextField txt_showStatus;	
-	private JTextField textField;
+	
+	private JSeparator separator1;
+	private JSeparator separator2;
+	
+	private JTextField txt_systolic;
+	private JTextField txt_diastolic;
+	private JTextField txt_bpCategory;
 
 	/**
 	 * Launch the application.
@@ -51,7 +63,7 @@ public class healthServiceGUI implements ActionListener {
 			public void run() {
 				try {
 					healthServiceGUI window = new healthServiceGUI();
-					window.frmSmartHealthEnvironment.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -139,45 +151,57 @@ public class healthServiceGUI implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmSmartHealthEnvironment = new JFrame();
-		frmSmartHealthEnvironment.getContentPane().setBackground(Color.CYAN);
-		frmSmartHealthEnvironment.setType(Type.UTILITY);
-		frmSmartHealthEnvironment.setFont(new Font("Dialog", Font.BOLD, 20));
-		frmSmartHealthEnvironment.setTitle("Smart Health Environment");
-		frmSmartHealthEnvironment.setBounds(100, 100, 614, 483);
-		frmSmartHealthEnvironment.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmSmartHealthEnvironment.getContentPane().setLayout(null);
-		
-		
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(234, 234, 234));
+		frame.setType(Type.UTILITY);
+		frame.setFont(new Font("Dialog", Font.BOLD, 20));
+		frame.setTitle("Smart Health Environment");
+		frame.setBounds(100, 100, 615, 539);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+				
 		////////////////////////////////////////
-		/// Pacient Monitoring Change Status ///
+		/// Pacient Monitoring Device //////////
 		////////////////////////////////////////
 		
 		//Main Label (Service Name)
 		JLabel lbl_serviceName = new JLabel("Patient Monitoring Service");
 		lbl_serviceName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_serviceName.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbl_serviceName.setBounds(170, 10, 280, 40);
-		frmSmartHealthEnvironment.getContentPane().add(lbl_serviceName);
+		lbl_serviceName.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbl_serviceName.setBounds(170, 10, 280, 25);
+		frame.getContentPane().add(lbl_serviceName);
+		
+		//Monitoring Device Text Area		
+		JTextArea textA_device = new JTextArea();
+		textA_device.setEditable(false);
+		textA_device.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textA_device.setBounds(15, 45, 295, 125);
+		textA_device.setText("  Patient Monitorising Device "
+				+ "\r\n The Device can be turned On/Off "
+				+ "\r\n The Device is used to monitoring: "
+				+ "\r\n -the heart pulse "
+				+ "\r\n -the respiratory rate"
+				+ "\r\n -and moore difernt body activity.");
+		frame.getContentPane().add(textA_device);
 		
 		//Lalel Change Status
 		JLabel lbl_changeStatus = new JLabel("Turn the Device:");
-		lbl_changeStatus.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbl_changeStatus.setBounds(40, 80, 180, 25);
-		frmSmartHealthEnvironment.getContentPane().add(lbl_changeStatus);
+		lbl_changeStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_changeStatus.setBounds(330, 60, 120, 25);
+		frame.getContentPane().add(lbl_changeStatus);
 		
 		//Toggle button turn monitoring device On/Off
 		tglbtn_deviceOnOff = new JToggleButton("On");
 		tglbtn_deviceOnOff.setFont(new Font("Tahoma", Font.BOLD, 18));
-		tglbtn_deviceOnOff.setBounds(220, 70, 70, 40);
-		frmSmartHealthEnvironment.getContentPane().add(tglbtn_deviceOnOff);
+		tglbtn_deviceOnOff.setBounds(460, 50, 120, 40);
+		frame.getContentPane().add(tglbtn_deviceOnOff);
 		tglbtn_deviceOnOff.addActionListener(this);
 		
 		//Label info device status	
 		JLabel lbl_infoStatus = new JLabel("Device Status:");
-		lbl_infoStatus.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbl_infoStatus.setBounds(300, 80, 160, 25);
-		frmSmartHealthEnvironment.getContentPane().add(lbl_infoStatus);
+		lbl_infoStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_infoStatus.setBounds(330, 125, 120, 25);
+		frame.getContentPane().add(lbl_infoStatus);
 		
 		//Text field show device status
 		txt_showStatus = new JTextField();
@@ -185,18 +209,123 @@ public class healthServiceGUI implements ActionListener {
 		txt_showStatus.setBackground(Color.WHITE);
 		txt_showStatus.setEditable(false);
 		txt_showStatus.setFont(new Font("Tahoma", Font.BOLD, 20));
-		txt_showStatus.setBounds(460, 75, 45, 35);
-		frmSmartHealthEnvironment.getContentPane().add(txt_showStatus);
+		txt_showStatus.setBounds(460, 115, 120, 40);
+		frame.getContentPane().add(txt_showStatus);
 		txt_showStatus.setColumns(10);		
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(69, 167, 45, 13);
-		frmSmartHealthEnvironment.getContentPane().add(lblNewLabel);
+		//Services separator 1		
+		separator1 = new JSeparator();
+		separator1.setBackground(Color.BLACK);
+		separator1.setBounds(5, 180, 590, 1);
+		frame.getContentPane().add(separator1);
 		
-		textField = new JTextField();
-		textField.setBounds(56, 203, 96, 19);
-		frmSmartHealthEnvironment.getContentPane().add(textField);
-		textField.setColumns(10);
+		//////////////////////////////
+		/// Blood Pressure Results ///
+		//////////////////////////////
+				
+		//Blood Pressuse Text Area
+		JTextArea textA_bloodPressure = new JTextArea();
+		textA_bloodPressure.setEditable(false);
+		textA_bloodPressure.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textA_bloodPressure.setBounds(15, 190, 340, 125);
+		textA_bloodPressure.setText("  Measure your blood pressure to: "
+				+ "\r\n -helps health team to diagnose any "
+				+ "\r\n -health problems early. "
+				+ "\r\n Your health care team can take steps: "
+				+ "\r\n -to control your blood pressure"
+				+ "\r\n -if it is too low or too high.");
+		frame.getContentPane().add(textA_bloodPressure);
+		
+		//Label Blood Pressure Results		
+		JLabel lbl_bpResults = new JLabel("Blood Pressure Resuts");
+		lbl_bpResults.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_bpResults.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbl_bpResults.setBounds(380, 190, 190, 25);
+		frame.getContentPane().add(lbl_bpResults);
+		
+		//Label systolic results
+		JLabel lbl_systolic = new JLabel("Systolic:");
+		lbl_systolic.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_systolic.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_systolic.setBounds(395, 220, 75, 25);
+		frame.getContentPane().add(lbl_systolic);
+				
+		//Text Field systolic results
+		txt_systolic = new JTextField();
+		txt_systolic.setFont(new Font("Tahoma", Font.BOLD, 16));
+		txt_systolic.setBounds(483, 220, 90, 25);
+		frame.getContentPane().add(txt_systolic);
+		txt_systolic.setColumns(10);		
+		
+		//Label diastolic results
+		JLabel lblNewLabel_2 = new JLabel("Diastolic");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_2.setBounds(395, 250, 75, 25);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		//Text Field diastolic results
+		txt_diastolic = new JTextField();
+		txt_diastolic.setFont(new Font("Tahoma", Font.BOLD, 16));
+		txt_diastolic.setBounds(483, 250, 90, 25);
+		frame.getContentPane().add(txt_diastolic);
+		txt_diastolic.setColumns(10);
+		
+		JButton btn_submit = new JButton("Submit");
+		btn_submit.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				float systolic = Float.parseFloat(txt_systolic.getText());
+				float diastoloc = Float.parseFloat(txt_diastolic.getText());
+				
+				
+				StreamObserver<PressureResponse> responseObserver = new StreamObserver<PressureResponse>() {
+
+					@Override
+					public void onNext(PressureResponse value) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onError(Throwable t) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onCompleted() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				};
+				
+			}
+		});
+		btn_submit.setBounds(450, 285, 125, 30);
+		frame.getContentPane().add(btn_submit);
+		
+		//Label blood pressure category
+		JLabel lbl_bpCategory = new JLabel("Blood Pressure Category:");
+		lbl_bpCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_bpCategory.setBounds(15, 320, 180, 30);
+		frame.getContentPane().add(lbl_bpCategory);
+		
+		//Text Field blood pressure category
+		txt_bpCategory = new JTextField();
+		txt_bpCategory.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txt_bpCategory.setBounds(200, 325, 375, 25);
+		frame.getContentPane().add(txt_bpCategory);
+		txt_bpCategory.setColumns(10);	
+		
+		//Services separator 2		
+		separator2 = new JSeparator();
+		separator2.setBackground(Color.BLACK);
+		separator2.setBounds(5, 360, 590, 1);
+		frame.getContentPane().add(separator2);
+		
 	}
 
 	@Override
@@ -209,11 +338,12 @@ public class healthServiceGUI implements ActionListener {
 		
 		else {
 			tglbtn_deviceOnOff.setText("On");
-				monitoringDeviceOnOff(true);
-			
+				monitoringDeviceOnOff(true);			
 		}		
 	}
 	
+	//GRPC Unary procedure call
+	//TURN ON/OFF Monitoring Device		
 	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
 		
 		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
