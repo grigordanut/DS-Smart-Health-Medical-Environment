@@ -175,52 +175,72 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 				
 				String result = "";
 				
-				if (((int)systolic >= 0 && systolic < 70) && ((int)diastolic >= 30)){
-					JOptionPane.showMessageDialog(null, "The Systolic figures are too low!");
-					
-					result = ("The Systolic figures are too low!");
-					
+				//The Systolic figures too low			
+				if (((float)systolic >= 0 && systolic < 70) && ((float)diastolic >= 30)){					
+					result = ("The Systolic figures are too low!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
+				}				
+				
+				//The Diastolic figures too low				
+				else if (((float)systolic > 70) && ((float)diastolic >= 0 && diastolic < 30)){					
+					result = ("The Diastolic figures are too low!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
+				}	
+				
+				//Both figures Systolic and Diastolic are too low				
+				else if (((float)systolic >= 0 && systolic < 70) && ((float)diastolic >= 0 && diastolic < 30)){					
+					result = ("Both figures Systolic and Diastolic are too low!");					
 					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
 					responseObserver.onNext(reply);
 				}
 				
-				
-				//Low Blood Presure				
-				else if (((int)systolic > 70) && ((int)diastolic >= 0 && diastolic < 30)){					
-					JOptionPane.showMessageDialog(null, "The Diastolic are too low!"); 
-				}				
-				//Low Blood Presure				
-				else if (((int)systolic >= 0 && systolic < 70) && ((int)diastolic >= 0 && diastolic < 30)){					
-					JOptionPane.showMessageDialog(null, "Both figures Systolic and Diastolic are too low!"); 
+				//Low Blood Pressure				
+				else if (((float)systolic >= 70 && systolic < 90) || ((float)diastolic >= 30 && diastolic < 60)){					
+					result = ("Low Blood Pressure!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
 				}
 				
-				//Low Blood Presure				
-				else if (((int)systolic >= 70 && systolic < 90) || ((int)diastolic >= 30 && diastolic < 60)){					
-					JOptionPane.showMessageDialog(null, "Low Blood Presure!"); 
+				//Normal Blood Pressure
+				else if (((float) systolic >= 90 && systolic < 120) && ((float) diastolic >= 60 && diastolic < 80 )) {
+					result = ("Normal Blood Pressure!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
 				}
-				//Normal Blood Presure
-				else if (((int) systolic >= 90 && systolic < 120) && ((int) diastolic >= 60 && diastolic < 80 )) {
-					JOptionPane.showMessageDialog(null, "Normal Blood Presure!"); 
+				
+				//Prehypertesion (High Normale)
+				else if (((float) systolic >= 120 && systolic < 140) || ((float) diastolic >= 80 && diastolic < 90 )) {
+					result = ("Prehypertesion (High Normale)!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
 				}
-				//Prehypertision (High Normale)
-				else if (((int) systolic >= 120 && systolic < 120) && ((int) diastolic >= 80 && diastolic < 90 )) {
-					JOptionPane.showMessageDialog(null, "Prehypertision (High Normale)!"); 
-				}				
-				//Hypertision Stage 1
-				else if (((int) systolic >= 140 && systolic < 160) && ((int) diastolic >= 90 && diastolic < 100 )) {
-					JOptionPane.showMessageDialog(null, "Hypertision Stage 1!"); 
-				}				
-				//Hypertision Stage 2
-				else if (((int) systolic >= 160 && systolic < 180) && ((int) diastolic >= 100 && diastolic < 110 )) {
-					JOptionPane.showMessageDialog(null, "Hypertision Stage 2!"); 
-				}
-				//Hypertensive Crisis (Medical Emergency)
-				else if (((int) systolic >= 180 && systolic < 200) && ((int) diastolic >= 110 && diastolic < 120 )) {
-					JOptionPane.showMessageDialog(null, "Hypertision Stage 2!"); 
+				
+				//Hypertesion Stage 1
+				else if (((float) systolic >= 140 && systolic < 160) || ((float) diastolic >= 90 && diastolic < 100 )) {
+					result = ("Hypertesion Stage 1!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
 				}	
 				
+				//Hypertision Stage 2
+				else if (((float) systolic >= 160 && systolic < 180) || ((float) diastolic >= 100 && diastolic < 110 )) {
+					result = ("Hypertision Stage 2!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
+				}
+				
+				//Hypertensive Crisis (Medical Emergency)
+				else if (((float) systolic >= 180 && systolic < 200) || ((float) diastolic >= 110 && diastolic < 120 )) {
+					result = ("Hypertensive Crisis (Medical Emergency)!");					
+					PressureResponse reply = PressureResponse.newBuilder().setResult(result).build();
+					responseObserver.onNext(reply);
+				}	
+				
+				//Wrong figures of Bllod Pressure has been entered
 				else {
-					JOptionPane.showMessageDialog(null, "Enter a valid blood Presure figures"); 
+					JOptionPane.showMessageDialog(null, "Enter a valid Blood Pressure figures"); 
 				}				
 				
 				responseObserver.onCompleted();

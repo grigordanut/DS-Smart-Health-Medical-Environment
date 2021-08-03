@@ -1,6 +1,7 @@
 patientMonitoring\PressureResponseOrBuilder.class
 healthtServiceMonitoring\healthServiceGUI$3.class
 patientMonitoring\PatientMonitoringServiceGrpc$PatientMonitoringServiceFileDescriptorSupplier.class
+patientMonitoring\PatientMonitoringClient$1.class
 patientMonitoring\DeviceResponse$Builder.class
 patientMonitoring\PressureResponse.class
 patientMonitoring\DeviceRequest$1.class
@@ -19,6 +20,7 @@ patientMonitoring\PatientMonitoringServer$1.class
 patientMonitoring\PatientMonitoringServiceImpl$1.class
 patientMonitoring\PatientMonitoringServiceGrpc$PatientMonitoringServiceFutureStub.class
 patientMonitoring\PressureRequest.class
+healthtServiceMonitoring\healthServiceGUI$3$1.class
 healthtServiceMonitoring\healthServiceGUI.class
 patientMonitoring\DeviceResponse$1.class
 patientMonitoring\PatientMonitoringServer.class

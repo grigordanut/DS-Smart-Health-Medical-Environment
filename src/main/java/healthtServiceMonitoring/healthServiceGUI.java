@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
@@ -24,17 +25,22 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import patientMonitoring.DeviceRequest;
 import patientMonitoring.DeviceResponse;
+import patientMonitoring.BloodPressureTableGUI;
 import patientMonitoring.PatientMonitoringServiceGrpc;
 import patientMonitoring.PatientMonitoringServiceGrpc.PatientMonitoringServiceBlockingStub;
 import patientMonitoring.PatientMonitoringServiceGrpc.PatientMonitoringServiceStub;
+import patientMonitoring.PressureRequest;
 import patientMonitoring.PressureResponse;
 
 import java.awt.Color;
 import javax.swing.JToggleButton;
 import javax.swing.JTextField;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class healthServiceGUI implements ActionListener {
 	
@@ -152,8 +158,8 @@ public class healthServiceGUI implements ActionListener {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(234, 234, 234));
 		frame.setType(Type.UTILITY);
+		frame.getContentPane().setBackground(new Color(234, 234, 234));
 		frame.setFont(new Font("Dialog", Font.BOLD, 20));
 		frame.setTitle("Smart Health Environment");
 		frame.setBounds(100, 100, 615, 539);
@@ -181,7 +187,7 @@ public class healthServiceGUI implements ActionListener {
 				+ "\r\n The Device is used to monitoring: "
 				+ "\r\n -the heart pulse "
 				+ "\r\n -the respiratory rate"
-				+ "\r\n -and moore difernt body activity.");
+				+ "\r\n -and moore differnt body activity.");
 		frame.getContentPane().add(textA_device);
 		
 		//Lalel Change Status
@@ -227,10 +233,10 @@ public class healthServiceGUI implements ActionListener {
 		JTextArea textA_bloodPressure = new JTextArea();
 		textA_bloodPressure.setEditable(false);
 		textA_bloodPressure.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		textA_bloodPressure.setBounds(15, 190, 340, 125);
+		textA_bloodPressure.setBounds(15, 190, 315, 125);
 		textA_bloodPressure.setText("  Measure your blood pressure to: "
 				+ "\r\n -helps health team to diagnose any "
-				+ "\r\n -health problems early. "
+				+ "\r\n health problems early. "
 				+ "\r\n Your health care team can take steps: "
 				+ "\r\n -to control your blood pressure"
 				+ "\r\n -if it is too low or too high.");
@@ -247,13 +253,42 @@ public class healthServiceGUI implements ActionListener {
 		JLabel lbl_systolic = new JLabel("Systolic:");
 		lbl_systolic.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_systolic.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_systolic.setBounds(395, 220, 75, 25);
+		lbl_systolic.setBounds(355, 220, 75, 25);
 		frame.getContentPane().add(lbl_systolic);
 				
 		//Text Field systolic results
 		txt_systolic = new JTextField();
+		txt_systolic.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				txt_bpCategory.setText("");
+				txt_systolic.setText("");
+			}
+		});
+		
+		
+		txt_systolic.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				int key = e.getKeyCode();
+	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
+	            	txt_systolic.setEditable(true);
+	            }
+	            
+	            else{	                
+	                //show message box                 
+	                JOptionPane.showMessageDialog(null, "Enter numbers only, letters or any special characters are not allowed"); 
+	                txt_systolic.setEditable(true);
+	                txt_systolic.setText("");
+	                txt_systolic.requestFocus();
+	            }
+			}
+		});
+		txt_systolic.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_systolic.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txt_systolic.setBounds(483, 220, 90, 25);
+		txt_systolic.setBounds(430, 220, 90, 25);
 		frame.getContentPane().add(txt_systolic);
 		txt_systolic.setColumns(10);		
 		
@@ -261,24 +296,47 @@ public class healthServiceGUI implements ActionListener {
 		JLabel lblNewLabel_2 = new JLabel("Diastolic");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(395, 250, 75, 25);
+		lblNewLabel_2.setBounds(355, 250, 75, 25);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		//Text Field diastolic results
 		txt_diastolic = new JTextField();
+		txt_diastolic.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				txt_bpCategory.setText("");
+				txt_diastolic.setText("");
+			}
+		});
+		txt_diastolic.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				int key = e.getKeyCode();
+	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
+	            	txt_diastolic.setEditable(true);
+	            }
+	            
+	            else{	                
+	                //show message box                 
+	                JOptionPane.showMessageDialog(null, "Enter numbers only, letters or any special characters are not allowed"); 
+	                txt_diastolic.setEditable(true);
+	                txt_diastolic.setText("");
+	                txt_diastolic.requestFocus();
+	            }
+			}
+		});
+		txt_diastolic.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_diastolic.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txt_diastolic.setBounds(483, 250, 90, 25);
+		txt_diastolic.setBounds(430, 250, 90, 25);
 		frame.getContentPane().add(txt_diastolic);
 		txt_diastolic.setColumns(10);
 		
 		JButton btn_submit = new JButton("Submit");
 		btn_submit.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btn_submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				float systolic = Float.parseFloat(txt_systolic.getText());
-				float diastoloc = Float.parseFloat(txt_diastolic.getText());
-				
+			public void actionPerformed(ActionEvent e) {			
 				
 				StreamObserver<PressureResponse> responseObserver = new StreamObserver<PressureResponse>() {
 
@@ -294,17 +352,107 @@ public class healthServiceGUI implements ActionListener {
 						
 					}
 
+					@SuppressWarnings("static-access")
 					@Override
 					public void onCompleted() {
-						// TODO Auto-generated method stub
 						
-					}
-					
+						float systolic = (float) 0.00;						
+						float diastolic = (float) 0.00;
+						
+						if (txt_systolic.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Pleae enter Systolic value.");
+							txt_systolic.requestFocus();
+						}
+						
+						else if (txt_diastolic.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Pleae enter Diastolic value.");
+							txt_diastolic.requestFocus();
+						}
+						
+						else {						
+							systolic = Float.parseFloat(txt_systolic.getText());
+							diastolic = Float.parseFloat(txt_diastolic.getText());						
+						
+							String result = "";
+							
+							//The Systolic 						
+							if (((float)systolic >= 0 && systolic < 70) && ((float)diastolic >= 30)){
+								JOptionPane.showMessageDialog(null, "The Systolic figures are too low!");										
+								System.out.println("The Systolic figures are too low!");
+							}
+							
+							//The Diastolic figures too low				
+							else if (((float)systolic > 70) && ((float)diastolic >= 0 && diastolic < 30)){							
+								JOptionPane.showMessageDialog(null, "The Diastolic figures are too low!");												
+								System.out.println("The Diastolic figures are too low!");
+							}	
+							
+							//Both figures Systolic and Diastolic are too low				
+							else if (((float)systolic > 0 && systolic < 70) && ((float)diastolic > 0 && diastolic < 30)){					
+								JOptionPane.showMessageDialog(null,"Both figures Systolic and Diastolic are too low!");						
+								System.out.println("Both figures Systolic and Diastolic are too low!");
+							}
+							
+							//Low Blood Pressure				
+							else if (((float)systolic >= 70 && systolic < 90) || ((float)diastolic >= 30 && diastolic < 60)){					
+								result = ("Low Blood Pressure!");	
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);	
+								
+								BloodPressureTableGUI transfergui = new BloodPressureTableGUI ();
+							    transfergui.main(null);
+								
+								
+							}
+							
+							//Normal Blood Pressure
+							else if (((float) systolic >= 90 && systolic < 120) && ((float) diastolic >= 60 && diastolic < 80 )) { 
+								result = ("Normal Blood Pressure!");	
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);	
+							}
+							
+							//Prehypertesion (High Normale)
+							else if (((float) systolic >= 120 && systolic < 140) || ((float) diastolic >= 80 && diastolic < 90 )) {
+								result = ("Prehypertesion (High Normale)!");					
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);	
+							}
+							
+							//Hypertesion Stage 1
+							else if (((float) systolic >= 140 && systolic < 160) || ((float) diastolic >= 90 && diastolic < 100 )) {
+								result = ("Hypertesion Stage 1!");					
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);	
+							}	
+							
+							//Hypertision Stage 2
+							else if (((float) systolic >= 160 && systolic < 180) || ((float) diastolic >= 100 && diastolic < 110 )) {
+								result = ("Hypertision Stage 2!");					
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);	
+							}
+							
+							//Hypertensive Crisis (Medical Emergency)
+							else if (((float) systolic >= 180 && systolic < 200) || ((float) diastolic >= 110 && diastolic < 120 )) {
+								result = ("Hypertensive Crisis (Medical Emergency)!");	
+								txt_bpCategory.setText("  " + result);							
+								System.out.println(result);									
+							}	
+							
+							//Wrong figures of Bllod Pressure has been entered
+							else {
+								JOptionPane.showMessageDialog(null, "Enter a valid Blood Pressure figures"); 
+							}						
+						}					
+					}					
 				};
 				
+				StreamObserver<PressureRequest> requestObserver = asyncStub.bloodPressure(responseObserver);
+				requestObserver.onCompleted();				
 			}
 		});
-		btn_submit.setBounds(450, 285, 125, 30);
+		btn_submit.setBounds(415, 285, 125, 30);
 		frame.getContentPane().add(btn_submit);
 		
 		//Label blood pressure category
@@ -325,6 +473,16 @@ public class healthServiceGUI implements ActionListener {
 		separator2.setBackground(Color.BLACK);
 		separator2.setBounds(5, 360, 590, 1);
 		frame.getContentPane().add(separator2);
+		
+		JLabel lblNewLabel = new JLabel("mmHg");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(525, 220, 60, 25);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("mmHg");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(525, 250, 60, 25);
+		frame.getContentPane().add(lblNewLabel_1);
 		
 	}
 
