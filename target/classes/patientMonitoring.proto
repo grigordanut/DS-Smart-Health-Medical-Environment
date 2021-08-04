@@ -1,11 +1,11 @@
 syntax = "proto3";
  
  option java_multiple_files = true;
- option java_package = "patientMonitoring";
+ option java_package = "patientMonitoringService";
  option java_outer_classname = "PatientMonitoringServiceImpl";
  
   //package patientMonitoringService
- package patientMonitoring;
+ package patientMonitoringService;
  
  service PatientMonitoringService {
  	
@@ -16,7 +16,7 @@ syntax = "proto3";
  	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){}
  	
  	//Client Streaming
- 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse) {}
+ 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){}
  
  }
  
@@ -39,14 +39,15 @@ syntax = "proto3";
  	string result = 1; 	
  }
  
- //Client Streaming
+ //client Streaming
  message CalculateRequest{
  	int32 numberDays = 1;
- 	int32 priceDay
+ 	int32 priceDay = 2;
  }
  
  message CalculatetResponse{
- 	int totalPrice
+ 	int32 totalPrice = 1;
  }
+ 
   
  

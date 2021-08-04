@@ -1,0 +1,28 @@
+syntax = "proto3";
+ 
+ option java_multiple_files = true;
+ option java_package = "patientAccommodationService";
+ option java_outer_classname = "PatientAccommodationServiceImpl";
+ 
+  //package patientAccommodationService
+ package patientAccommodationService;
+ 
+ service PatientAccommodationService {
+ 
+ 	//Client Streaming
+ 	rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 	
+ 
+ }
+ 
+ //Client Streaming
+ message RegisterRequest{
+ 	
+ 	string name = 1;
+ 	string age = 2;
+ 	string gender = 3; 	
+ 
+ }
+ 
+ message RegisterResponse{
+ 	string result = 1
+ }
