@@ -18,22 +18,22 @@ import patientMonitoringService.PatientMonitoringServiceGrpc.PatientMonitoringSe
 public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 	
 	private boolean updateDevice = false;		
-	
 
 	public static void main(String[] args) {
 		
-		PatientMonitoringServer patMonitoringServer = new PatientMonitoringServer();
+		PatientMonitoringServer patMonitorServer = new PatientMonitoringServer();
 		
-		Properties prop = patMonitoringServer.getProperties();
+		Properties prop = patMonitorServer.getProperties();
 		
-		patMonitoringServer.registerService(prop);
+		patMonitorServer.registerService(prop);
 		
 		int port = Integer.valueOf( prop.getProperty("service_port")); //#50051
 		
 		try {
 			Server server = ServerBuilder.forPort(port)
-										.addService(patMonitoringServer)
-										.build().start();
+										.addService(patMonitorServer)
+										.build()
+										.start();
 			
 			System.out.println("Patient Monitoring Server started listening on port: " +port);
 			
@@ -54,7 +54,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		Properties prop = null;
 		
 		//Define the input properties path		
-		try (InputStream input = new FileInputStream("src/main/resources/patientMonitoringService.properties")){
+		try (InputStream input = new FileInputStream("src/main/resources/patientMonitoring.properties")){
 			
 			prop = new Properties();
 			
@@ -62,7 +62,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			prop.load(input);
 			
 			//get the properties value and print it out
-			System.out.println("Supplying Setvice properties ...");
+			System.out.println("Monitoring Service properties ...");
 			System.out.println("\t service_type: " +prop.getProperty("service_type"));
 			System.out.println("\t service_name: " + prop.getProperty("service_name"));
 			System.out.println("\t servive_description: " + prop.getProperty("service_description"));
@@ -84,7 +84,6 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			/*
 			 * Setting service information - prepare parameters for creating the ServiceInfo
 			 */
-			//Assume that there is registering an http server
 			
 			//Assume that there is registering an http server
 			String service_type = prop.getProperty("service_type"); //"_patientMonitoring._tcp.local.";
@@ -122,12 +121,12 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		
 	}
 	
-	//GRPC Unary procedure call
+	//GRPC Unary remote procedure call
 	//TURN ON/OFF Monitoring Device	
 	@Override
 	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {
 		
-		System.out.println("Receiving request for changing supplying status!");
+		System.out.println("Receiving request for changing monititoring status!");
 		
 		updateDevice = !updateDevice;
 		
@@ -139,14 +138,15 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			System.out.println("Device turned: Off!");
 		}
 		
-		DeviceResponse response = DeviceResponse.newBuilder().setDeviceStatus(updateDevice).build();
+		DeviceResponse reply = DeviceResponse.newBuilder().setDeviceStatus(updateDevice).build();
 		
-		responseObserver.onNext(response);
+		responseObserver.onNext(reply);
 		responseObserver.onCompleted();
 		
 	}
 	
-	//Bidirectional
+	//GRPC Bidirectional remote procedure call	
+	//Blood Pressure monitoring
 	public StreamObserver<PressureRequest> bloodPressure(StreamObserver<PressureResponse> responseObserver){
 		return new StreamObserver<PressureRequest>() {
 
@@ -158,17 +158,6 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 				
 				System.out.println("Blood Pressure results with systolic: " + value.getSystolic() +"/mmHg");
 				System.out.println("Blood Pressure results with diastolic: " + value.getDiastolic() + "/mmHg");
-				
-			}
-
-			@Override
-			public void onError(Throwable t) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onCompleted() {
 				
 				System.out.println("Receiving systolic value: " + systolic + "/mmHg");
 				System.out.println("Receiving diastolic value: " + diastolic + "/mmHg");
@@ -238,11 +227,24 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 					responseObserver.onNext(reply);
 				}	
 				
-				//Wrong figures of Bllod Pressure has been entered
+				//Wrong figures of Blood Pressure has been entered
 				else {
 					JOptionPane.showMessageDialog(null, "Enter a valid Blood Pressure figures"); 
-				}				
+				}					
 				
+			}
+
+			@Override
+			public void onError(Throwable t) {				
+				t.printStackTrace();				
+			}
+
+			@Override
+			public void onCompleted() {	
+				
+				System.out.println("Receiving Blood Pressure completed: ");
+				
+				//completed too
 				responseObserver.onCompleted();
 				
 			}

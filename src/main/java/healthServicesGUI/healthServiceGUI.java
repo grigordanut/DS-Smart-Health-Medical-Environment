@@ -313,8 +313,7 @@ public class healthServiceGUI implements ActionListener {
 				txt_bpCategory.setText("");
 				txt_systolic.setText("");
 			}
-		});
-		
+		});		
 		
 		txt_systolic.addKeyListener(new KeyAdapter() {
 			@Override

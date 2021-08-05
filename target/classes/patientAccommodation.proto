@@ -19,10 +19,9 @@ syntax = "proto3";
  	
  	string name = 1;
  	string age = 2;
- 	string gender = 3; 	
- 
+ 	string gender = 3; 	 
  }
  
  message RegisterResponse{
- 	string result = 1
+ 	string result = 1;
  }

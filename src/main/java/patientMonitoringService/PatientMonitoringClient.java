@@ -20,7 +20,10 @@ public class PatientMonitoringClient {
 		
 		//stubs -- generate from proto
 		blockingStub = PatientMonitoringServiceGrpc.newBlockingStub(channel);
-		asyncStub = PatientMonitoringServiceGrpc.newStub(channel);		
+		asyncStub = PatientMonitoringServiceGrpc.newStub(channel);	
+		
+		monitoringDeviceOnOff();
+		bloodPressure();
 
 	}
 	
@@ -44,27 +47,27 @@ public class PatientMonitoringClient {
 		}			
 	}
 	
-	//GRPC Bidirectional remote procedure call
-	
+	//GRPC Bidirectional remote procedure call	
+	//Blood Pressure monitoring
 	public static void bloodPressure() {
 		
 		StreamObserver<PressureResponse> responseObserver = new StreamObserver<PressureResponse>(){
 
 			@Override
 			public void onNext(PressureResponse value) {
-				System.out.println("Blod presure result: " + value.getResult());
+				System.out.println("Blood pressure result: " + value.getResult());
 				
 			}
 
 			@Override
 			public void onError(Throwable t) {
-				// TODO Auto-generated method stub
+				t.printStackTrace();
 				
 			}
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Blod presure result completed.");
+				System.out.println("Blood pressure result completed.");
 				
 			}			
 		};
@@ -73,9 +76,11 @@ public class PatientMonitoringClient {
 		requestObserver.onNext(PressureRequest.newBuilder().setSystolic(110).build());
 		requestObserver.onNext(PressureRequest.newBuilder().setDiastolic(70).build());
 		
+		//Mark the end of requests
 		requestObserver.onCompleted();
 		
 		try {
+			//Wait a bit
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
