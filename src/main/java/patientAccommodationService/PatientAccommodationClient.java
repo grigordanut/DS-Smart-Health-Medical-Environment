@@ -21,9 +21,13 @@ public class PatientAccommodationClient {
 		//stubs -- generate from proto
 		blockingStub = PatientAccommodationServiceGrpc.newBlockingStub(channel);
 		asyncStub = PatientAccommodationServiceGrpc.newStub(channel);
+		
+		registerPatient();
 
 	}
 	
+	//Client Streaming
+	//Register Patients service
 	public static void registerPatient() {
 		StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
 
