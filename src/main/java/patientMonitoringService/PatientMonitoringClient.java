@@ -14,7 +14,7 @@ public class PatientMonitoringClient {
 	public static void main(String[] args) {
 		
 		ManagedChannel channel = ManagedChannelBuilder.
-							forAddress("localhost", 50051)
+							forAddress("localhost", 50053)
 							.usePlaintext()
 							.build();
 		
@@ -39,11 +39,11 @@ public class PatientMonitoringClient {
 		
 		//print appropriate response		
 		if(response.getDeviceStatus()) {
-			System.out.println("Server responded with, service has been turned: On!");
+			System.out.println("Server responded with, The Device has been turned: On!");
 		}
 				
 		else {
-			System.out.println("Server responded with, service has been turned: Off!");
+			System.out.println("Server responded with, The Device has been turned: Off!");
 		}			
 	}
 	
@@ -67,14 +67,14 @@ public class PatientMonitoringClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Blood pressure result completed.");
+				System.out.println("Results Blood Pressure completed.");
 				
 			}			
 		};
 		
 		StreamObserver<PressureRequest> requestObserver = asyncStub.bloodPressure(responseObserver);
-		requestObserver.onNext(PressureRequest.newBuilder().setSystolic(110).build());
-		requestObserver.onNext(PressureRequest.newBuilder().setDiastolic(70).build());
+		
+		requestObserver.onNext(PressureRequest.newBuilder().setSystolic(110).setDiastolic(70).build());		
 		
 		//Mark the end of requests
 		requestObserver.onCompleted();

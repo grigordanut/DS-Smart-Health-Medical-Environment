@@ -59,6 +59,70 @@ public final class PatientAccommodationServiceGrpc {
      return getRegisterPatientMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<patientAccommodationService.DisplayRequest,
+      patientAccommodationService.DisplayResponse> getDisplayPatientsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "displayPatients",
+      requestType = patientAccommodationService.DisplayRequest.class,
+      responseType = patientAccommodationService.DisplayResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<patientAccommodationService.DisplayRequest,
+      patientAccommodationService.DisplayResponse> getDisplayPatientsMethod() {
+    io.grpc.MethodDescriptor<patientAccommodationService.DisplayRequest, patientAccommodationService.DisplayResponse> getDisplayPatientsMethod;
+    if ((getDisplayPatientsMethod = PatientAccommodationServiceGrpc.getDisplayPatientsMethod) == null) {
+      synchronized (PatientAccommodationServiceGrpc.class) {
+        if ((getDisplayPatientsMethod = PatientAccommodationServiceGrpc.getDisplayPatientsMethod) == null) {
+          PatientAccommodationServiceGrpc.getDisplayPatientsMethod = getDisplayPatientsMethod = 
+              io.grpc.MethodDescriptor.<patientAccommodationService.DisplayRequest, patientAccommodationService.DisplayResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "patientAccommodationService.PatientAccommodationService", "displayPatients"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAccommodationService.DisplayRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAccommodationService.DisplayResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new PatientAccommodationServiceMethodDescriptorSupplier("displayPatients"))
+                  .build();
+          }
+        }
+     }
+     return getDisplayPatientsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<patientAccommodationService.CalculateRequest,
+      patientAccommodationService.CalculatetResponse> getCalculatePriceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "calculatePrice",
+      requestType = patientAccommodationService.CalculateRequest.class,
+      responseType = patientAccommodationService.CalculatetResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<patientAccommodationService.CalculateRequest,
+      patientAccommodationService.CalculatetResponse> getCalculatePriceMethod() {
+    io.grpc.MethodDescriptor<patientAccommodationService.CalculateRequest, patientAccommodationService.CalculatetResponse> getCalculatePriceMethod;
+    if ((getCalculatePriceMethod = PatientAccommodationServiceGrpc.getCalculatePriceMethod) == null) {
+      synchronized (PatientAccommodationServiceGrpc.class) {
+        if ((getCalculatePriceMethod = PatientAccommodationServiceGrpc.getCalculatePriceMethod) == null) {
+          PatientAccommodationServiceGrpc.getCalculatePriceMethod = getCalculatePriceMethod = 
+              io.grpc.MethodDescriptor.<patientAccommodationService.CalculateRequest, patientAccommodationService.CalculatetResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "patientAccommodationService.PatientAccommodationService", "calculatePrice"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAccommodationService.CalculateRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAccommodationService.CalculatetResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new PatientAccommodationServiceMethodDescriptorSupplier("calculatePrice"))
+                  .build();
+          }
+        }
+     }
+     return getCalculatePriceMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -96,6 +160,26 @@ public final class PatientAccommodationServiceGrpc {
       return asyncUnimplementedStreamingCall(getRegisterPatientMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public void displayPatients(patientAccommodationService.DisplayRequest request,
+        io.grpc.stub.StreamObserver<patientAccommodationService.DisplayResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDisplayPatientsMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     *Client Streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<patientAccommodationService.CalculateRequest> calculatePrice(
+        io.grpc.stub.StreamObserver<patientAccommodationService.CalculatetResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getCalculatePriceMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -105,6 +189,20 @@ public final class PatientAccommodationServiceGrpc {
                 patientAccommodationService.RegisterRequest,
                 patientAccommodationService.RegisterResponse>(
                   this, METHODID_REGISTER_PATIENT)))
+          .addMethod(
+            getDisplayPatientsMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                patientAccommodationService.DisplayRequest,
+                patientAccommodationService.DisplayResponse>(
+                  this, METHODID_DISPLAY_PATIENTS)))
+          .addMethod(
+            getCalculatePriceMethod(),
+            asyncClientStreamingCall(
+              new MethodHandlers<
+                patientAccommodationService.CalculateRequest,
+                patientAccommodationService.CalculatetResponse>(
+                  this, METHODID_CALCULATE_PRICE)))
           .build();
     }
   }
@@ -137,6 +235,28 @@ public final class PatientAccommodationServiceGrpc {
       return asyncClientStreamingCall(
           getChannel().newCall(getRegisterPatientMethod(), getCallOptions()), responseObserver);
     }
+
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public void displayPatients(patientAccommodationService.DisplayRequest request,
+        io.grpc.stub.StreamObserver<patientAccommodationService.DisplayResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getDisplayPatientsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     *Client Streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<patientAccommodationService.CalculateRequest> calculatePrice(
+        io.grpc.stub.StreamObserver<patientAccommodationService.CalculatetResponse> responseObserver) {
+      return asyncClientStreamingCall(
+          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), responseObserver);
+    }
   }
 
   /**
@@ -155,6 +275,17 @@ public final class PatientAccommodationServiceGrpc {
     protected PatientAccommodationServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new PatientAccommodationServiceBlockingStub(channel, callOptions);
+    }
+
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public java.util.Iterator<patientAccommodationService.DisplayResponse> displayPatients(
+        patientAccommodationService.DisplayRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), getDisplayPatientsMethod(), getCallOptions(), request);
     }
   }
 
@@ -177,7 +308,9 @@ public final class PatientAccommodationServiceGrpc {
     }
   }
 
-  private static final int METHODID_REGISTER_PATIENT = 0;
+  private static final int METHODID_DISPLAY_PATIENTS = 0;
+  private static final int METHODID_REGISTER_PATIENT = 1;
+  private static final int METHODID_CALCULATE_PRICE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -196,6 +329,10 @@ public final class PatientAccommodationServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_DISPLAY_PATIENTS:
+          serviceImpl.displayPatients((patientAccommodationService.DisplayRequest) request,
+              (io.grpc.stub.StreamObserver<patientAccommodationService.DisplayResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -209,6 +346,9 @@ public final class PatientAccommodationServiceGrpc {
         case METHODID_REGISTER_PATIENT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.registerPatient(
               (io.grpc.stub.StreamObserver<patientAccommodationService.RegisterResponse>) responseObserver);
+        case METHODID_CALCULATE_PRICE:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.calculatePrice(
+              (io.grpc.stub.StreamObserver<patientAccommodationService.CalculatetResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -261,6 +401,8 @@ public final class PatientAccommodationServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new PatientAccommodationServiceFileDescriptorSupplier())
               .addMethod(getRegisterPatientMethod())
+              .addMethod(getDisplayPatientsMethod())
+              .addMethod(getCalculatePriceMethod())
               .build();
         }
       }

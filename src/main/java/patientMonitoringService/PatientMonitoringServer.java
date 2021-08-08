@@ -27,7 +27,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		
 		patMonitorServer.registerService(prop);
 		
-		int port = Integer.valueOf( prop.getProperty("service_port")); //#50051
+		int port = Integer.valueOf( prop.getProperty("service_port")); //#50052
 		
 		try {
 			Server server = ServerBuilder.forPort(port)
@@ -65,7 +65,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			System.out.println("Monitoring Service properties ...");
 			System.out.println("\t service_type: " +prop.getProperty("service_type"));
 			System.out.println("\t service_name: " + prop.getProperty("service_name"));
-			System.out.println("\t servive_description: " + prop.getProperty("service_description"));
+			System.out.println("\t service_description: " + prop.getProperty("service_description"));
 			System.out.println("\t service_port: " + prop.getProperty("service_port"));			
 			
 		} catch (IOException ex) {			
@@ -88,7 +88,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			//Assume that there is registering an http server
 			String service_type = prop.getProperty("service_type"); //"_patientMonitoring._tcp.local.";
 			String service_name = prop.getProperty("service_name"); //"patientMonitoring_service";
-			int service_port = Integer.valueOf( prop.getProperty("service_port")); //#50051;
+			int service_port = Integer.valueOf( prop.getProperty("service_port")); //#50052;
 			String service_description_properties = prop.getProperty("service_description"); //"path=index.html";
 			
 			//Register a service
@@ -99,7 +99,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			
 			jmdns.registerService(serviceInfo);
 			
-			System.out.printf("Registering servive with type %s and name %s \n", service_type, service_name);
+			System.out.printf("Registering service with type %s and name %s \n", service_type, service_name);
 			
 			//Wait a bit
 			Thread.sleep(1000);
@@ -126,16 +126,16 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 	@Override
 	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {
 		
-		System.out.println("Receiving request for changing monititoring status!");
+		System.out.println("Received request for changing Monititoring Device status!");
 		
 		updateDevice = !updateDevice;
 		
 		if (updateDevice) {
-			System.out.println("Device turned: On");
+			System.out.println("The Device has been turned: On");
 		}
 		
 		else {
-			System.out.println("Device turned: Off!");
+			System.out.println("The Device has been turned: Off!");
 		}
 		
 		DeviceResponse reply = DeviceResponse.newBuilder().setDeviceStatus(updateDevice).build();
@@ -156,11 +156,8 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			@Override
 			public void onNext(PressureRequest value) {
 				
-				System.out.println("Blood Pressure results with systolic: " + value.getSystolic() +"/mmHg");
-				System.out.println("Blood Pressure results with diastolic: " + value.getDiastolic() + "/mmHg");
-				
-				System.out.println("Receiving systolic value: " + systolic + "/mmHg");
-				System.out.println("Receiving diastolic value: " + diastolic + "/mmHg");
+				System.out.println("Received systolic Blood Pressure: " + value.getSystolic() + "/mmHg");
+				System.out.println("Received diastolic Blood Pressure: " + value.getDiastolic() + "/mmHg");				
 				
 				String result = "";
 				

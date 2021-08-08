@@ -24,6 +24,13 @@ import javax.swing.SwingConstants;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import patientAccommodationService.DisplayRequest;
+import patientAccommodationService.DisplayResponse;
+import patientAccommodationService.PatientAccommodationServiceGrpc;
+import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceBlockingStub;
+import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceStub;
+import patientAccommodationService.RegisterRequest;
+import patientAccommodationService.RegisterResponse;
 import patientMonitoringService.BloodPressureTableGUI;
 import patientMonitoringService.DeviceRequest;
 import patientMonitoringService.DeviceResponse;
@@ -33,10 +40,8 @@ import patientMonitoringService.PressureResponse;
 import patientMonitoringService.PatientMonitoringServiceGrpc.PatientMonitoringServiceBlockingStub;
 import patientMonitoringService.PatientMonitoringServiceGrpc.PatientMonitoringServiceStub;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JToggleButton;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.ButtonGroup;
@@ -49,20 +54,21 @@ import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.JList;
 
 public class healthServiceGUI implements ActionListener {
 	
 	//declare an array list patientList of Register class and set to null
     public static ArrayList <String> patientList = null;
 	
-	private static PatientMonitoringServiceBlockingStub blockingStub;
-	private static PatientMonitoringServiceStub asyncStub;
+	private static PatientMonitoringServiceBlockingStub monitoringBlockingStub;
+	private static PatientMonitoringServiceStub monitoringAsyncStub;
 	
-	private ServiceInfo serviceInfo;
+	private static PatientAccommodationServiceBlockingStub accommodationBlockingStub;
+	private static PatientAccommodationServiceStub accommodationAsyncStub;
+	
+	private ServiceInfo monitoringServiceInfo;
+	private ServiceInfo accommodationServiceInfo;
 
 	private JFrame frame;	
 	
@@ -82,11 +88,14 @@ public class healthServiceGUI implements ActionListener {
 	private JTextField txt_patientName;
 	private JTextField txt_patientAge;
 	private ButtonGroup btn_Group;	
-	private String gender = "";
+	JRadioButton rdbtn_male;
+	JRadioButton rdbtn_female;
+	//private String gender = "";
 	private JTextArea txtArea_patDetails;
 	
 	private JSeparator separator1A;
 	private JSeparator separator2A;
+	private JTextField textField;
 	
     
 	/**
@@ -108,6 +117,7 @@ public class healthServiceGUI implements ActionListener {
 	/**
 	 * Create the application.
 	 */
+	
 	public healthServiceGUI() {
 		
 		//check if the array list patientList is empty
@@ -116,64 +126,82 @@ public class healthServiceGUI implements ActionListener {
         //initalize a new Array List patientList
         patientList = new ArrayList<String>(); 
 		
-		discoveryPatientMonitoringService();
+        //discovering Patient Monitoring Service   
+        
+        String accomm_service_type = "_patient_Accommodation._tcp.local.";
+		discoveryPatientAccommodationService(accomm_service_type);
+		int accommPort = accommodationServiceInfo.getPort();
+		@SuppressWarnings("deprecation")
+		String accommHost = accommodationServiceInfo.getHostAddress();
+		
+		ManagedChannel accommChannel = ManagedChannelBuilder
+										.forAddress(accommHost, accommPort)
+										.usePlaintext()
+										.build();
+		
+		accommodationBlockingStub = PatientAccommodationServiceGrpc.newBlockingStub(accommChannel);
+		accommodationAsyncStub = PatientAccommodationServiceGrpc.newStub(accommChannel);
+			
+		
+		
+		String monitoring_service_type = "_patientMonitoring._tcp.local.";
+		discoveryPatientMonitoringService(monitoring_service_type);
+		int monitoringPort = monitoringServiceInfo.getPort();
 		
 		@SuppressWarnings("deprecation")
-		String host = serviceInfo.getHostAddress();
-		int port = serviceInfo.getPort();
+		String monitoringHost = monitoringServiceInfo.getHostAddress();
 		
-		ManagedChannel channel = ManagedChannelBuilder.
-						forAddress(host, port)
-						.usePlaintext()
-						.build();
+		ManagedChannel monitoringChannel = ManagedChannelBuilder
+										.forAddress(monitoringHost, monitoringPort)
+										.usePlaintext()
+										.build();
 		
-		//stubs -- generate from proto
-		blockingStub = PatientMonitoringServiceGrpc.newBlockingStub(channel);
-		asyncStub = PatientMonitoringServiceGrpc.newStub(channel);		
-		
+		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+			
 		initialize();
 	}
 	
-	public void discoveryPatientMonitoringService() {		
+	public void discoveryPatientMonitoringService(String service_type) {		
 		
 		try {
 			//Create a JmDNS instance
 			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-			
-			String service_type = "_patientMonitoring._tcp.local.";
-			
+						
 			jmdns.addServiceListener(service_type, new ServiceListener(){
+				
 				
 				@SuppressWarnings("deprecation")
 				@Override
 				public void serviceResolved(ServiceEvent event) {
-					System.out.println("Paetient Monitoring Service resolved: " + event.getInfo());
+					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
 					
-					serviceInfo = event.getInfo();
-					int port = serviceInfo.getPort();
+					monitoringServiceInfo = event.getInfo();
+					int port = monitoringServiceInfo.getPort();
 					
 					System.out.println("Resolving " + service_type + " with properties ...");
 					System.out.println("\t port: " + port);
 					System.out.println("\t type: " + event.getType());
 					System.out.println("\t name: " + event.getName());
-					System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
-					System.out.println("\t host: " + serviceInfo.getHostAddress());					
+					System.out.println("\t description/properties: " + monitoringServiceInfo.getNiceTextString());
+					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());					
 					
-				}
-
-				@Override
-				public void serviceAdded(ServiceEvent event) {
-					System.out.println("Paetient Monitoring Service removed: " + event.getInfo());
-					
-				}
+				}				
 
 				@Override
 				public void serviceRemoved(ServiceEvent event) {
-					System.out.println("Paetient Monitoring Service added: " + event.getInfo());
+					System.out.println("Patient Monitoring Service removed: " + event.getInfo());
 					
-				}				
+				}		
+				
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service added: " + event.getInfo());
+					
+				}
 			});
 			
+			//Wait a bit
 			Thread.sleep(2000);
 			
 		} catch (UnknownHostException e) {			
@@ -185,7 +213,59 @@ public class healthServiceGUI implements ActionListener {
 			e.printStackTrace();
 		}	
 		
-	}
+	}	
+	
+	public void discoveryPatientAccommodationService(String service_type) {		
+		
+		try {
+			//Create a JmDNS instance
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+			
+			jmdns.addServiceListener(service_type, new ServiceListener(){				
+			
+				@SuppressWarnings("deprecation")
+				@Override
+				public void serviceResolved(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
+					
+					accommodationServiceInfo = event.getInfo();
+					int port = accommodationServiceInfo.getPort();
+					
+					System.out.println("Resolving " + service_type + " with properties ...");
+					System.out.println("\t port: " + port);
+					System.out.println("\t type: " + event.getType());
+					System.out.println("\t name: " + event.getName());
+					System.out.println("\t description/properties: " + accommodationServiceInfo.getNiceTextString());
+					System.out.println("\t host: " + accommodationServiceInfo.getHostAddress());			
+					
+				}				
+
+				@Override
+				public void serviceRemoved(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service removed: " + event.getInfo());
+					
+				}		
+				
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service added: " + event.getInfo());
+					
+				}
+			});
+			
+			//Wait a bit
+			Thread.sleep(2000);
+			
+		} catch (UnknownHostException e) {			
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+	}	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -277,7 +357,7 @@ public class healthServiceGUI implements ActionListener {
 		/// Blood Pressure Results ///
 		//////////////////////////////
 		
-		//Blood Pressuse Text Area
+		//Blood Pressure Text Area
 		JTextArea textA_bloodPressure = new JTextArea();
 		textA_bloodPressure.setEditable(false);
 		textA_bloodPressure.setFont(new Font("Monospaced", Font.PLAIN, 14));
@@ -395,7 +475,7 @@ public class healthServiceGUI implements ActionListener {
 
 					@Override
 					public void onError(Throwable t) {
-						// TODO Auto-generated method stub
+						t.printStackTrace();
 						
 					}
 
@@ -494,7 +574,7 @@ public class healthServiceGUI implements ActionListener {
 					}					
 				};
 				
-				StreamObserver<PressureRequest> requestObserver = asyncStub.bloodPressure(responseObserver);
+				StreamObserver<PressureRequest> requestObserver = monitoringAsyncStub.bloodPressure(responseObserver);
 				requestObserver.onCompleted();				
 			}
 		});
@@ -612,13 +692,13 @@ public class healthServiceGUI implements ActionListener {
 		
 		
 		//Radio Button male
-		JRadioButton rdbtn_male = new JRadioButton("Male");
+		rdbtn_male = new JRadioButton("Male");
 		rdbtn_male.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtn_male.setBounds(300, 50, 90, 25);
 		panel_accomodation.add(rdbtn_male);
 		
 		//Radio Button female
-		JRadioButton rdbtn_female = new JRadioButton("Female");
+		rdbtn_female = new JRadioButton("Female");
 		rdbtn_female.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtn_female.setBounds(300, 75, 90, 25);
 		panel_accomodation.add(rdbtn_female);
@@ -631,6 +711,10 @@ public class healthServiceGUI implements ActionListener {
 		JButton btn_register = new JButton("Submit");
 		btn_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String patName = "";
+				String patAge = "";
+				String gender = "";
 				
 				if (txt_patientName.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter Patient Name");	
@@ -648,52 +732,112 @@ public class healthServiceGUI implements ActionListener {
 				
 				else {		
 				
-					String patName = txt_patientName.getText();
-					String patAge = txt_patientAge.getText();				
+					patName = txt_patientName.getText();
+					patAge = txt_patientAge.getText();				
 					
 					if(rdbtn_male.isSelected()){
 		                gender = "Male";
 		            }
 		            else if (rdbtn_female.isSelected()){
 		                gender= "Female";
-		            }  
+		            } 					
 					
 					txtArea_patDetails.append(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender + "\n");
 					patientList.add(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender +"\n");
 					
 					txt_patientName.setText("");
 					txt_patientAge.setText("");
-					btn_Group.clearSelection();
-				}
-				
+					btn_Group.clearSelection();					
+					
+					StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
+
+						@Override
+						public void onNext(RegisterResponse value) {
+							System.out.println("Received request to register patient with, " +value.getResult());					
+						}
+
+						@Override
+						public void onError(Throwable t) {
+							t.printStackTrace();
+							
+						}
+
+						@Override
+						public void onCompleted() {
+							System.out.println("Registering Patient is completed.");
+							
+						}
+						
+					};
+					
+					StreamObserver<RegisterRequest> requestObserver = accommodationAsyncStub.registerPatient(responseObserver);
+					requestObserver.onNext(RegisterRequest.newBuilder()
+														.setName(patName)
+														.setAge(patAge)
+														.setGender(gender)
+														.build());
+					
+					//Mark the end of requests
+					requestObserver.onCompleted();
+					
+					
+				}				
 			}
 		});
 		btn_register.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_register.setBounds(425, 55, 140, 50);
 		panel_accomodation.add(btn_register);
 		
-		JButton btnNewButton = new JButton("Patient List");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton.addActionListener(new ActionListener() {
+		//Buttom show Patients list
+		JButton btn_patList = new JButton("Patient List");
+		btn_patList.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btn_patList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				txtArea_patDetails.setText("");				
+				txtArea_patDetails.setText("");	
 				
 				//check if Array List is empty
 		        if (patientList.isEmpty()){
 		            JOptionPane.showMessageDialog(null,"Nothing to display please press SAVE button first!!");
 		            txt_patientName.requestFocus();
-		        }         
-		        else{      
-		            for(int i = 0; i<patientList.size(); i++) {		            	
-		            	txtArea_patDetails.append(patientList.get(i));		            	
-		            }
-		        }      
+		        }  
+		        
+		        else{ 		        	
+		        		
+		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();	        		
+		            	
+		            StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
+
+						@Override
+						public void onNext(DisplayResponse value) {
+							System.out.println("Patients list: " + value.getAllPatients());									
+						}
+
+						@Override
+						public void onError(Throwable t) {
+								t.printStackTrace();				
+						}
+
+						@Override
+						public void onCompleted() {
+							System.out.println("Displaying patient list request completed.");
+							
+						}			
+					};
+											
+					for(int i = 0; i<patientList.size(); i++) {	
+						
+						txtArea_patDetails.append(patientList.get(i));		            	
+		            }	 
+					
+					accommodationAsyncStub.displayPatients(request, responseObserver);	 				
+		        }    
 			}
 		});
-		btnNewButton.setBounds(425, 123, 140, 57);
-		panel_accomodation.add(btnNewButton);
+		btn_patList.setBounds(425, 123, 140, 57);
+		panel_accomodation.add(btn_patList);
 		
+		//Text Area show Patient Details
 		txtArea_patDetails = new JTextArea();
 		txtArea_patDetails.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtArea_patDetails.setBounds(20, 105, 385, 75);
@@ -711,6 +855,27 @@ public class healthServiceGUI implements ActionListener {
 		separator1A.setBackground(Color.BLACK);
 		separator1A.setBounds(5, 200, 590, 1);
 		panel_accomodation.add(separator1A);
+		
+		JLabel lblNewLabel_3 = new JLabel("Calculate Accomodation Price");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setBounds(170, 210, 280, 25);
+		panel_accomodation.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Patient Name");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_4.setBounds(20, 252, 110, 25);
+		panel_accomodation.add(lblNewLabel_4);
+		
+		textField = new JTextField();
+		textField.setBounds(34, 276, 96, 19);
+		panel_accomodation.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Number Days");
+		lblNewLabel_5.setBounds(170, 245, 45, 25);
+		panel_accomodation.add(lblNewLabel_5);
 				
 	}
 
@@ -734,7 +899,7 @@ public class healthServiceGUI implements ActionListener {
 	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
 		
 		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
-		DeviceResponse response = blockingStub.monitoringDeviceOnOff(request);
+		DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);
 	
 		Boolean status = response.getDeviceStatus();
 		

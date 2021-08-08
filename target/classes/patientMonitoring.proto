@@ -16,7 +16,7 @@ syntax = "proto3";
  	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){}
  	
  	//Client Streaming
- 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){}
+ 	//rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){}
  
  }
  
@@ -37,17 +37,5 @@ syntax = "proto3";
  
  message PressureResponse{ 
  	string result = 1; 	
- }
- 
- //client Streaming
- message CalculateRequest{
- 	int32 numberDays = 1;
- 	int32 priceDay = 2;
- }
- 
- message CalculatetResponse{
- 	int32 totalPrice = 1;
- }
- 
-  
+ }  
  

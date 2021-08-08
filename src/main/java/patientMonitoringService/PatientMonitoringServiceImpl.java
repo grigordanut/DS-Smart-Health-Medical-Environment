@@ -34,16 +34,6 @@ public final class PatientMonitoringServiceImpl {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_patientMonitoringService_PressureResponse_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_patientMonitoringService_CalculateRequest_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_patientMonitoringService_CalculateRequest_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_patientMonitoringService_CalculatetResponse_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_patientMonitoringService_CalculatetResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -58,20 +48,15 @@ public final class PatientMonitoringServiceImpl {
       "atus\030\001 \001(\010\"&\n\016DeviceResponse\022\024\n\014deviceSt" +
       "atus\030\001 \001(\010\"6\n\017PressureRequest\022\020\n\010systoli" +
       "c\030\001 \001(\002\022\021\n\tdiastolic\030\002 \001(\002\"\"\n\020PressureRe" +
-      "sponse\022\016\n\006result\030\001 \001(\t\"8\n\020CalculateReque" +
-      "st\022\022\n\nnumberDays\030\001 \001(\005\022\020\n\010priceDay\030\002 \001(\005" +
-      "\"(\n\022CalculatetResponse\022\022\n\ntotalPrice\030\001 \001" +
-      "(\0052\346\002\n\030PatientMonitoringService\022l\n\025monit" +
-      "oringDeviceOnOff\022\'.patientMonitoringServ" +
-      "ice.DeviceRequest\032(.patientMonitoringSer" +
-      "vice.DeviceResponse\"\000\022l\n\rbloodPressure\022)" +
-      ".patientMonitoringService.PressureReques" +
-      "t\032*.patientMonitoringService.PressureRes" +
-      "ponse\"\000(\0010\001\022n\n\016calculatePrice\022*.patientM" +
-      "onitoringService.CalculateRequest\032,.pati" +
-      "entMonitoringService.CalculatetResponse\"" +
-      "\000(\001B:\n\030patientMonitoringServiceB\034Patient" +
-      "MonitoringServiceImplP\001b\006proto3"
+      "sponse\022\016\n\006result\030\001 \001(\t2\366\001\n\030PatientMonito" +
+      "ringService\022l\n\025monitoringDeviceOnOff\022\'.p" +
+      "atientMonitoringService.DeviceRequest\032(." +
+      "patientMonitoringService.DeviceResponse\"" +
+      "\000\022l\n\rbloodPressure\022).patientMonitoringSe" +
+      "rvice.PressureRequest\032*.patientMonitorin" +
+      "gService.PressureResponse\"\000(\0010\001B:\n\030patie" +
+      "ntMonitoringServiceB\034PatientMonitoringSe" +
+      "rviceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -109,18 +94,6 @@ public final class PatientMonitoringServiceImpl {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_patientMonitoringService_PressureResponse_descriptor,
         new java.lang.String[] { "Result", });
-    internal_static_patientMonitoringService_CalculateRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_patientMonitoringService_CalculateRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_patientMonitoringService_CalculateRequest_descriptor,
-        new java.lang.String[] { "NumberDays", "PriceDay", });
-    internal_static_patientMonitoringService_CalculatetResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_patientMonitoringService_CalculatetResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_patientMonitoringService_CalculatetResponse_descriptor,
-        new java.lang.String[] { "TotalPrice", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

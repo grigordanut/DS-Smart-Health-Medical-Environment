@@ -1,5 +1,7 @@
 package patientAccommodationService;
 
+import java.util.ArrayList;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -7,6 +9,8 @@ import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccomm
 import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceStub;
 
 public class PatientAccommodationClient {
+	
+	static ArrayList<String> patientsList = new ArrayList<String>();
 	
 	private static PatientAccommodationServiceBlockingStub blockingStub;
 	private static PatientAccommodationServiceStub asyncStub;
@@ -23,17 +27,20 @@ public class PatientAccommodationClient {
 		asyncStub = PatientAccommodationServiceGrpc.newStub(channel);
 		
 		registerPatient();
+		displayPatients();		
 
 	}
 	
 	//Client Streaming
 	//Register Patients service
 	public static void registerPatient() {
+		
 		StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
 
 			@Override
 			public void onNext(RegisterResponse value) {
-				System.out.println("Registerng Patient with: " + value.getResult());
+				System.out.println("Patient Registered with, " + value.getResult());
+				patientsList.add(value.getResult());				
 				
 			}
 
@@ -45,17 +52,19 @@ public class PatientAccommodationClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Registering Patient is completed.");
+				System.out.println("Patient registering completed.");
 				
 			}
 			
 		};
 		
 		StreamObserver<RegisterRequest> requestObserver = asyncStub.registerPatient(responseObserver);
-		requestObserver.onNext(RegisterRequest.newBuilder().setName("Grigor Danut").build());
-		requestObserver.onNext(RegisterRequest.newBuilder().setAge("51").build());
-		requestObserver.onNext(RegisterRequest.newBuilder().setGender("Male").build());
-		
+		requestObserver.onNext(RegisterRequest.newBuilder()
+											.setName("Grigor Danut")
+											.setAge("51")
+											.setGender("Male")
+											.build());	
+				
 		//Mark the end of requests
 		requestObserver.onCompleted();
 		
@@ -67,6 +76,35 @@ public class PatientAccommodationClient {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void displayPatients() {	
+		
+		for(int i = 0; i < patientsList.size(); i++) {			
+		
+			DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientsList.get(i)).build();
+		
+			StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
+
+				@Override
+				public void onNext(DisplayResponse value) {
+					System.out.println("Patients list: " + value.getAllPatients());				
+				}
+
+				@Override
+				public void onError(Throwable t) {
+					t.printStackTrace();				
+				}
+
+				@Override
+				public void onCompleted() {
+					System.out.println("Displaying patient list request completed.");
+				
+				}			
+			};
+		
+			asyncStub.displayPatients(request, responseObserver);
+		}
 	}
 
 }

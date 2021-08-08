@@ -91,38 +91,6 @@ public final class PatientMonitoringServiceGrpc {
      return getBloodPressureMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<patientMonitoringService.CalculateRequest,
-      patientMonitoringService.CalculatetResponse> getCalculatePriceMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "calculatePrice",
-      requestType = patientMonitoringService.CalculateRequest.class,
-      responseType = patientMonitoringService.CalculatetResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-  public static io.grpc.MethodDescriptor<patientMonitoringService.CalculateRequest,
-      patientMonitoringService.CalculatetResponse> getCalculatePriceMethod() {
-    io.grpc.MethodDescriptor<patientMonitoringService.CalculateRequest, patientMonitoringService.CalculatetResponse> getCalculatePriceMethod;
-    if ((getCalculatePriceMethod = PatientMonitoringServiceGrpc.getCalculatePriceMethod) == null) {
-      synchronized (PatientMonitoringServiceGrpc.class) {
-        if ((getCalculatePriceMethod = PatientMonitoringServiceGrpc.getCalculatePriceMethod) == null) {
-          PatientMonitoringServiceGrpc.getCalculatePriceMethod = getCalculatePriceMethod = 
-              io.grpc.MethodDescriptor.<patientMonitoringService.CalculateRequest, patientMonitoringService.CalculatetResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "patientMonitoringService.PatientMonitoringService", "calculatePrice"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  patientMonitoringService.CalculateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  patientMonitoringService.CalculatetResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new PatientMonitoringServiceMethodDescriptorSupplier("calculatePrice"))
-                  .build();
-          }
-        }
-     }
-     return getCalculatePriceMethod;
-  }
-
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -170,16 +138,6 @@ public final class PatientMonitoringServiceGrpc {
       return asyncUnimplementedStreamingCall(getBloodPressureMethod(), responseObserver);
     }
 
-    /**
-     * <pre>
-     *Client Streaming
-     * </pre>
-     */
-    public io.grpc.stub.StreamObserver<patientMonitoringService.CalculateRequest> calculatePrice(
-        io.grpc.stub.StreamObserver<patientMonitoringService.CalculatetResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCalculatePriceMethod(), responseObserver);
-    }
-
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -196,13 +154,6 @@ public final class PatientMonitoringServiceGrpc {
                 patientMonitoringService.PressureRequest,
                 patientMonitoringService.PressureResponse>(
                   this, METHODID_BLOOD_PRESSURE)))
-          .addMethod(
-            getCalculatePriceMethod(),
-            asyncClientStreamingCall(
-              new MethodHandlers<
-                patientMonitoringService.CalculateRequest,
-                patientMonitoringService.CalculatetResponse>(
-                  this, METHODID_CALCULATE_PRICE)))
           .build();
     }
   }
@@ -245,17 +196,6 @@ public final class PatientMonitoringServiceGrpc {
         io.grpc.stub.StreamObserver<patientMonitoringService.PressureResponse> responseObserver) {
       return asyncBidiStreamingCall(
           getChannel().newCall(getBloodPressureMethod(), getCallOptions()), responseObserver);
-    }
-
-    /**
-     * <pre>
-     *Client Streaming
-     * </pre>
-     */
-    public io.grpc.stub.StreamObserver<patientMonitoringService.CalculateRequest> calculatePrice(
-        io.grpc.stub.StreamObserver<patientMonitoringService.CalculatetResponse> responseObserver) {
-      return asyncClientStreamingCall(
-          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -320,7 +260,6 @@ public final class PatientMonitoringServiceGrpc {
 
   private static final int METHODID_MONITORING_DEVICE_ON_OFF = 0;
   private static final int METHODID_BLOOD_PRESSURE = 1;
-  private static final int METHODID_CALCULATE_PRICE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -356,9 +295,6 @@ public final class PatientMonitoringServiceGrpc {
         case METHODID_BLOOD_PRESSURE:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.bloodPressure(
               (io.grpc.stub.StreamObserver<patientMonitoringService.PressureResponse>) responseObserver);
-        case METHODID_CALCULATE_PRICE:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.calculatePrice(
-              (io.grpc.stub.StreamObserver<patientMonitoringService.CalculatetResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -412,7 +348,6 @@ public final class PatientMonitoringServiceGrpc {
               .setSchemaDescriptor(new PatientMonitoringServiceFileDescriptorSupplier())
               .addMethod(getMonitoringDeviceOnOffMethod())
               .addMethod(getBloodPressureMethod())
-              .addMethod(getCalculatePriceMethod())
               .build();
         }
       }

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.jmdns.JmDNS;
@@ -15,8 +16,10 @@ import io.grpc.stub.StreamObserver;
 import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceImplBase;
 
 public class PatientAccommodationServer extends PatientAccommodationServiceImplBase {
+	
+	private ArrayList<String> patientList = new ArrayList<String>();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		
 		PatientAccommodationServer patAccommServer = new PatientAccommodationServer();
 		
@@ -33,10 +36,9 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 										.build()
 										.start();
 			
-			System.out.println("Patient Accommodation Server started listening on port: " +port);
+			System.out.println("Patient Accommodation Server started listening on port: " + port);
 			
 			server.awaitTermination();
-			
 			
 			
 		} catch (IOException e) {
@@ -63,7 +65,7 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 			System.out.println("Accommodation Service properties ...");
 			System.out.println("\t service_type: " +prop.getProperty("service_type"));
 			System.out.println("\t service_name: " + prop.getProperty("service_name"));
-			System.out.println("\t servive_description: " + prop.getProperty("service_description"));
+			System.out.println("\t service_description: " + prop.getProperty("service_description"));
 			System.out.println("\t service_port: " + prop.getProperty("service_port"));	
 			
 			
@@ -75,13 +77,11 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 		return prop;
 	}
 	
-	public void registeringService(Properties prop) {
-		
+	public void registeringService(Properties prop) {		
 		
 		try {
 			//Create a JmDNS instance
-			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-			
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());			
 			
 			/*
 			 * Setting service information - prepare parameters for creating the ServiceInfo
@@ -101,7 +101,7 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 			
 			jmdns.registerService(serviceInfo);
 			
-			System.out.printf("Registering servive with type %s and name %s \n", service_type, service_name);
+			System.out.printf("Registering service with type %s and name %s \n", service_type, service_name);
 			
 			//Wait a bit
 			Thread.sleep(1000);
@@ -126,22 +126,23 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 	//Patient Register service
 	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
 		
-		return new StreamObserver<RegisterRequest>() {
+		return new StreamObserver<RegisterRequest>() {					
 
 			@Override
 			public void onNext(RegisterRequest value) {
-				System.out.println("Registering result:\n" 
-									+ "Patient Name: " + value.getName() 
-									+ ", Age" + value.getAge() 
-									+ ", Gender: " + value.getGender());
+				System.out.println("Request received to register patient with Name: " +value.getName());
+				System.out.println("Request received to register patient with Age: " +value.getAge());
+				System.out.println("Request received to register patient with Gender: " +value.getGender());
 				
-				String result = (" Patient Name: " + value.getName() 
-								+ ", Age: " + value.getAge() 
-								+ ", Gender: " + value.getGender());
+				String result = ("Patient Name: "+ value.getName() 
+								      +", Age: " + value.getAge() 
+								  + ", Gender: " + value.getGender());
 				
-				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();				
-				responseObserver.onNext(reply);
+				patientList.add(result);
 				
+				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
+	
+				responseObserver.onNext(reply);				
 			}
 
 			@Override
@@ -151,15 +152,33 @@ public class PatientAccommodationServer extends PatientAccommodationServiceImplB
 			}
 
 			@Override
-			public void onCompleted() {
-				System.out.println("Receiving Register Patient completed ");
+			public void onCompleted() {			
+				
+				System.out.println("Patient registering request completed. ");
 				
 				//completed too
-				responseObserver.onCompleted();
-				
+				responseObserver.onCompleted();				
 			}
 			
 		};
 	}
+	
+	//Server Streaming
+	//Display Patient List
+	public void displayPatients(String  request, StreamObserver<DisplayResponse> responseObserver) {	
+		
+		System.out.println("Received request to display the patient list:" + patientList.toString());
+		
+		for(int i = 0; i < patientList.size(); i++) {		            	
+			request = patientList.get(i);	
+			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients(request).build();
+			
+			System.out.println("Display patient request completed.");
+			
+			responseObserver.onNext(reply);
+        	
+        }	 
+			
+	};
 
 }
