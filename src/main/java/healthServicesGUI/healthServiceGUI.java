@@ -73,7 +73,7 @@ public class healthServiceGUI implements ActionListener {
 	private static PatientMonitoringServiceStub monitoringAsyncStub;
 	
 	//private static PatientAccommodationServiceBlockingStub accommodationBlockingStub;
-	//private static PatientAccommodationServiceStub accommodationAsyncStub;
+	private static PatientAccommodationServiceStub accommodationAsyncStub;
 	
 	private ServiceInfo monitoringServiceInfo;
 	private ServiceInfo accommodationServiceInfo;
@@ -151,8 +151,9 @@ public class healthServiceGUI implements ActionListener {
 //		accommodationAsyncStub = PatientAccommodationServiceGrpc.newStub(accommChannel);
 			
 		
-      //discovering Patient Monitoring Service
-		String monitoring_service_type = "_patientMonitoring._tcp.local.";
+        //discovering Patient Monitoring Service
+        //String monitoring_service_type = "_patientMonitoring._tcp.local.";
+		String monitoring_service_type = "_monitoring._tcp.local.";
 		discoveryPatientMonitoringService(monitoring_service_type);
 		int monitoringPort = monitoringServiceInfo.getPort();
 		
@@ -170,7 +171,43 @@ public class healthServiceGUI implements ActionListener {
 		initialize();
 	}
 	
-	public void discoveryPatientMonitoringService(String service_type) {		
+	private void discoveyPatientAdministrationService(String service_type) {		
+		
+		try {
+			//Create a JmDNS instance
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+			
+			jmdns.addServiceListener(service_type, new ServiceListener(){
+				
+				@Override
+				public void serviceResolved(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
+					
+				}
+				
+				@Override
+				public void serviceRemoved(ServiceEvent event) {
+					// TODO Auto-generated method stub
+					
+				}
+
+
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					// TODO Auto-generated method stub
+					
+				}				
+				
+			});
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void discoveryPatientMonitoringService(String service_type) {		
 		
 		try {
 			//Create a JmDNS instance
@@ -223,7 +260,7 @@ public class healthServiceGUI implements ActionListener {
 		
 	}	
 	
-	public void discoveryPatientAccommodationService(String service_type) {		
+	private void discoveryPatientAccommodationService(String service_type) {		
 		
 		try {
 			//Create a JmDNS instance

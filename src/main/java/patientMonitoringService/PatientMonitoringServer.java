@@ -54,7 +54,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		Properties prop = null;
 		
 		//Define the input properties path		
-		try (InputStream input = new FileInputStream("src/main/resources/patientMonitoring.properties")){
+		try (InputStream input = new FileInputStream("src/main/resources/patient_monitoring.properties")){
 			
 			prop = new Properties();
 			
