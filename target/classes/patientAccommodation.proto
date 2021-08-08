@@ -1,0 +1,59 @@
+syntax = "proto3";
+ 
+ option java_multiple_files = true;
+ option java_package = "patientAccommodationService";
+ option java_outer_classname = "PatientAccommodationServiceImpl";
+ 
+  //package patientAccommodationService
+ package patientAccommodationService;
+ 
+ service PatientAccommodationService {
+ 
+ 	//Client Streaming
+ 	rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
+ 	
+ 	//Server Streaming	
+ 	rpc displayPatients(DisplayRequest) returns (stream DisplayResponse){}
+ 	
+ 	//Client Streaming
+ 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){}
+ }	
+ 
+ //Client Streaming
+ message RegisterRequest{
+ 	
+ 	string name = 1;
+ 	string age = 2;
+ 	string gender = 3; 	 
+ }
+ 
+ message RegisterResponse{ 
+ 	string result = 1;	
+ } 
+ 
+ //Server Streaming
+ message DisplayRequest{
+ 	string patList = 1;
+ }
+ 
+ message DisplayResponse{
+ 	string allPatients = 1;
+ }
+ 
+ //Client Streaming 
+ message CalculateRequest {
+ 	int32 numberDays = 1;
+ 	
+  enum Price{
+
+  	PUBLIC = 0;
+  	SEMIPRIVATE = 1;
+  	PRIVATE = 2;
+  }
+  
+  Price price = 2;
+}
+
+ message CalculatetResponse{
+ 	int32 totalPrice = 1;
+ }
