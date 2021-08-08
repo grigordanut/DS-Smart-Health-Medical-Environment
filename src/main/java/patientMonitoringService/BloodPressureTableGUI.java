@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import healthServicesGUI.healthServiceGUI;
+import healthServiceGUI.healthServiceGUI;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

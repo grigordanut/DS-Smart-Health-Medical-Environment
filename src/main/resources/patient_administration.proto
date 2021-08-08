@@ -1,7 +1,6 @@
-syntax = "proto3";
+ syntax = "proto3";
  
- option java_multiple_files = true;
- 
+ option java_multiple_files = true; 
  option java_package = "patientAdministrationService";
  option java_outer_classname = "PatientAdministrationServiceImpl";
  
@@ -12,7 +11,12 @@ syntax = "proto3";
  
  	//Client Streaming
  	rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
- 	 
+ 	
+ 	//Server Streaming	
+ 	rpc displayPatients(DisplayRequest) returns (stream DisplayResponse){}
+ 	
+ 	//Client Streaming
+ 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){} 	 
  }
  
  //Client Streaming
@@ -27,3 +31,29 @@ syntax = "proto3";
  	string result = 1;	
  } 
  
+ //Server Streaming
+ message DisplayRequest{
+ 	string patList = 1;
+ }
+ 
+ message DisplayResponse{
+ 	string allPatients = 1;
+ }
+ 
+ //Client Streaming 
+ message CalculateRequest {
+ 	int32 numberDays = 1;
+ 	
+  enum Price{
+
+  	PUBLIC = 0;
+  	SEMIPRIVATE = 1;
+  	PRIVATE = 2;
+  }
+  
+  Price price = 2;
+ }
+
+ message CalculatetResponse{
+ 	int32 totalPrice = 1;
+ } 

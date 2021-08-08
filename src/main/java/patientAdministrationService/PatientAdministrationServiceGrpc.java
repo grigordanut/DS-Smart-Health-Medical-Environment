@@ -59,6 +59,70 @@ public final class PatientAdministrationServiceGrpc {
      return getRegisterPatientMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<patientAdministrationService.DisplayRequest,
+      patientAdministrationService.DisplayResponse> getDisplayPatientsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "displayPatients",
+      requestType = patientAdministrationService.DisplayRequest.class,
+      responseType = patientAdministrationService.DisplayResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<patientAdministrationService.DisplayRequest,
+      patientAdministrationService.DisplayResponse> getDisplayPatientsMethod() {
+    io.grpc.MethodDescriptor<patientAdministrationService.DisplayRequest, patientAdministrationService.DisplayResponse> getDisplayPatientsMethod;
+    if ((getDisplayPatientsMethod = PatientAdministrationServiceGrpc.getDisplayPatientsMethod) == null) {
+      synchronized (PatientAdministrationServiceGrpc.class) {
+        if ((getDisplayPatientsMethod = PatientAdministrationServiceGrpc.getDisplayPatientsMethod) == null) {
+          PatientAdministrationServiceGrpc.getDisplayPatientsMethod = getDisplayPatientsMethod = 
+              io.grpc.MethodDescriptor.<patientAdministrationService.DisplayRequest, patientAdministrationService.DisplayResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "PatientAdministrationService.PatientAdministrationService", "displayPatients"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAdministrationService.DisplayRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAdministrationService.DisplayResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new PatientAdministrationServiceMethodDescriptorSupplier("displayPatients"))
+                  .build();
+          }
+        }
+     }
+     return getDisplayPatientsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest,
+      patientAdministrationService.CalculatetResponse> getCalculatePriceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "calculatePrice",
+      requestType = patientAdministrationService.CalculateRequest.class,
+      responseType = patientAdministrationService.CalculatetResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest,
+      patientAdministrationService.CalculatetResponse> getCalculatePriceMethod() {
+    io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculatetResponse> getCalculatePriceMethod;
+    if ((getCalculatePriceMethod = PatientAdministrationServiceGrpc.getCalculatePriceMethod) == null) {
+      synchronized (PatientAdministrationServiceGrpc.class) {
+        if ((getCalculatePriceMethod = PatientAdministrationServiceGrpc.getCalculatePriceMethod) == null) {
+          PatientAdministrationServiceGrpc.getCalculatePriceMethod = getCalculatePriceMethod = 
+              io.grpc.MethodDescriptor.<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculatetResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "PatientAdministrationService.PatientAdministrationService", "calculatePrice"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAdministrationService.CalculateRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  patientAdministrationService.CalculatetResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new PatientAdministrationServiceMethodDescriptorSupplier("calculatePrice"))
+                  .build();
+          }
+        }
+     }
+     return getCalculatePriceMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -96,6 +160,26 @@ public final class PatientAdministrationServiceGrpc {
       return asyncUnimplementedStreamingCall(getRegisterPatientMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public void displayPatients(patientAdministrationService.DisplayRequest request,
+        io.grpc.stub.StreamObserver<patientAdministrationService.DisplayResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDisplayPatientsMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     *Client Streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<patientAdministrationService.CalculateRequest> calculatePrice(
+        io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getCalculatePriceMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -105,6 +189,20 @@ public final class PatientAdministrationServiceGrpc {
                 patientAdministrationService.RegisterRequest,
                 patientAdministrationService.RegisterResponse>(
                   this, METHODID_REGISTER_PATIENT)))
+          .addMethod(
+            getDisplayPatientsMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                patientAdministrationService.DisplayRequest,
+                patientAdministrationService.DisplayResponse>(
+                  this, METHODID_DISPLAY_PATIENTS)))
+          .addMethod(
+            getCalculatePriceMethod(),
+            asyncClientStreamingCall(
+              new MethodHandlers<
+                patientAdministrationService.CalculateRequest,
+                patientAdministrationService.CalculatetResponse>(
+                  this, METHODID_CALCULATE_PRICE)))
           .build();
     }
   }
@@ -137,6 +235,28 @@ public final class PatientAdministrationServiceGrpc {
       return asyncClientStreamingCall(
           getChannel().newCall(getRegisterPatientMethod(), getCallOptions()), responseObserver);
     }
+
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public void displayPatients(patientAdministrationService.DisplayRequest request,
+        io.grpc.stub.StreamObserver<patientAdministrationService.DisplayResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getDisplayPatientsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     *Client Streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<patientAdministrationService.CalculateRequest> calculatePrice(
+        io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse> responseObserver) {
+      return asyncClientStreamingCall(
+          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), responseObserver);
+    }
   }
 
   /**
@@ -155,6 +275,17 @@ public final class PatientAdministrationServiceGrpc {
     protected PatientAdministrationServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new PatientAdministrationServiceBlockingStub(channel, callOptions);
+    }
+
+    /**
+     * <pre>
+     *Server Streaming	
+     * </pre>
+     */
+    public java.util.Iterator<patientAdministrationService.DisplayResponse> displayPatients(
+        patientAdministrationService.DisplayRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), getDisplayPatientsMethod(), getCallOptions(), request);
     }
   }
 
@@ -177,7 +308,9 @@ public final class PatientAdministrationServiceGrpc {
     }
   }
 
-  private static final int METHODID_REGISTER_PATIENT = 0;
+  private static final int METHODID_DISPLAY_PATIENTS = 0;
+  private static final int METHODID_REGISTER_PATIENT = 1;
+  private static final int METHODID_CALCULATE_PRICE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -196,6 +329,10 @@ public final class PatientAdministrationServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_DISPLAY_PATIENTS:
+          serviceImpl.displayPatients((patientAdministrationService.DisplayRequest) request,
+              (io.grpc.stub.StreamObserver<patientAdministrationService.DisplayResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -209,6 +346,9 @@ public final class PatientAdministrationServiceGrpc {
         case METHODID_REGISTER_PATIENT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.registerPatient(
               (io.grpc.stub.StreamObserver<patientAdministrationService.RegisterResponse>) responseObserver);
+        case METHODID_CALCULATE_PRICE:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.calculatePrice(
+              (io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -261,6 +401,8 @@ public final class PatientAdministrationServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new PatientAdministrationServiceFileDescriptorSupplier())
               .addMethod(getRegisterPatientMethod())
+              .addMethod(getDisplayPatientsMethod())
+              .addMethod(getCalculatePriceMethod())
               .build();
         }
       }

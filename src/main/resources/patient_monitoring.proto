@@ -13,11 +13,7 @@ syntax = "proto3";
  	rpc monitoringDeviceOnOff(DeviceRequest) returns (DeviceResponse){}
  
  	//Bidirectional
- 	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){}
- 	
- 	//Client Streaming
- 	//rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){}
- 
+ 	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){} 
  }
  
  //Unary call 

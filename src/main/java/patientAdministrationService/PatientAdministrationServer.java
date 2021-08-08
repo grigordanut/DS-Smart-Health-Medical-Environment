@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.jmdns.JmDNS;
@@ -11,14 +12,15 @@ import javax.jmdns.ServiceInfo;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.stub.StreamObserver;
+import patientAccommodationService.DisplayResponse;
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceImplBase;
+
 
 public class PatientAdministrationServer extends PatientAdministrationServiceImplBase {
 	
+	private ArrayList<String> patientList = new ArrayList<String>();	
 	
-	
-	
-
 	public static void main(String[] args) {
 
 		PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
@@ -120,8 +122,58 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 		
 	}
 	
-	
-	
-	
+	//Client Streaming
+	//Patient Register service
+	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
+		
+		return new StreamObserver<RegisterRequest>() {
 
+			@Override
+			public void onNext(RegisterRequest value) {
+				System.out.println("Request received to register patient with Name: " + value.getName());
+				System.out.println("Request received to register patient with Age: " + value.getAge());
+				System.out.println("Request received to register patient with Gender: " + value.getGender());
+				
+				String result = ("Patient Name: " + value.getName() 
+												+ ", Age: " + value.getAge() 
+												+ ", Gender: " + value.getGender());
+				
+				patientList.add(result);
+				
+				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
+				responseObserver.onNext(reply);				
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				t.printStackTrace();
+				
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.println("Patient registering request completed.");
+				
+				//completed too
+				responseObserver.onCompleted();				
+			}
+			
+		};
+	}
+	
+	//Server Streaming
+	//Display Patients List
+	public void displayPatients(String  request, StreamObserver<DisplayResponse> responseObserver) {	
+			
+		System.out.println("Received request to display the patient list:" + patientList.toString());
+			
+		for(int i = 0; i < patientList.size(); i++) {		            	
+			request = patientList.get(i);	
+			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients(request).build();
+				
+			System.out.println("Display patient request completed.");
+				
+			responseObserver.onNext(reply);	        	
+		}					
+	};
 }
