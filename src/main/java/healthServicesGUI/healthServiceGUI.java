@@ -26,11 +26,12 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import patientAccommodationService.DisplayRequest;
 import patientAccommodationService.DisplayResponse;
-import patientAccommodationService.PatientAccommodationServiceGrpc;
 import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceBlockingStub;
 import patientAccommodationService.PatientAccommodationServiceGrpc.PatientAccommodationServiceStub;
 import patientAccommodationService.RegisterRequest;
 import patientAccommodationService.RegisterResponse;
+import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceBlockingStub;
+import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceStub;
 import patientMonitoringService.BloodPressureTableGUI;
 import patientMonitoringService.DeviceRequest;
 import patientMonitoringService.DeviceResponse;
@@ -60,12 +61,19 @@ public class healthServiceGUI implements ActionListener {
 	
 	//declare an array list patientList of Register class and set to null
     public static ArrayList <String> patientList = null;
-	
+    
+    //Patient Administration Service
+    private static PatientAdministrationServiceBlockingStub adminBlockingStub;
+    private static PatientAdministrationServiceStub adminAsyncStub;
+    private ServiceInfo adminServiceInfo;
+    
+
+    //Patient Monitoring Service
 	private static PatientMonitoringServiceBlockingStub monitoringBlockingStub;
 	private static PatientMonitoringServiceStub monitoringAsyncStub;
 	
-	private static PatientAccommodationServiceBlockingStub accommodationBlockingStub;
-	private static PatientAccommodationServiceStub accommodationAsyncStub;
+	//private static PatientAccommodationServiceBlockingStub accommodationBlockingStub;
+	//private static PatientAccommodationServiceStub accommodationAsyncStub;
 	
 	private ServiceInfo monitoringServiceInfo;
 	private ServiceInfo accommodationServiceInfo;
@@ -128,22 +136,22 @@ public class healthServiceGUI implements ActionListener {
 		
         //discovering Patient Monitoring Service   
         
-        String accomm_service_type = "_patient_Accommodation._tcp.local.";
-		discoveryPatientAccommodationService(accomm_service_type);
-		int accommPort = accommodationServiceInfo.getPort();
-		@SuppressWarnings("deprecation")
-		String accommHost = accommodationServiceInfo.getHostAddress();
-		
-		ManagedChannel accommChannel = ManagedChannelBuilder
-										.forAddress(accommHost, accommPort)
-										.usePlaintext()
-										.build();
-		
-		accommodationBlockingStub = PatientAccommodationServiceGrpc.newBlockingStub(accommChannel);
-		accommodationAsyncStub = PatientAccommodationServiceGrpc.newStub(accommChannel);
+//        String accomm_service_type = "_patient_Accommodation._tcp.local.";
+//		discoveryPatientAccommodationService(accomm_service_type);
+//		int accommPort = accommodationServiceInfo.getPort();
+//		@SuppressWarnings("deprecation")
+//		String accommHost = accommodationServiceInfo.getHostAddress();
+//		
+//		ManagedChannel accommChannel = ManagedChannelBuilder
+//										.forAddress(accommHost, accommPort)
+//										.usePlaintext()
+//										.build();
+//		
+//		accommodationBlockingStub = PatientAccommodationServiceGrpc.newBlockingStub(accommChannel);
+//		accommodationAsyncStub = PatientAccommodationServiceGrpc.newStub(accommChannel);
 			
 		
-		
+      //discovering Patient Monitoring Service
 		String monitoring_service_type = "_patientMonitoring._tcp.local.";
 		discoveryPatientMonitoringService(monitoring_service_type);
 		int monitoringPort = monitoringServiceInfo.getPort();

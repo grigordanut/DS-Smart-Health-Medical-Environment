@@ -102,8 +102,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			System.out.printf("Registering service with type %s and name %s \n", service_type, service_name);
 			
 			//Wait a bit
-			Thread.sleep(1000);
-			
+			Thread.sleep(1000);			
 			
 			//System.out.println("Ready to unregister services");
 			
