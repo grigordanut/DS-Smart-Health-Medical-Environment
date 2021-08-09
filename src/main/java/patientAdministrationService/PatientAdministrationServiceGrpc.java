@@ -92,29 +92,29 @@ public final class PatientAdministrationServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest,
-      patientAdministrationService.CalculatetResponse> getCalculatePriceMethod;
+      patientAdministrationService.CalculateResponse> getCalculatePriceMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "calculatePrice",
       requestType = patientAdministrationService.CalculateRequest.class,
-      responseType = patientAdministrationService.CalculatetResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+      responseType = patientAdministrationService.CalculateResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest,
-      patientAdministrationService.CalculatetResponse> getCalculatePriceMethod() {
-    io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculatetResponse> getCalculatePriceMethod;
+      patientAdministrationService.CalculateResponse> getCalculatePriceMethod() {
+    io.grpc.MethodDescriptor<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculateResponse> getCalculatePriceMethod;
     if ((getCalculatePriceMethod = PatientAdministrationServiceGrpc.getCalculatePriceMethod) == null) {
       synchronized (PatientAdministrationServiceGrpc.class) {
         if ((getCalculatePriceMethod = PatientAdministrationServiceGrpc.getCalculatePriceMethod) == null) {
           PatientAdministrationServiceGrpc.getCalculatePriceMethod = getCalculatePriceMethod = 
-              io.grpc.MethodDescriptor.<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculatetResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              io.grpc.MethodDescriptor.<patientAdministrationService.CalculateRequest, patientAdministrationService.CalculateResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "PatientAdministrationService.PatientAdministrationService", "calculatePrice"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   patientAdministrationService.CalculateRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  patientAdministrationService.CalculatetResponse.getDefaultInstance()))
+                  patientAdministrationService.CalculateResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new PatientAdministrationServiceMethodDescriptorSupplier("calculatePrice"))
                   .build();
           }
@@ -172,12 +172,12 @@ public final class PatientAdministrationServiceGrpc {
 
     /**
      * <pre>
-     *Client Streaming
+     *Unary Call
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<patientAdministrationService.CalculateRequest> calculatePrice(
-        io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCalculatePriceMethod(), responseObserver);
+    public void calculatePrice(patientAdministrationService.CalculateRequest request,
+        io.grpc.stub.StreamObserver<patientAdministrationService.CalculateResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCalculatePriceMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -198,10 +198,10 @@ public final class PatientAdministrationServiceGrpc {
                   this, METHODID_DISPLAY_PATIENTS)))
           .addMethod(
             getCalculatePriceMethod(),
-            asyncClientStreamingCall(
+            asyncUnaryCall(
               new MethodHandlers<
                 patientAdministrationService.CalculateRequest,
-                patientAdministrationService.CalculatetResponse>(
+                patientAdministrationService.CalculateResponse>(
                   this, METHODID_CALCULATE_PRICE)))
           .build();
     }
@@ -249,13 +249,13 @@ public final class PatientAdministrationServiceGrpc {
 
     /**
      * <pre>
-     *Client Streaming
+     *Unary Call
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<patientAdministrationService.CalculateRequest> calculatePrice(
-        io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse> responseObserver) {
-      return asyncClientStreamingCall(
-          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), responseObserver);
+    public void calculatePrice(patientAdministrationService.CalculateRequest request,
+        io.grpc.stub.StreamObserver<patientAdministrationService.CalculateResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -287,6 +287,16 @@ public final class PatientAdministrationServiceGrpc {
       return blockingServerStreamingCall(
           getChannel(), getDisplayPatientsMethod(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     *Unary Call
+     * </pre>
+     */
+    public patientAdministrationService.CalculateResponse calculatePrice(patientAdministrationService.CalculateRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getCalculatePriceMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -306,11 +316,22 @@ public final class PatientAdministrationServiceGrpc {
         io.grpc.CallOptions callOptions) {
       return new PatientAdministrationServiceFutureStub(channel, callOptions);
     }
+
+    /**
+     * <pre>
+     *Unary Call
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<patientAdministrationService.CalculateResponse> calculatePrice(
+        patientAdministrationService.CalculateRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCalculatePriceMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_DISPLAY_PATIENTS = 0;
-  private static final int METHODID_REGISTER_PATIENT = 1;
-  private static final int METHODID_CALCULATE_PRICE = 2;
+  private static final int METHODID_CALCULATE_PRICE = 1;
+  private static final int METHODID_REGISTER_PATIENT = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -333,6 +354,10 @@ public final class PatientAdministrationServiceGrpc {
           serviceImpl.displayPatients((patientAdministrationService.DisplayRequest) request,
               (io.grpc.stub.StreamObserver<patientAdministrationService.DisplayResponse>) responseObserver);
           break;
+        case METHODID_CALCULATE_PRICE:
+          serviceImpl.calculatePrice((patientAdministrationService.CalculateRequest) request,
+              (io.grpc.stub.StreamObserver<patientAdministrationService.CalculateResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -346,9 +371,6 @@ public final class PatientAdministrationServiceGrpc {
         case METHODID_REGISTER_PATIENT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.registerPatient(
               (io.grpc.stub.StreamObserver<patientAdministrationService.RegisterResponse>) responseObserver);
-        case METHODID_CALCULATE_PRICE:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.calculatePrice(
-              (io.grpc.stub.StreamObserver<patientAdministrationService.CalculatetResponse>) responseObserver);
         default:
           throw new AssertionError();
       }

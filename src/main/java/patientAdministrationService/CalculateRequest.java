@@ -5,7 +5,7 @@ package patientAdministrationService;
 
 /**
  * <pre>
- *Client Streaming 
+ *Unary Call 
  * </pre>
  *
  * Protobuf type {@code PatientAdministrationService.CalculateRequest}
@@ -20,8 +20,9 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private CalculateRequest() {
+    patName_ = "";
     numberDays_ = 0;
-    price_ = 0;
+    room_ = 0;
   }
 
   @java.lang.Override
@@ -48,15 +49,21 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            patName_ = s;
+            break;
+          }
+          case 16: {
 
             numberDays_ = input.readInt32();
             break;
           }
-          case 16: {
+          case 24: {
             int rawValue = input.readEnum();
 
-            price_ = rawValue;
+            room_ = rawValue;
             break;
           }
           default: {
@@ -92,9 +99,9 @@ private static final long serialVersionUID = 0L;
   }
 
   /**
-   * Protobuf enum {@code PatientAdministrationService.CalculateRequest.Price}
+   * Protobuf enum {@code PatientAdministrationService.CalculateRequest.Room}
    */
-  public enum Price
+  public enum Room
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>PUBLIC = 0;</code>
@@ -137,11 +144,11 @@ private static final long serialVersionUID = 0L;
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static Price valueOf(int value) {
+    public static Room valueOf(int value) {
       return forNumber(value);
     }
 
-    public static Price forNumber(int value) {
+    public static Room forNumber(int value) {
       switch (value) {
         case 0: return PUBLIC;
         case 1: return SEMIPRIVATE;
@@ -150,15 +157,15 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<Price>
+    public static com.google.protobuf.Internal.EnumLiteMap<Room>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        Price> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Price>() {
-            public Price findValueByNumber(int number) {
-              return Price.forNumber(number);
+        Room> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Room>() {
+            public Room findValueByNumber(int number) {
+              return Room.forNumber(number);
             }
           };
 
@@ -175,9 +182,9 @@ private static final long serialVersionUID = 0L;
       return patientAdministrationService.CalculateRequest.getDescriptor().getEnumTypes().get(0);
     }
 
-    private static final Price[] VALUES = values();
+    private static final Room[] VALUES = values();
 
-    public static Price valueOf(
+    public static Room valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -191,37 +198,71 @@ private static final long serialVersionUID = 0L;
 
     private final int value;
 
-    private Price(int value) {
+    private Room(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:PatientAdministrationService.CalculateRequest.Price)
+    // @@protoc_insertion_point(enum_scope:PatientAdministrationService.CalculateRequest.Room)
   }
 
-  public static final int NUMBERDAYS_FIELD_NUMBER = 1;
+  public static final int PATNAME_FIELD_NUMBER = 1;
+  private volatile java.lang.Object patName_;
+  /**
+   * <code>string patName = 1;</code>
+   */
+  public java.lang.String getPatName() {
+    java.lang.Object ref = patName_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      patName_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string patName = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getPatNameBytes() {
+    java.lang.Object ref = patName_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      patName_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int NUMBERDAYS_FIELD_NUMBER = 2;
   private int numberDays_;
   /**
-   * <code>int32 numberDays = 1;</code>
+   * <code>int32 numberDays = 2;</code>
    */
   public int getNumberDays() {
     return numberDays_;
   }
 
-  public static final int PRICE_FIELD_NUMBER = 2;
-  private int price_;
+  public static final int ROOM_FIELD_NUMBER = 3;
+  private int room_;
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
    */
-  public int getPriceValue() {
-    return price_;
+  public int getRoomValue() {
+    return room_;
   }
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
    */
-  public patientAdministrationService.CalculateRequest.Price getPrice() {
+  public patientAdministrationService.CalculateRequest.Room getRoom() {
     @SuppressWarnings("deprecation")
-    patientAdministrationService.CalculateRequest.Price result = patientAdministrationService.CalculateRequest.Price.valueOf(price_);
-    return result == null ? patientAdministrationService.CalculateRequest.Price.UNRECOGNIZED : result;
+    patientAdministrationService.CalculateRequest.Room result = patientAdministrationService.CalculateRequest.Room.valueOf(room_);
+    return result == null ? patientAdministrationService.CalculateRequest.Room.UNRECOGNIZED : result;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -238,11 +279,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (numberDays_ != 0) {
-      output.writeInt32(1, numberDays_);
+    if (!getPatNameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, patName_);
     }
-    if (price_ != patientAdministrationService.CalculateRequest.Price.PUBLIC.getNumber()) {
-      output.writeEnum(2, price_);
+    if (numberDays_ != 0) {
+      output.writeInt32(2, numberDays_);
+    }
+    if (room_ != patientAdministrationService.CalculateRequest.Room.PUBLIC.getNumber()) {
+      output.writeEnum(3, room_);
     }
     unknownFields.writeTo(output);
   }
@@ -253,13 +297,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (!getPatNameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, patName_);
+    }
     if (numberDays_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, numberDays_);
+        .computeInt32Size(2, numberDays_);
     }
-    if (price_ != patientAdministrationService.CalculateRequest.Price.PUBLIC.getNumber()) {
+    if (room_ != patientAdministrationService.CalculateRequest.Room.PUBLIC.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(2, price_);
+        .computeEnumSize(3, room_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -277,9 +324,11 @@ private static final long serialVersionUID = 0L;
     patientAdministrationService.CalculateRequest other = (patientAdministrationService.CalculateRequest) obj;
 
     boolean result = true;
+    result = result && getPatName()
+        .equals(other.getPatName());
     result = result && (getNumberDays()
         == other.getNumberDays());
-    result = result && price_ == other.price_;
+    result = result && room_ == other.room_;
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -291,10 +340,12 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + PATNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getPatName().hashCode();
     hash = (37 * hash) + NUMBERDAYS_FIELD_NUMBER;
     hash = (53 * hash) + getNumberDays();
-    hash = (37 * hash) + PRICE_FIELD_NUMBER;
-    hash = (53 * hash) + price_;
+    hash = (37 * hash) + ROOM_FIELD_NUMBER;
+    hash = (53 * hash) + room_;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -392,7 +443,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   *Client Streaming 
+   *Unary Call 
    * </pre>
    *
    * Protobuf type {@code PatientAdministrationService.CalculateRequest}
@@ -432,9 +483,11 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      patName_ = "";
+
       numberDays_ = 0;
 
-      price_ = 0;
+      room_ = 0;
 
       return this;
     }
@@ -462,8 +515,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public patientAdministrationService.CalculateRequest buildPartial() {
       patientAdministrationService.CalculateRequest result = new patientAdministrationService.CalculateRequest(this);
+      result.patName_ = patName_;
       result.numberDays_ = numberDays_;
-      result.price_ = price_;
+      result.room_ = room_;
       onBuilt();
       return result;
     }
@@ -512,11 +566,15 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(patientAdministrationService.CalculateRequest other) {
       if (other == patientAdministrationService.CalculateRequest.getDefaultInstance()) return this;
+      if (!other.getPatName().isEmpty()) {
+        patName_ = other.patName_;
+        onChanged();
+      }
       if (other.getNumberDays() != 0) {
         setNumberDays(other.getNumberDays());
       }
-      if (other.price_ != 0) {
-        setPriceValue(other.getPriceValue());
+      if (other.room_ != 0) {
+        setRoomValue(other.getRoomValue());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -547,15 +605,84 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    private java.lang.Object patName_ = "";
+    /**
+     * <code>string patName = 1;</code>
+     */
+    public java.lang.String getPatName() {
+      java.lang.Object ref = patName_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        patName_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string patName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPatNameBytes() {
+      java.lang.Object ref = patName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        patName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string patName = 1;</code>
+     */
+    public Builder setPatName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      patName_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string patName = 1;</code>
+     */
+    public Builder clearPatName() {
+      
+      patName_ = getDefaultInstance().getPatName();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string patName = 1;</code>
+     */
+    public Builder setPatNameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      patName_ = value;
+      onChanged();
+      return this;
+    }
+
     private int numberDays_ ;
     /**
-     * <code>int32 numberDays = 1;</code>
+     * <code>int32 numberDays = 2;</code>
      */
     public int getNumberDays() {
       return numberDays_;
     }
     /**
-     * <code>int32 numberDays = 1;</code>
+     * <code>int32 numberDays = 2;</code>
      */
     public Builder setNumberDays(int value) {
       
@@ -564,7 +691,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>int32 numberDays = 1;</code>
+     * <code>int32 numberDays = 2;</code>
      */
     public Builder clearNumberDays() {
       
@@ -573,47 +700,47 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int price_ = 0;
+    private int room_ = 0;
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
      */
-    public int getPriceValue() {
-      return price_;
+    public int getRoomValue() {
+      return room_;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
      */
-    public Builder setPriceValue(int value) {
-      price_ = value;
+    public Builder setRoomValue(int value) {
+      room_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
      */
-    public patientAdministrationService.CalculateRequest.Price getPrice() {
+    public patientAdministrationService.CalculateRequest.Room getRoom() {
       @SuppressWarnings("deprecation")
-      patientAdministrationService.CalculateRequest.Price result = patientAdministrationService.CalculateRequest.Price.valueOf(price_);
-      return result == null ? patientAdministrationService.CalculateRequest.Price.UNRECOGNIZED : result;
+      patientAdministrationService.CalculateRequest.Room result = patientAdministrationService.CalculateRequest.Room.valueOf(room_);
+      return result == null ? patientAdministrationService.CalculateRequest.Room.UNRECOGNIZED : result;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
      */
-    public Builder setPrice(patientAdministrationService.CalculateRequest.Price value) {
+    public Builder setRoom(patientAdministrationService.CalculateRequest.Room value) {
       if (value == null) {
         throw new NullPointerException();
       }
       
-      price_ = value.getNumber();
+      room_ = value.getNumber();
       onChanged();
       return this;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
      */
-    public Builder clearPrice() {
+    public Builder clearRoom() {
       
-      price_ = 0;
+      room_ = 0;
       onChanged();
       return this;
     }

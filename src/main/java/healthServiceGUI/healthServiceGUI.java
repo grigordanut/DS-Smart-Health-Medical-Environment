@@ -24,9 +24,16 @@ import javax.swing.SwingConstants;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import patientAdministrationService.CalculateRequest;
+import patientAdministrationService.CalculateRequest.Room;
+import patientAdministrationService.CalculateResponse;
+import patientAdministrationService.DisplayRequest;
+import patientAdministrationService.DisplayResponse;
 import patientAdministrationService.PatientAdministrationServiceGrpc;
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceBlockingStub;
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceStub;
+import patientAdministrationService.RegisterRequest;
+import patientAdministrationService.RegisterResponse;
 import patientMonitoringService.BloodPressureTableGUI;
 import patientMonitoringService.DeviceRequest;
 import patientMonitoringService.DeviceResponse;
@@ -53,6 +60,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
+import javax.swing.JTextPane;
 
 public class healthServiceGUI implements ActionListener {
 	
@@ -84,6 +92,7 @@ public class healthServiceGUI implements ActionListener {
 	
 	private JTextField txt_patName;
 	private JTextField txt_noDays;
+	JTextArea textArea_totalPrice;
 	
 	private JSeparator separator2A;
 	
@@ -143,21 +152,21 @@ public class healthServiceGUI implements ActionListener {
         adminBlockingStub = PatientAdministrationServiceGrpc.newBlockingStub(adminChannel);
         adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
         
-        //Discovering Patient Monitoring Service
-		String monitoring_service_type = "_monitoring._tcp.local.";
-		discoveryPatientMonitoringService(monitoring_service_type);
-		int monitoringPort = monitoringServiceInfo.getPort();
-		
-		@SuppressWarnings("deprecation")
-		String monitoringHost = monitoringServiceInfo.getHostAddress();
-		
-		ManagedChannel monitoringChannel = ManagedChannelBuilder
-										.forAddress(monitoringHost, monitoringPort)
-										.usePlaintext()
-										.build();
-		
-		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+//        //Discovering Patient Monitoring Service
+//		String monitoring_service_type = "_monitoring._tcp.local.";
+//		discoveryPatientMonitoringService(monitoring_service_type);
+//		int monitoringPort = monitoringServiceInfo.getPort();
+//		
+//		@SuppressWarnings("deprecation")
+//		String monitoringHost = monitoringServiceInfo.getHostAddress();
+//		
+//		ManagedChannel monitoringChannel = ManagedChannelBuilder
+//										.forAddress(monitoringHost, monitoringPort)
+//										.usePlaintext()
+//										.build();
+//		
+//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
 			
 		initialize();
 	}
@@ -173,7 +182,7 @@ public class healthServiceGUI implements ActionListener {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void serviceResolved(ServiceEvent event) {
-					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
+					System.out.println("Patient Administration Service resolved: " + event.getInfo());
 					
 					adminServiceInfo = event.getInfo();
 					int port = adminServiceInfo.getPort();
@@ -188,13 +197,13 @@ public class healthServiceGUI implements ActionListener {
 				
 				@Override
 				public void serviceRemoved(ServiceEvent event) {
-					System.out.println("Patient Monitoring Service removed: " +event.getInfo());
+					System.out.println("Patient Administration Service removed: " +event.getInfo());
 					
 				}
 
 				@Override
 				public void serviceAdded(ServiceEvent event) {
-					System.out.println("Patient Monitoring Service added: " +event.getInfo());
+					System.out.println("Patient Administration Service added: " +event.getInfo());
 					
 				}				
 				
@@ -278,7 +287,7 @@ public class healthServiceGUI implements ActionListener {
 		frame.setType(Type.UTILITY);
 		frame.getContentPane().setBackground(new Color(234, 234, 234));
 		frame.setFont(new Font("Dialog", Font.BOLD, 20));
-		frame.setTitle("Smart Health Environment");
+		frame.setTitle("Smart Medical Environment");
 		frame.setBounds(100, 100, 635, 555);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);		
@@ -384,133 +393,137 @@ public class healthServiceGUI implements ActionListener {
 		btn_Group.add(rdbtn_male);
 		btn_Group.add(rdbtn_female);
 		
-//		JButton btn_register = new JButton("Submit");
-//		btn_register.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				String patName = "";
-//				String patAge = "";
-//				String gender = "";
-//				
-//				if (txt_patientName.getText().isEmpty()) {
-//					JOptionPane.showMessageDialog(null, "Please enter Patient Name");	
-//					txt_patientName.requestFocus();
-//				}
-//				
-//				else if (txt_patientAge.getText().isEmpty()) {
-//					JOptionPane.showMessageDialog(null, "Please enter Patient Age");
-//					txt_patientAge.requestFocus();
-//				}
-//				
-//				else if(btn_Group.getSelection()==null){
-//					JOptionPane.showMessageDialog(null, "Please select Patient gender ");
-//				}   
-//				
-//				else {		
-//				
-//					patName = txt_patientName.getText();
-//					patAge = txt_patientAge.getText();				
-//					
-//					if(rdbtn_male.isSelected()){
-//		                gender = "Male";
-//		            }
-//		            else if (rdbtn_female.isSelected()){
-//		                gender= "Female";
-//		            } 					
-//					
-//					txtArea_patDetails.append(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender + "\n");
-//					patientList.add(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender +"\n");
-//					
-//					txt_patientName.setText("");
-//					txt_patientAge.setText("");
-//					btn_Group.clearSelection();					
-//					
-//					StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
-//
-//						@Override
-//						public void onNext(RegisterResponse value) {
-//							System.out.println("Received request to register patient with, " +value.getResult());					
-//						}
-//
-//						@Override
-//						public void onError(Throwable t) {
-//							t.printStackTrace();
-//							
-//						}
-//
-//						@Override
-//						public void onCompleted() {
-//							System.out.println("Registering Patient is completed.");
-//							
-//						}
-//						
-//					};
-//					
-//					StreamObserver<RegisterRequest> requestObserver = adminAsyncStub.registerPatient(responseObserver);
-//					requestObserver.onNext(RegisterRequest.newBuilder()
-//														.setName(patName)
-//														.setAge(patAge)
-//														.setGender(gender)
-//														.build());
-//					
-//					//Mark the end of requests
-//					requestObserver.onCompleted();					
-//					
-//				}				
-//			}
-//		});
-//		btn_register.setFont(new Font("Tahoma", Font.BOLD, 18));
-//		btn_register.setBounds(425, 55, 140, 50);
-//		panel_administration.add(btn_register);
+		JButton btn_register = new JButton("Submit");
+		btn_register.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String patName = "";
+				String patAge = "";
+				String gender = "";
+				
+				if (txt_patientName.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter Patient Name?");	
+					txt_patientName.requestFocus();
+				}
+				
+				else if (txt_patientAge.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter Patient Age?");
+					txt_patientAge.requestFocus();
+				}
+				
+				else if(btn_Group.getSelection()==null){
+					JOptionPane.showMessageDialog(null, "Please select Patient gender?");
+				}   
+				
+				else {		
+				
+					patName = txt_patientName.getText();
+					patAge = txt_patientAge.getText();				
+					
+					if(rdbtn_male.isSelected()){
+		                gender = "Male";
+		            }
+		            else if (rdbtn_female.isSelected()){
+		                gender= "Female";
+		            } 					
+					
+					txtArea_patDetails.append(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender + "\n");
+					patientList.add(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender +"\n");
+					
+					txt_patientName.setText("");
+					txt_patientAge.setText("");
+					btn_Group.clearSelection();					
+					
+					StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
+
+						@Override
+						public void onNext(RegisterResponse value) {
+							System.out.println("Received request to register patient with, " +value.getResult());					
+						}
+
+						@Override
+						public void onError(Throwable t) {
+							t.printStackTrace();
+							
+						}
+
+						@Override
+						public void onCompleted() {
+							System.out.println("Registering Patient is completed.");
+							
+						}
+						
+					};
+					
+					StreamObserver<RegisterRequest> requestObserver = adminAsyncStub.registerPatient(responseObserver);
+					requestObserver.onNext(RegisterRequest.newBuilder()
+														.setName(patName)
+														.setAge(patAge)
+														.setGender(gender)
+														.build());
+					
+					//Mark the end of requests
+					requestObserver.onCompleted();					
+					
+				}				
+			}
+		});
+		btn_register.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btn_register.setBounds(425, 55, 140, 50);
+		panel_administration.add(btn_register);
 		
-//		//Button show Patients list
-//		JButton btn_patList = new JButton("Patient List");
-//		btn_patList.setFont(new Font("Tahoma", Font.BOLD, 18));
-//		btn_patList.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				txtArea_patDetails.setText("");	
-//				
-//				//check if Array List is empty
-//		        if (patientList.isEmpty()){
-//		            JOptionPane.showMessageDialog(null,"Nothing to display please press SAVE button first!!");
-//		            txt_patientName.requestFocus();
-//		        }  
-//		        
-//		        else{ 		        	
-//		        		
-//		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();	        		
-//		            	
-//		            StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
-//
-//						@Override
-//						public void onNext(DisplayResponse value) {
-//							System.out.println("Patients list: " + value.getAllPatients());									
-//						}
-//
-//						@Override
-//						public void onError(Throwable t) {
-//								t.printStackTrace();				
-//						}
-//
-//						@Override
-//						public void onCompleted() {
-//							System.out.println("Displaying patient list request completed.");
-//							
-//						}			
-//					};
-//											
-//					for(int i = 0; i<patientList.size(); i++) {	
-//						
-//						txtArea_patDetails.append(patientList.get(i));		            	
-//		            }	 
-//					
-//					accommodationAsyncStub.displayPatients(request, responseObserver);	 				
-//		        }    
-//			}
-//		});
-//		btn_patList.setBounds(425, 130, 140, 50);
-//		panel_administration.add(btn_patList);
+		//////////////////////////
+		/// Show Patients list ///
+		//////////////////////////
+		
+		//Button show Patients list
+		JButton btn_patList = new JButton("Patient List");
+		btn_patList.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btn_patList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				txtArea_patDetails.setText("");	
+				
+				//check if Array List is empty
+		        if (patientList.isEmpty()){
+		            JOptionPane.showMessageDialog(null,"Nothing to display please press SAVE button first!!");
+		            txt_patientName.requestFocus();
+		        }  
+		        
+		        else{ 		        	
+		        		
+		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();	        		
+		            	
+		            StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
+
+						@Override
+						public void onNext(DisplayResponse value) {
+							System.out.println("Patients list: " + value.getAllPatients());									
+						}
+
+						@Override
+						public void onError(Throwable t) {
+								t.printStackTrace();				
+						}
+
+						@Override
+						public void onCompleted() {
+							System.out.println("Displaying patient list request completed.");
+							
+						}			
+					};
+											
+					for(int i = 0; i<patientList.size(); i++) {	
+						
+						txtArea_patDetails.append(patientList.get(i));		            	
+		            }	 
+					
+					adminAsyncStub.displayPatients(request, responseObserver);	 				
+		        }    
+			}
+		});
+		btn_patList.setBounds(425, 130, 140, 50);
+		panel_administration.add(btn_patList);
 		
 		//Text Area show Patient Details
 		txtArea_patDetails = new JTextArea();
@@ -525,65 +538,154 @@ public class healthServiceGUI implements ActionListener {
 		scroll.setLocation(20, 105);
 		panel_administration.add(scroll);
 		
-		//Services separator 1		
+		//Services separator 1 Administration	
 		separator1A = new JSeparator();
 		separator1A.setBackground(Color.BLACK);
 		separator1A.setBounds(5, 200, 590, 1);
 		panel_administration.add(separator1A);
 		
+		/////////////////////////////////////////////
+		/// Calculate Patient Accommodation price ///
+		/////////////////////////////////////////////
+		
+		//Main Label Calculate Patient Accommodation price
 		JLabel lbl_calculatePrice = new JLabel("Calculate Accomodation Price");
 		lbl_calculatePrice.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lbl_calculatePrice.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_calculatePrice.setBounds(170, 210, 280, 25);
 		panel_administration.add(lbl_calculatePrice);
 		
+		//Label patient name
 		JLabel lbl_patName = new JLabel("Patient Name");
 		lbl_patName.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_patName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lbl_patName.setBounds(20, 250, 110, 25);
 		panel_administration.add(lbl_patName);
 		
+		//Text Field patien
 		txt_patName = new JTextField();
+		txt_patName.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea_totalPrice.setText("");
+				
+			}
+		});
 		txt_patName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txt_patName.setBounds(20, 275, 200, 25);
+		txt_patName.setBounds(20, 275, 190, 25);
 		panel_administration.add(txt_patName);
 		txt_patName.setColumns(10);
 		
+		//Label number of days
 		JLabel lbl_noDays = new JLabel("No. Days");
 		lbl_noDays.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_noDays.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_noDays.setBounds(225, 245, 70, 25);
+		lbl_noDays.setBounds(215, 245, 70, 25);
 		panel_administration.add(lbl_noDays);
 		
-		txt_noDays = new JTextField();
-		txt_noDays.setBounds(235, 275, 55, 25);
+		//Text Field number of days of accommodation
+		txt_noDays = new JTextField();		
+		txt_noDays.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txt_noDays.setHorizontalAlignment(SwingConstants.RIGHT);
+		txt_noDays.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea_totalPrice.setText(null);
+			}
+		});
+		
+		txt_noDays.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				int key = e.getKeyCode();
+	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
+	            	txt_noDays.setEditable(true);
+	            }
+	            
+	            else{	                
+	                //show message box                 
+	                JOptionPane.showMessageDialog(null, "Enter numbers only, letters or any special characters are not allowed"); 
+	                txt_noDays.setEditable(true);
+	                txt_noDays.setText("");
+	                txt_noDays.requestFocus();
+	            }
+				
+			}
+		});
+		txt_noDays.setBounds(225, 275, 50, 25);
 		panel_administration.add(txt_noDays);
 		txt_noDays.setColumns(10);
 		
-		JLabel lbl_piceDay = new JLabel("Price/Day");
+		//Label priece per day of accommodation
+		JLabel lbl_piceDay = new JLabel("Room Type");
 		lbl_piceDay.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_piceDay.setBounds(310, 245, 85, 25);
+		lbl_piceDay.setBounds(300, 245, 95, 25);
 		lbl_piceDay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_administration.add(lbl_piceDay);
 		
+		//Combobox type of accommodation
 		JComboBox comboBox_price = new JComboBox();
 		comboBox_price.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		comboBox_price.setModel(new DefaultComboBoxModel(new String[] {"PUBLIC", "SEMIPRIVATE","PRIVATE"}));
-		comboBox_price.setBounds(310, 275, 110, 25);
+		comboBox_price.setBounds(290, 275, 135, 25);
 		panel_administration.add(comboBox_price);
 		
-		JButton btnNewButton = new JButton("Total Price");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton.addActionListener(new ActionListener() {
+		//Button calculate the price of the accommodation
+		JButton btn_totalPrice = new JButton("Total Price");
+		btn_totalPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btn_totalPrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String patientName = "";
+				int numberDays = (int)0.00;
+				
+				if (txt_patName.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter Patient Name?");
+					txt_patName.requestFocus();
+				}
+				
+				else if (txt_noDays.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter the Number of Days?");
+					txt_noDays.requestFocus();
+				}
+				
+				else {
+					patientName = txt_patName.getText();
+					numberDays = Integer.parseInt(txt_noDays.getText());
+					
+					int index = comboBox_price.getSelectedIndex();
+					Room room = Room.forNumber(index);
+					
+					CalculateRequest request = CalculateRequest.newBuilder()
+													.setPatName(patientName)
+													.setNumberDays(numberDays)
+													.setRoom(room)
+													.build();
+					CalculateResponse response = adminBlockingStub.calculatePrice(request);
+					
+					textArea_totalPrice.append(response.getMessage());
+					System.out.println(response.getMessage());
+					
+				}
+				
 			}
 		});
-		btnNewButton.setBounds(435, 265, 135, 80);
-		panel_administration.add(btnNewButton);
+		btn_totalPrice.setBounds(440, 250, 135, 50);
+		panel_administration.add(btn_totalPrice);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(20, 315, 400, 30);
-		panel_administration.add(textArea);
+		////Text Area show the pacient accommodation price 
+		textArea_totalPrice = new JTextArea();
+		textArea_totalPrice.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textArea_totalPrice.setEditable(false);
+		textArea_totalPrice.setBounds(20, 315, 555, 50);
+		panel_administration.add(textArea_totalPrice);
+		
+		//Services separator 2 Administration	
+		separator2A = new JSeparator();
+		separator2A.setBackground(Color.BLACK);
+		separator2A.setBounds(5, 380, 590, 1);
+		panel_administration.add(separator2A);
 		
 		
 		/////////////////////////////////////////////
@@ -649,7 +751,7 @@ public class healthServiceGUI implements ActionListener {
 		panel_monitoring.add(txt_showStatus);
 		txt_showStatus.setColumns(10);		
 	
-		//Services separator 1		
+		//Services separator 1 Monitoring		
 		separator1M = new JSeparator();
 		separator1M.setBackground(Color.BLACK);
 		separator1M.setBounds(5, 180, 590, 1);

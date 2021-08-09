@@ -40,10 +40,10 @@ public final class PatientAdministrationServiceImpl {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_PatientAdministrationService_CalculateRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PatientAdministrationService_CalculatetResponse_descriptor;
+    internal_static_PatientAdministrationService_CalculateResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PatientAdministrationService_CalculatetResponse_fieldAccessorTable;
+      internal_static_PatientAdministrationService_CalculateResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -58,24 +58,24 @@ public final class PatientAdministrationServiceImpl {
       "\014\n\004name\030\001 \001(\t\022\013\n\003age\030\002 \001(\t\022\016\n\006gender\030\003 \001" +
       "(\t\"\"\n\020RegisterResponse\022\016\n\006result\030\001 \001(\t\"!" +
       "\n\016DisplayRequest\022\017\n\007patList\030\001 \001(\t\"&\n\017Dis" +
-      "playResponse\022\023\n\013allPatients\030\001 \001(\t\"\236\001\n\020Ca" +
-      "lculateRequest\022\022\n\nnumberDays\030\001 \001(\005\022C\n\005pr" +
-      "ice\030\002 \001(\01624.PatientAdministrationService" +
-      ".CalculateRequest.Price\"1\n\005Price\022\n\n\006PUBL" +
-      "IC\020\000\022\017\n\013SEMIPRIVATE\020\001\022\013\n\007PRIVATE\020\002\"(\n\022Ca" +
-      "lculatetResponse\022\022\n\ntotalPrice\030\001 \001(\0052\200\003\n" +
-      "\034PatientAdministrationService\022t\n\017registe" +
-      "rPatient\022-.PatientAdministrationService." +
-      "RegisterRequest\032..PatientAdministrationS" +
-      "ervice.RegisterResponse\"\000(\001\022r\n\017displayPa" +
-      "tients\022,.PatientAdministrationService.Di" +
-      "splayRequest\032-.PatientAdministrationServ" +
-      "ice.DisplayResponse\"\0000\001\022v\n\016calculatePric" +
-      "e\022..PatientAdministrationService.Calcula" +
-      "teRequest\0320.PatientAdministrationService" +
-      ".CalculatetResponse\"\000(\001BB\n\034patientAdmini" +
-      "strationServiceB PatientAdministrationSe" +
-      "rviceImplP\001b\006proto3"
+      "playResponse\022\023\n\013allPatients\030\001 \001(\t\"\254\001\n\020Ca" +
+      "lculateRequest\022\017\n\007patName\030\001 \001(\t\022\022\n\nnumbe" +
+      "rDays\030\002 \001(\005\022A\n\004room\030\003 \001(\01623.PatientAdmin" +
+      "istrationService.CalculateRequest.Room\"0" +
+      "\n\004Room\022\n\n\006PUBLIC\020\000\022\017\n\013SEMIPRIVATE\020\001\022\013\n\007P" +
+      "RIVATE\020\002\"$\n\021CalculateResponse\022\017\n\007message" +
+      "\030\002 \001(\t2\375\002\n\034PatientAdministrationService\022" +
+      "t\n\017registerPatient\022-.PatientAdministrati" +
+      "onService.RegisterRequest\032..PatientAdmin" +
+      "istrationService.RegisterResponse\"\000(\001\022r\n" +
+      "\017displayPatients\022,.PatientAdministration" +
+      "Service.DisplayRequest\032-.PatientAdminist" +
+      "rationService.DisplayResponse\"\0000\001\022s\n\016cal" +
+      "culatePrice\022..PatientAdministrationServi" +
+      "ce.CalculateRequest\032/.PatientAdministrat" +
+      "ionService.CalculateResponse\"\000BB\n\034patien" +
+      "tAdministrationServiceB PatientAdministr" +
+      "ationServiceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -118,13 +118,13 @@ public final class PatientAdministrationServiceImpl {
     internal_static_PatientAdministrationService_CalculateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PatientAdministrationService_CalculateRequest_descriptor,
-        new java.lang.String[] { "NumberDays", "Price", });
-    internal_static_PatientAdministrationService_CalculatetResponse_descriptor =
+        new java.lang.String[] { "PatName", "NumberDays", "Room", });
+    internal_static_PatientAdministrationService_CalculateResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_PatientAdministrationService_CalculatetResponse_fieldAccessorTable = new
+    internal_static_PatientAdministrationService_CalculateResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PatientAdministrationService_CalculatetResponse_descriptor,
-        new java.lang.String[] { "TotalPrice", });
+        internal_static_PatientAdministrationService_CalculateResponse_descriptor,
+        new java.lang.String[] { "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

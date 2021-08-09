@@ -3,14 +3,9 @@
 
 package patientAdministrationService;
 
-public interface CalculatetResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:PatientAdministrationService.CalculatetResponse)
+public interface CalculateResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:PatientAdministrationService.CalculateResponse)
     com.google.protobuf.MessageOrBuilder {
-
-  /**
-   * <code>float totalPrice = 1;</code>
-   */
-  float getTotalPrice();
 
   /**
    * <code>string message = 2;</code>

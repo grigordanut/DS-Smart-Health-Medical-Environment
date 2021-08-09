@@ -8,16 +8,26 @@ public interface CalculateRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 numberDays = 1;</code>
+   * <code>string patName = 1;</code>
+   */
+  java.lang.String getPatName();
+  /**
+   * <code>string patName = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getPatNameBytes();
+
+  /**
+   * <code>int32 numberDays = 2;</code>
    */
   int getNumberDays();
 
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
    */
-  int getPriceValue();
+  int getRoomValue();
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Price price = 2;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
    */
-  patientAdministrationService.CalculateRequest.Price getPrice();
+  patientAdministrationService.CalculateRequest.Room getRoom();
 }

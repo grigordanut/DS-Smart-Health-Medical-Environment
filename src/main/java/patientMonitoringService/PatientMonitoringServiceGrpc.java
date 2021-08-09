@@ -120,7 +120,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Unary call
+     *Unary Call
      * </pre>
      */
     public void monitoringDeviceOnOff(patientMonitoringService.DeviceRequest request,
@@ -178,7 +178,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Unary call
+     *Unary Call
      * </pre>
      */
     public void monitoringDeviceOnOff(patientMonitoringService.DeviceRequest request,
@@ -219,7 +219,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Unary call
+     *Unary Call
      * </pre>
      */
     public patientMonitoringService.DeviceResponse monitoringDeviceOnOff(patientMonitoringService.DeviceRequest request) {
@@ -248,7 +248,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Unary call
+     *Unary Call
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<patientMonitoringService.DeviceResponse> monitoringDeviceOnOff(

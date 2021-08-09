@@ -15,8 +15,8 @@
  	//Server Streaming	
  	rpc displayPatients(DisplayRequest) returns (stream DisplayResponse){}
  	
- 	//Client Streaming
- 	rpc calculatePrice(stream CalculateRequest) returns (CalculatetResponse){} 	 
+ 	//Unary Call
+ 	rpc calculatePrice(CalculateRequest) returns (CalculateResponse){} 	 
  }
  
  //Client Streaming
@@ -40,20 +40,21 @@
  	string allPatients = 1;
  }
  
- //Client Streaming 
- message CalculateRequest {
- 	int32 numberDays = 1;
- 	
-  enum Price{
+ //Unary Call 
+ message CalculateRequest { 
+ 	string patName = 1;
+ 	int32 numberDays = 2;
+ 	 	
+  enum Room{
 
   	PUBLIC = 0;
   	SEMIPRIVATE = 1;
   	PRIVATE = 2;
   }
   
-  Price price = 2;
+  Room room = 3;
  }
 
- message CalculatetResponse{
- 	int32 totalPrice = 1;
+ message CalculateResponse{
+ 	string message = 2;
  } 

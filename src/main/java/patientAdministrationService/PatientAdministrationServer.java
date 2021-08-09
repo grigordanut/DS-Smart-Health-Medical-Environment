@@ -1,5 +1,7 @@
 package patientAdministrationService;
 
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +15,8 @@ import javax.jmdns.ServiceInfo;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import patientAccommodationService.DisplayResponse;
+import patientAdministrationService.CalculateRequest.Room;
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceImplBase;
-
 
 public class PatientAdministrationServer extends PatientAdministrationServiceImplBase {
 	
@@ -146,34 +147,92 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 
 			@Override
 			public void onError(Throwable t) {
-				t.printStackTrace();
-				
+				t.printStackTrace();				
 			}
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Patient registering request completed.");
+				System.out.println("Patient registering request completed.\n");
+				System.out.println("-------------------------------------------------\n");
 				
 				//completed too
 				responseObserver.onCompleted();				
-			}
-			
+			}			
 		};
 	}
 	
-	//Server Streaming
-	//Display Patients List
-	public void displayPatients(String  request, StreamObserver<DisplayResponse> responseObserver) {	
+//	//Server Streaming
+//	//Display Patients List
+//	public void displayPatients(String  request, StreamObserver<DisplayResponse> responseObserver) {	
+//			
+//		System.out.println("Received request to display the patient list:" + patientList.toString());
+//			
+//		for(int i = 0; i < patientList.size(); i++) {		            	
+//			request = patientList.get(i);	
+//			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients(request).build();
+//				
+//			System.out.println("Display patient request completed.");
+//				
+//			responseObserver.onNext(reply);	        	
+//		}					
+//	};
+	
+	//Unary Call
+	//Calculate Accommodation price
+	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
+		
+		System.out.println("Receiving calculate accommodation price for: " 
+		+ request.getPatName() + ", for: " + request.getNumberDays() +" days " + ", on: " +request.getRoom() + " room.");
+		
+		float priceDay = (float) 0.00;
+		float totalPrice = (float) 0.00;
+		String result = "";
+		
+		if (request.getRoom()==Room.PUBLIC) {	
 			
-		System.out.println("Received request to display the patient list:" + patientList.toString());
+			priceDay = (float) 100.00;
+			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-		for(int i = 0; i < patientList.size(); i++) {		            	
-			request = patientList.get(i);	
-			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients(request).build();
-				
-			System.out.println("Display patient request completed.");
-				
-			responseObserver.onNext(reply);	        	
-		}					
-	};
+			result = "Hi " +request.getPatName() 
+			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
+					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
+			
+			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
+			responseObserver.onNext(reply);			
+		}
+		
+		else if (request.getRoom()==Room.SEMIPRIVATE) {
+			
+			priceDay = (float) 200.00;
+			totalPrice = request.getNumberDays() * (float) priceDay;
+			
+			result = "Hi " +request.getPatName() 
+			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
+					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
+			
+			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
+			responseObserver.onNext(reply);	
+		}
+		
+		else if (request.getRoom()==Room.PRIVATE) {
+			
+			priceDay = (float) 500.00;
+			totalPrice = request.getNumberDays() * (float) priceDay;
+			
+			result = "Hi " +request.getPatName() 
+			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
+					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
+			
+			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
+			responseObserver.onNext(reply);	
+		}
+		
+		else {
+			result = "the type of room not founded";
+		}
+		
+		responseObserver.onCompleted();
+		System.out.println("Patient calculate Accommodation Price request completed.");
+		
+	}	
 }

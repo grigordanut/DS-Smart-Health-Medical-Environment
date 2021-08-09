@@ -27,7 +27,8 @@ public class PatientAdministrationClient {
 		adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
 		
 		registerPatient();
-		displayPatients();		
+		//displayPatients();
+		calculatePrice();
 
 	}
 	
@@ -50,7 +51,9 @@ public class PatientAdministrationClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Patient registering completed.");				
+				System.out.println("Patient registering completed.\n");	
+				System.out.println("---------------------------------------------------\n");
+				
 			}			
 		};
 		
@@ -74,33 +77,46 @@ public class PatientAdministrationClient {
 		
 	}
 	
-	public static void displayPatients() {	
+//	public static void displayPatients() {	
+//		
+//		for(int i = 0; i < patientsList.size(); i++) {			
+//		
+//			DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientsList.get(i)).build();
+//		
+//			StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
+//
+//				@Override
+//				public void onNext(DisplayResponse value) {
+//					System.out.println("Patients list: " + value.getAllPatients());				
+//				}
+//
+//				@Override
+//				public void onError(Throwable t) {
+//					t.printStackTrace();				
+//				}
+//
+//				@Override
+//				public void onCompleted() {
+//					System.out.println("Displaying patient list request completed.");
+//				
+//				}			
+//			};
+//		
+//			adminAsyncStub.displayPatients(request, responseObserver);
+//		}
+//	}
+	
+	public static void calculatePrice () {
 		
-		for(int i = 0; i < patientsList.size(); i++) {			
+		int noDays = 2;
+		String patName = "Grigor Danut";
 		
-			DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientsList.get(i)).build();
+		CalculateRequest request = CalculateRequest.newBuilder().setPatName(patName).setNumberDays(noDays).build();
+		CalculateResponse response = adminBlockingStub.calculatePrice(request);
 		
-			StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
-
-				@Override
-				public void onNext(DisplayResponse value) {
-					System.out.println("Patients list: " + value.getAllPatients());				
-				}
-
-				@Override
-				public void onError(Throwable t) {
-					t.printStackTrace();				
-				}
-
-				@Override
-				public void onCompleted() {
-					System.out.println("Displaying patient list request completed.");
-				
-				}			
-			};
+		System.out.println(response.getMessage());
+		System.out.println("Patient calculate Accommodation Price completed.");	
 		
-			adminAsyncStub.displayPatients(request, responseObserver);
-		}
 	}
 
 }

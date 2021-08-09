@@ -9,14 +9,14 @@ syntax = "proto3";
  
  service PatientMonitoringService {
  	
- 	//Unary call
+ 	//Unary Call
  	rpc monitoringDeviceOnOff(DeviceRequest) returns (DeviceResponse){}
  
  	//Bidirectional
  	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){} 
  }
  
- //Unary call 
+ //Unary Call 
  message DeviceRequest{ 
   	bool deviceStatus = 1;  
  }
@@ -25,7 +25,7 @@ syntax = "proto3";
  	bool deviceStatus = 1; 
  }
  
- //Bidirectioonal call
+ //Bidirectional
  message PressureRequest{  
  	float systolic = 1;
  	float diastolic = 2; 	
