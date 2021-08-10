@@ -152,21 +152,21 @@ public class healthServiceGUI implements ActionListener {
         adminBlockingStub = PatientAdministrationServiceGrpc.newBlockingStub(adminChannel);
         adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
         
-//        //Discovering Patient Monitoring Service
-//		String monitoring_service_type = "_monitoring._tcp.local.";
-//		discoveryPatientMonitoringService(monitoring_service_type);
-//		int monitoringPort = monitoringServiceInfo.getPort();
-//		
-//		@SuppressWarnings("deprecation")
-//		String monitoringHost = monitoringServiceInfo.getHostAddress();
-//		
-//		ManagedChannel monitoringChannel = ManagedChannelBuilder
-//										.forAddress(monitoringHost, monitoringPort)
-//										.usePlaintext()
-//										.build();
-//		
-//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+        //Discovering Patient Monitoring Service
+		String monitoring_service_type = "_monitoring._tcp.local.";
+		discoveryPatientMonitoringService(monitoring_service_type);
+		int monitoringPort = monitoringServiceInfo.getPort();
+		
+		@SuppressWarnings("deprecation")
+		String monitoringHost = monitoringServiceInfo.getHostAddress();
+		
+		ManagedChannel monitoringChannel = ManagedChannelBuilder
+										.forAddress(monitoringHost, monitoringPort)
+										.usePlaintext()
+										.build();
+		
+		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
 			
 		initialize();
 	}
@@ -197,14 +197,12 @@ public class healthServiceGUI implements ActionListener {
 				
 				@Override
 				public void serviceRemoved(ServiceEvent event) {
-					System.out.println("Patient Administration Service removed: " +event.getInfo());
-					
+					System.out.println("Patient Administration Service removed: " +event.getInfo());					
 				}
 
 				@Override
 				public void serviceAdded(ServiceEvent event) {
-					System.out.println("Patient Administration Service added: " +event.getInfo());
-					
+					System.out.println("Patient Administration Service added: " +event.getInfo());					
 				}				
 				
 			});
@@ -247,7 +245,8 @@ public class healthServiceGUI implements ActionListener {
 					System.out.println("\t type: " + event.getType());
 					System.out.println("\t name: " + event.getName());
 					System.out.println("\t description/properties: " + monitoringServiceInfo.getNiceTextString());
-					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());					
+					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());	
+					System.out.println("--------------------------------------------------\n");
 					
 				}				
 
@@ -427,9 +426,6 @@ public class healthServiceGUI implements ActionListener {
 		                gender= "Female";
 		            } 					
 					
-					txtArea_patDetails.append(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender + "\n");
-					patientList.add(" Patient Name: " + patName + ", Age: " + patAge + ", Gender: " + gender +"\n");
-					
 					txt_patientName.setText("");
 					txt_patientAge.setText("");
 					btn_Group.clearSelection();					
@@ -438,6 +434,9 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(RegisterResponse value) {
+							txtArea_patDetails.append(value.getResult());
+							patientList.add(value.getResult());
+							
 							System.out.println("Received request to register patient with, " +value.getResult());					
 						}
 
@@ -867,117 +866,51 @@ public class healthServiceGUI implements ActionListener {
 		JButton btn_submit = new JButton("Submit");
 		btn_submit.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btn_submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {	
+				
+				float systolic = (float) 0.00;						
+				float diastolic = (float) 0.00;
+
+				if (txt_systolic.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Pleae enter Systolic value.");
+					txt_systolic.requestFocus();
+				}
+
+				else if (txt_diastolic.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Pleae enter Diastolic value.");
+					txt_diastolic.requestFocus();
+				}
+
+				else {						
+					systolic = Float.parseFloat(txt_systolic.getText());
+					diastolic = Float.parseFloat(txt_diastolic.getText());				
 	
-				StreamObserver<PressureResponse> responseObserver = new StreamObserver<PressureResponse>() {
+					StreamObserver<PressureResponse> responseObserver = new StreamObserver<PressureResponse>() {
 	
-					@Override
-					public void onNext(PressureResponse value) {
-						// TODO Auto-generated method stub	
-					}
-	
-					@Override
-					public void onError(Throwable t) {
-						t.printStackTrace();	
-					}
-	
-					@SuppressWarnings("static-access")
-					@Override
-					public void onCompleted() {
-	
-						float systolic = (float) 0.00;						
-						float diastolic = (float) 0.00;
-	
-						if (txt_systolic.getText().isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Pleae enter Systolic value.");
-							txt_systolic.requestFocus();
+						@Override
+						public void onNext(PressureResponse value) {
+							txt_bpCategory.setText(value.getResult());	
+							System.out.println("Received Blood Pressure request result is: " + value.getResult());
 						}
 	
-						else if (txt_diastolic.getText().isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Pleae enter Diastolic value.");
-							txt_diastolic.requestFocus();
+						@Override
+						public void onError(Throwable t) {
+							t.printStackTrace();	
 						}
 	
-						else {						
-							systolic = Float.parseFloat(txt_systolic.getText());
-							diastolic = Float.parseFloat(txt_diastolic.getText());						
-	
-							String result = "";
-	
-							//The Systolic figures too low
-							if (((float)systolic >= 0 && systolic < 70) && ((float)diastolic >= 30)){
-								JOptionPane.showMessageDialog(null, "The Systolic figures are too low!");										
-								System.out.println("The Systolic figures are too low!");
-							}
-	
-							//The Diastolic figures too low				
-							else if (((float)systolic > 70) && ((float)diastolic >= 0 && diastolic < 30)){							
-								JOptionPane.showMessageDialog(null, "The Diastolic figures are too low!");												
-								System.out.println("The Diastolic figures are too low!");
-							}	
-	
-							//Both figures Systolic and Diastolic are too low				
-							else if (((float)systolic > 0 && systolic < 70) && ((float)diastolic > 0 && diastolic < 30)){					
-								JOptionPane.showMessageDialog(null,"Both figures Systolic and Diastolic are too low!");						
-								System.out.println("Both figures Systolic and Diastolic are too low!");
-							}
-	
-							//Low Blood Pressure				
-							else if (((float)systolic >= 70 && systolic < 90) || ((float)diastolic >= 30 && diastolic < 60)){					
-								result = ("Low Blood Pressure!");	
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);	
-	
-								BloodPressureTableGUI transfergui = new BloodPressureTableGUI ();
-								transfergui.main(null);								
-	
-							}
-	
-							//Normal Blood Pressure
-							else if (((float) systolic >= 90 && systolic < 120) && ((float) diastolic >= 60 && diastolic < 80 )) { 
-								result = ("Normal Blood Pressure!");	
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);	
-							}
-	
-							//Prehypertesion (High Normale)
-							else if (((float) systolic >= 120 && systolic < 140) || ((float) diastolic >= 80 && diastolic < 90 )) {
-								result = ("Prehypertesion (High Normale)!");					
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);	
-							}
-	
-							//Hypertesion Stage 1
-							else if (((float) systolic >= 140 && systolic < 160) || ((float) diastolic >= 90 && diastolic < 100 )) {
-								result = ("Hypertesion Stage 1!");					
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);	
-							}	
-	
-							//Hypertision Stage 2
-							else if (((float) systolic >= 160 && systolic < 180) || ((float) diastolic >= 100 && diastolic < 110 )) {
-								result = ("Hypertision Stage 2!");					
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);	
-							}
-	
-							//Hypertensive Crisis (Medical Emergency)
-							else if (((float) systolic >= 180 && systolic < 200) || ((float) diastolic >= 110 && diastolic < 120 )) {
-								result = ("Hypertensive Crisis (Medical Emergency)!");	
-								txt_bpCategory.setText("  " + result);							
-								System.out.println(result);									
-							}	
-	
-							//Wrong figures of Blood Pressure has been entered
-							else {
-								JOptionPane.showMessageDialog(null, "Enter a valid Blood Pressure figures"); 
-							}						
+						@Override
+						public void onCompleted() {							
+							System.out.println("Blood Pressure checking request is completed.");
+							System.out.println("---------------------------------------------");
 						}					
-					}					
-				};
+					};
 	
-				StreamObserver<PressureRequest> requestObserver = monitoringAsyncStub.bloodPressure(responseObserver);
-				requestObserver.onCompleted();				
+					StreamObserver<PressureRequest> requestObserver = monitoringAsyncStub.bloodPressure(responseObserver);
+					requestObserver.onNext(PressureRequest.newBuilder().setSystolic(systolic).setDiastolic(diastolic).build());				
+				
+					//Mark the end requests
+					requestObserver.onCompleted();				
+				}
 			}
 		});
 		btn_submit.setBounds(415, 285, 125, 30);
@@ -1033,6 +966,8 @@ public class healthServiceGUI implements ActionListener {
 	//TURN ON/OFF Monitoring Device		
 	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
 		
+		System.out.println("Recivied request to change the Monitoring Device status");
+		
 		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
 		DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);
 	
@@ -1047,6 +982,8 @@ public class healthServiceGUI implements ActionListener {
 			txt_showStatus.setText("Off");
 			System.out.println("The device has been turned: Off");
 		}
+		System.out.println("Changing Monitoring Device status completed.");
+		System.out.println("--------------------------------------------\n");
 		
 	}
 }

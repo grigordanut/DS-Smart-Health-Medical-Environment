@@ -38,7 +38,7 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 											.build()
 											.start();
 			
-			System.out.println("Patient Administration Server started listening on port: " +adminPort);
+			System.out.println("Patient Administration Server started listening on port: " +adminPort +"\n");
 			
 			adminServer.awaitTermination();
 			
@@ -119,53 +119,52 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
+		}			
 	}
 	
 	//Client Streaming
 	//Patient Register service
-	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
-		
-		return new StreamObserver<RegisterRequest>() {
-
-			@Override
-			public void onNext(RegisterRequest value) {
-				System.out.println("Request received to register patient with Name: " + value.getName());
-				System.out.println("Request received to register patient with Age: " + value.getAge());
-				System.out.println("Request received to register patient with Gender: " + value.getGender());
-				
-				String result = ("Patient Name: " + value.getName() 
-												+ ", Age: " + value.getAge() 
-												+ ", Gender: " + value.getGender());
-				
-				patientList.add(result);
-				
-				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
-				responseObserver.onNext(reply);				
-			}
-
-			@Override
-			public void onError(Throwable t) {
-				t.printStackTrace();				
-			}
-
-			@Override
-			public void onCompleted() {
-				System.out.println("Patient registering request completed.\n");
-				System.out.println("-------------------------------------------------\n");
-				
-				//completed too
-				responseObserver.onCompleted();				
-			}			
-		};
-	}
+//	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
+//		
+//		return new StreamObserver<RegisterRequest>() {
+//
+//			@Override
+//			public void onNext(RegisterRequest value) {
+//				System.out.println("Request received to register patient with, Name: " + value.getName()
+//																			+ ", Age: " + value.getAge()
+//																			+ ", Gender: " + value.getGender());
+//				
+//				String result = ("Patient Name: " + value.getName() 
+//												+ ", Age: " + value.getAge() 
+//												+ ", Gender: " + value.getGender());
+//				
+//				patientList.add(result);
+//				
+//				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
+//				responseObserver.onNext(reply);				
+//			}
+//
+//			@Override
+//			public void onError(Throwable t) {
+//				t.printStackTrace();				
+//			}
+//
+//			@Override
+//			public void onCompleted() {
+//				System.out.println("Patient registering request completed.");
+//				System.out.println("--------------------------------------\n");
+//				
+//				//completed too
+//				responseObserver.onCompleted();				
+//			}			
+//		};
+//	}
 	
 //	//Server Streaming
 //	//Display Patients List
 //	public void displayPatients(String  request, StreamObserver<DisplayResponse> responseObserver) {	
 //			
-//		System.out.println("Received request to display the patient list:" + patientList.toString());
+//		System.out.println("Received request to display the patient list:");
 //			
 //		for(int i = 0; i < patientList.size(); i++) {		            	
 //			request = patientList.get(i);	
@@ -173,7 +172,8 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 //				
 //			System.out.println("Display patient request completed.");
 //				
-//			responseObserver.onNext(reply);	        	
+//			responseObserver.onNext(reply);	  
+//			responseObserver.onCompleted();
 //		}					
 //	};
 	
@@ -182,7 +182,7 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
 		
 		System.out.println("Receiving calculate accommodation price for: " 
-		+ request.getPatName() + ", for: " + request.getNumberDays() +" days " + ", on: " +request.getRoom() + " room.");
+		+ request.getPatName() + ", for: " + request.getNumberDays() +" days " + ", in: " +request.getRoom() + " room.");
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
@@ -193,12 +193,9 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			priceDay = (float) 100.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "Hi " +request.getPatName() 
-			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
-					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
-			
-			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
-			responseObserver.onNext(reply);			
+			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
+					+"\nand the total price for: " + request.getPatName() 
+					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice;			
 		}
 		
 		else if (request.getRoom()==Room.SEMIPRIVATE) {
@@ -206,12 +203,9 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			priceDay = (float) 200.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "Hi " +request.getPatName() 
-			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
-					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
-			
-			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
-			responseObserver.onNext(reply);	
+			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
+					+"\nand the total price for: " + request.getPatName() 
+					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice;
 		}
 		
 		else if (request.getRoom()==Room.PRIVATE) {
@@ -219,20 +213,20 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			priceDay = (float) 500.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "Hi " +request.getPatName() 
-			+ ", the price for a day in a " + request.getRoom() +" room is: € " + priceDay +" per day, " 
-					+"\nand the total price for " + request.getNumberDays() + " days is: € " + totalPrice;
-			
-			CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
-			responseObserver.onNext(reply);	
+			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
+					+"\nand the total price for: " + request.getPatName() 
+					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice;
 		}
 		
 		else {
 			result = "the type of room not founded";
 		}
 		
+		CalculateResponse reply = CalculateResponse.newBuilder().setMessage(result).build();
+		responseObserver.onNext(reply);	
+		
 		responseObserver.onCompleted();
 		System.out.println("Patient calculate Accommodation Price request completed.");
-		
+		System.out.println("--------------------------------------------------------\n");		
 	}	
 }

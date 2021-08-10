@@ -51,8 +51,8 @@ public class PatientAdministrationClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Patient registering completed.\n");	
-				System.out.println("---------------------------------------------------\n");
+				System.out.println("Patient registering completed.");	
+				System.out.println("------------------------------\n");
 				
 			}			
 		};
@@ -116,6 +116,7 @@ public class PatientAdministrationClient {
 		
 		System.out.println(response.getMessage());
 		System.out.println("Patient calculate Accommodation Price completed.");	
+		System.out.println("------------------------------------------------\n");
 		
 	}
 
