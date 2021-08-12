@@ -1,60 +1,27 @@
-import grpc
 from concurrent import futures
-import time
+import logging
+import grpc
 
-#import generated classes
 import environment_pb2
 import environment_pb2_grpc
 
-class EnvironmentServer(environment_pb2_grpc.EnvironmentServiceServicer):
-    
-    currentTemp = 20
-    maxTemp = 24
-    minTemp = 16
-    newTemp = 0
-   
-    
-   
+class Server(environment_pb2_grpc.EnvironmentServiceServicer):
+
     def getCurrentRoomTemp(self, request, context):
-        
-        return environment_pb2.CurrentResponse(value = self.currentTemp )
-        
-        # response = environment_pb2.CurrentResponse()
-        # response.value = self.currentTemp
-        # return response
-    
+        return environment_pb2.CurrentResponse(oldTemp='The current temperature is, %s C!')
+
+
     def setRoomTemp(self, request, context):
-        
-        return environment_pb2.TempResponse(result = request.getvalue());
-        
-        
-        # response = environment_pb2.TempResponse()
-        # if self.minTemp > request.value:
-        #     print("Temperature too low")
-        # elif self.maxTemp < request.value:
-        #     print("Temperature too high")
-        # else:
-        #     response.value = self.newTemp
-        #     print("Temperature updated to " + str(response.value))
-        # return response
-    
-    
+        return environment_pb2.TempResponse(newTemp='The temperature has been set to, %s C!' % request.setTemp)
 
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    environment_pb2_grpc.add_EnvironmentServiceServicer_to_server(Server(), server)
+    server.add_insecure_port('[::]:50057')
+    print('Starting server. Listening on port 50057.')
+    server.start()
+    server.wait_for_termination()
 
-server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-
-
-environment_pb2_grpc.add_EnvironmentServiceServicer_to_server(EnvironmentServer(), server)
-
-
-print('Starting server. Listening on port 50054.')
-server.add_insecure_port('[::]:50054')
-server.start()
-
-
-try:
-    while True:
-        time.sleep(1000)
-except KeyboardInterrupt:
-    server.stop(0)
-        
+if __name__ == '__main__':
+    logging.basicConfig()
+    serve()

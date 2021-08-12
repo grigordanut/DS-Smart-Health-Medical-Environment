@@ -10,29 +10,26 @@
  service EnvironmentService {
   	
  	//Unary call
-	rpc getCurrentRoomTemp(Empty) returns(CurrentResponse){}
+	rpc getCurrentRoomTemp(CurrentRequest) returns(CurrentResponse){}
 	
-	//Unary call
-	rpc setRoomTemp(TempRequest) returns(TempResponse){}	
+	//Server Streaming
+	rpc setRoomTemp(SetRequest) returns(stream SetResponse){}	
  } 
  
  //Unary call
- message Empty{
- 
+ message CurrentRequest{
+ 	string requestTemp = 1; 
  }
  
  message CurrentResponse{
-	string temp = 1;
+	string currentTemp = 1;
  }
  
- //Unary call
- message TempRequest{
-	int32 value = 1;
+ //Server Streaming
+ message SetRequest{
+	string tempRequest = 1;
  }
  
- message TempResponse{
-	string result = 1;
- } 
- 
- 
- 
+ message SetResponse{
+	string tempResponse = 1;
+ }  

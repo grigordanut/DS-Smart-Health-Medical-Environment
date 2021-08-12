@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private CurrentResponse() {
-    value_ = 0;
+    currentTemp_ = "";
   }
 
   @java.lang.Override
@@ -43,9 +43,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
 
-            value_ = input.readInt32();
+            currentTemp_ = s;
             break;
           }
           default: {
@@ -80,13 +81,38 @@ private static final long serialVersionUID = 0L;
             environmentService.CurrentResponse.class, environmentService.CurrentResponse.Builder.class);
   }
 
-  public static final int VALUE_FIELD_NUMBER = 1;
-  private int value_;
+  public static final int CURRENTTEMP_FIELD_NUMBER = 1;
+  private volatile java.lang.Object currentTemp_;
   /**
-   * <code>int32 value = 1;</code>
+   * <code>string currentTemp = 1;</code>
    */
-  public int getValue() {
-    return value_;
+  public java.lang.String getCurrentTemp() {
+    java.lang.Object ref = currentTemp_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      currentTemp_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string currentTemp = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getCurrentTempBytes() {
+    java.lang.Object ref = currentTemp_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      currentTemp_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -103,8 +129,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (value_ != 0) {
-      output.writeInt32(1, value_);
+    if (!getCurrentTempBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, currentTemp_);
     }
     unknownFields.writeTo(output);
   }
@@ -115,9 +141,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (value_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, value_);
+    if (!getCurrentTempBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, currentTemp_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -135,8 +160,8 @@ private static final long serialVersionUID = 0L;
     environmentService.CurrentResponse other = (environmentService.CurrentResponse) obj;
 
     boolean result = true;
-    result = result && (getValue()
-        == other.getValue());
+    result = result && getCurrentTemp()
+        .equals(other.getCurrentTemp());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -148,8 +173,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + VALUE_FIELD_NUMBER;
-    hash = (53 * hash) + getValue();
+    hash = (37 * hash) + CURRENTTEMP_FIELD_NUMBER;
+    hash = (53 * hash) + getCurrentTemp().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -283,7 +308,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      value_ = 0;
+      currentTemp_ = "";
 
       return this;
     }
@@ -311,7 +336,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public environmentService.CurrentResponse buildPartial() {
       environmentService.CurrentResponse result = new environmentService.CurrentResponse(this);
-      result.value_ = value_;
+      result.currentTemp_ = currentTemp_;
       onBuilt();
       return result;
     }
@@ -360,8 +385,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(environmentService.CurrentResponse other) {
       if (other == environmentService.CurrentResponse.getDefaultInstance()) return this;
-      if (other.getValue() != 0) {
-        setValue(other.getValue());
+      if (!other.getCurrentTemp().isEmpty()) {
+        currentTemp_ = other.currentTemp_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -392,28 +418,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int value_ ;
+    private java.lang.Object currentTemp_ = "";
     /**
-     * <code>int32 value = 1;</code>
+     * <code>string currentTemp = 1;</code>
      */
-    public int getValue() {
-      return value_;
+    public java.lang.String getCurrentTemp() {
+      java.lang.Object ref = currentTemp_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        currentTemp_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
-     * <code>int32 value = 1;</code>
+     * <code>string currentTemp = 1;</code>
      */
-    public Builder setValue(int value) {
-      
-      value_ = value;
+    public com.google.protobuf.ByteString
+        getCurrentTempBytes() {
+      java.lang.Object ref = currentTemp_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentTemp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string currentTemp = 1;</code>
+     */
+    public Builder setCurrentTemp(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      currentTemp_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 value = 1;</code>
+     * <code>string currentTemp = 1;</code>
      */
-    public Builder clearValue() {
+    public Builder clearCurrentTemp() {
       
-      value_ = 0;
+      currentTemp_ = getDefaultInstance().getCurrentTemp();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string currentTemp = 1;</code>
+     */
+    public Builder setCurrentTempBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      currentTemp_ = value;
       onChanged();
       return this;
     }

@@ -27,60 +27,28 @@ public final class EnvironmentServiceGrpc {
   public static final String SERVICE_NAME = "environmentService.EnvironmentService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<environmentService.TempRequest,
-      environmentService.TempResponse> getSetRoomTempMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "setRoomTemp",
-      requestType = environmentService.TempRequest.class,
-      responseType = environmentService.TempResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<environmentService.TempRequest,
-      environmentService.TempResponse> getSetRoomTempMethod() {
-    io.grpc.MethodDescriptor<environmentService.TempRequest, environmentService.TempResponse> getSetRoomTempMethod;
-    if ((getSetRoomTempMethod = EnvironmentServiceGrpc.getSetRoomTempMethod) == null) {
-      synchronized (EnvironmentServiceGrpc.class) {
-        if ((getSetRoomTempMethod = EnvironmentServiceGrpc.getSetRoomTempMethod) == null) {
-          EnvironmentServiceGrpc.getSetRoomTempMethod = getSetRoomTempMethod = 
-              io.grpc.MethodDescriptor.<environmentService.TempRequest, environmentService.TempResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "environmentService.EnvironmentService", "setRoomTemp"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  environmentService.TempRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  environmentService.TempResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new EnvironmentServiceMethodDescriptorSupplier("setRoomTemp"))
-                  .build();
-          }
-        }
-     }
-     return getSetRoomTempMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<environmentService.Empty,
+  private static volatile io.grpc.MethodDescriptor<environmentService.CurrentRequest,
       environmentService.CurrentResponse> getGetCurrentRoomTempMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "getCurrentRoomTemp",
-      requestType = environmentService.Empty.class,
+      requestType = environmentService.CurrentRequest.class,
       responseType = environmentService.CurrentResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<environmentService.Empty,
+  public static io.grpc.MethodDescriptor<environmentService.CurrentRequest,
       environmentService.CurrentResponse> getGetCurrentRoomTempMethod() {
-    io.grpc.MethodDescriptor<environmentService.Empty, environmentService.CurrentResponse> getGetCurrentRoomTempMethod;
+    io.grpc.MethodDescriptor<environmentService.CurrentRequest, environmentService.CurrentResponse> getGetCurrentRoomTempMethod;
     if ((getGetCurrentRoomTempMethod = EnvironmentServiceGrpc.getGetCurrentRoomTempMethod) == null) {
       synchronized (EnvironmentServiceGrpc.class) {
         if ((getGetCurrentRoomTempMethod = EnvironmentServiceGrpc.getGetCurrentRoomTempMethod) == null) {
           EnvironmentServiceGrpc.getGetCurrentRoomTempMethod = getGetCurrentRoomTempMethod = 
-              io.grpc.MethodDescriptor.<environmentService.Empty, environmentService.CurrentResponse>newBuilder()
+              io.grpc.MethodDescriptor.<environmentService.CurrentRequest, environmentService.CurrentResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "environmentService.EnvironmentService", "getCurrentRoomTemp"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  environmentService.Empty.getDefaultInstance()))
+                  environmentService.CurrentRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   environmentService.CurrentResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new EnvironmentServiceMethodDescriptorSupplier("getCurrentRoomTemp"))
@@ -89,6 +57,38 @@ public final class EnvironmentServiceGrpc {
         }
      }
      return getGetCurrentRoomTempMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<environmentService.SetRequest,
+      environmentService.SetResponse> getSetRoomTempMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "setRoomTemp",
+      requestType = environmentService.SetRequest.class,
+      responseType = environmentService.SetResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<environmentService.SetRequest,
+      environmentService.SetResponse> getSetRoomTempMethod() {
+    io.grpc.MethodDescriptor<environmentService.SetRequest, environmentService.SetResponse> getSetRoomTempMethod;
+    if ((getSetRoomTempMethod = EnvironmentServiceGrpc.getSetRoomTempMethod) == null) {
+      synchronized (EnvironmentServiceGrpc.class) {
+        if ((getSetRoomTempMethod = EnvironmentServiceGrpc.getSetRoomTempMethod) == null) {
+          EnvironmentServiceGrpc.getSetRoomTempMethod = getSetRoomTempMethod = 
+              io.grpc.MethodDescriptor.<environmentService.SetRequest, environmentService.SetResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "environmentService.EnvironmentService", "setRoomTemp"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  environmentService.SetRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  environmentService.SetResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new EnvironmentServiceMethodDescriptorSupplier("setRoomTemp"))
+                  .build();
+          }
+        }
+     }
+     return getSetRoomTempMethod;
   }
 
   /**
@@ -123,37 +123,37 @@ public final class EnvironmentServiceGrpc {
      *Unary call
      * </pre>
      */
-    public void setRoomTemp(environmentService.TempRequest request,
-        io.grpc.stub.StreamObserver<environmentService.TempResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetRoomTempMethod(), responseObserver);
+    public void getCurrentRoomTemp(environmentService.CurrentRequest request,
+        io.grpc.stub.StreamObserver<environmentService.CurrentResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetCurrentRoomTempMethod(), responseObserver);
     }
 
     /**
      * <pre>
-     *Unary call
+     *Server Streaming
      * </pre>
      */
-    public void getCurrentRoomTemp(environmentService.Empty request,
-        io.grpc.stub.StreamObserver<environmentService.CurrentResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetCurrentRoomTempMethod(), responseObserver);
+    public void setRoomTemp(environmentService.SetRequest request,
+        io.grpc.stub.StreamObserver<environmentService.SetResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getSetRoomTempMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getSetRoomTempMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                environmentService.TempRequest,
-                environmentService.TempResponse>(
-                  this, METHODID_SET_ROOM_TEMP)))
-          .addMethod(
             getGetCurrentRoomTempMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                environmentService.Empty,
+                environmentService.CurrentRequest,
                 environmentService.CurrentResponse>(
                   this, METHODID_GET_CURRENT_ROOM_TEMP)))
+          .addMethod(
+            getSetRoomTempMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                environmentService.SetRequest,
+                environmentService.SetResponse>(
+                  this, METHODID_SET_ROOM_TEMP)))
           .build();
     }
   }
@@ -181,21 +181,21 @@ public final class EnvironmentServiceGrpc {
      *Unary call
      * </pre>
      */
-    public void setRoomTemp(environmentService.TempRequest request,
-        io.grpc.stub.StreamObserver<environmentService.TempResponse> responseObserver) {
+    public void getCurrentRoomTemp(environmentService.CurrentRequest request,
+        io.grpc.stub.StreamObserver<environmentService.CurrentResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getSetRoomTempMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetCurrentRoomTempMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      * <pre>
-     *Unary call
+     *Server Streaming
      * </pre>
      */
-    public void getCurrentRoomTemp(environmentService.Empty request,
-        io.grpc.stub.StreamObserver<environmentService.CurrentResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetCurrentRoomTempMethod(), getCallOptions()), request, responseObserver);
+    public void setRoomTemp(environmentService.SetRequest request,
+        io.grpc.stub.StreamObserver<environmentService.SetResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getSetRoomTempMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -222,19 +222,20 @@ public final class EnvironmentServiceGrpc {
      *Unary call
      * </pre>
      */
-    public environmentService.TempResponse setRoomTemp(environmentService.TempRequest request) {
+    public environmentService.CurrentResponse getCurrentRoomTemp(environmentService.CurrentRequest request) {
       return blockingUnaryCall(
-          getChannel(), getSetRoomTempMethod(), getCallOptions(), request);
+          getChannel(), getGetCurrentRoomTempMethod(), getCallOptions(), request);
     }
 
     /**
      * <pre>
-     *Unary call
+     *Server Streaming
      * </pre>
      */
-    public environmentService.CurrentResponse getCurrentRoomTemp(environmentService.Empty request) {
-      return blockingUnaryCall(
-          getChannel(), getGetCurrentRoomTempMethod(), getCallOptions(), request);
+    public java.util.Iterator<environmentService.SetResponse> setRoomTemp(
+        environmentService.SetRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), getSetRoomTempMethod(), getCallOptions(), request);
     }
   }
 
@@ -261,26 +262,15 @@ public final class EnvironmentServiceGrpc {
      *Unary call
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<environmentService.TempResponse> setRoomTemp(
-        environmentService.TempRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getSetRoomTempMethod(), getCallOptions()), request);
-    }
-
-    /**
-     * <pre>
-     *Unary call
-     * </pre>
-     */
     public com.google.common.util.concurrent.ListenableFuture<environmentService.CurrentResponse> getCurrentRoomTemp(
-        environmentService.Empty request) {
+        environmentService.CurrentRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetCurrentRoomTempMethod(), getCallOptions()), request);
     }
   }
 
-  private static final int METHODID_SET_ROOM_TEMP = 0;
-  private static final int METHODID_GET_CURRENT_ROOM_TEMP = 1;
+  private static final int METHODID_GET_CURRENT_ROOM_TEMP = 0;
+  private static final int METHODID_SET_ROOM_TEMP = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -299,13 +289,13 @@ public final class EnvironmentServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_SET_ROOM_TEMP:
-          serviceImpl.setRoomTemp((environmentService.TempRequest) request,
-              (io.grpc.stub.StreamObserver<environmentService.TempResponse>) responseObserver);
-          break;
         case METHODID_GET_CURRENT_ROOM_TEMP:
-          serviceImpl.getCurrentRoomTemp((environmentService.Empty) request,
+          serviceImpl.getCurrentRoomTemp((environmentService.CurrentRequest) request,
               (io.grpc.stub.StreamObserver<environmentService.CurrentResponse>) responseObserver);
+          break;
+        case METHODID_SET_ROOM_TEMP:
+          serviceImpl.setRoomTemp((environmentService.SetRequest) request,
+              (io.grpc.stub.StreamObserver<environmentService.SetResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -368,8 +358,8 @@ public final class EnvironmentServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new EnvironmentServiceFileDescriptorSupplier())
-              .addMethod(getSetRoomTempMethod())
               .addMethod(getGetCurrentRoomTempMethod())
+              .addMethod(getSetRoomTempMethod())
               .build();
         }
       }

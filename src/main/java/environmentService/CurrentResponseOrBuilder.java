@@ -8,7 +8,12 @@ public interface CurrentResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 value = 1;</code>
+   * <code>string currentTemp = 1;</code>
    */
-  int getValue();
+  java.lang.String getCurrentTemp();
+  /**
+   * <code>string currentTemp = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getCurrentTempBytes();
 }

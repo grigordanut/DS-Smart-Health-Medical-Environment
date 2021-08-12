@@ -19,106 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\022environmentServiceB\026EnvironmentServiceImplP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"\x1e\n\x0cTempResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\" \n\x0f\x43urrentResponse\x12\r\n\x05value\x18\x01 \x01(\x05\"\x1c\n\x0bTempRequest\x12\r\n\x05value\x18\x01 \x01(\x05\"\x07\n\x05\x45mpty2\xc0\x01\n\x12\x45nvironmentService\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x12V\n\x12getCurrentRoomTemp\x12\x19.environmentService.Empty\x1a#.environmentService.CurrentResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"\x07\n\x05\x45mpty\"\"\n\x0f\x43urrentResponse\x12\x0f\n\x07oldTemp\x18\x01 \x01(\x05\"\x1e\n\x0bTempRequest\x12\x0f\n\x07setTemp\x18\x01 \x01(\t\"\x1f\n\x0cTempResponse\x12\x0f\n\x07newTemp\x18\x01 \x01(\t2\xc0\x01\n\x12\x45nvironmentService\x12V\n\x12getCurrentRoomTemp\x12\x19.environmentService.Empty\x1a#.environmentService.CurrentResponse\"\x00\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
 )
 
 
-
-
-_TEMPRESPONSE = _descriptor.Descriptor(
-  name='TempResponse',
-  full_name='environmentService.TempResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='result', full_name='environmentService.TempResponse.result', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=41,
-  serialized_end=71,
-)
-
-
-_CURRENTRESPONSE = _descriptor.Descriptor(
-  name='CurrentResponse',
-  full_name='environmentService.CurrentResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='environmentService.CurrentResponse.value', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=73,
-  serialized_end=105,
-)
-
-
-_TEMPREQUEST = _descriptor.Descriptor(
-  name='TempRequest',
-  full_name='environmentService.TempRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='environmentService.TempRequest.value', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=107,
-  serialized_end=135,
-)
 
 
 _EMPTY = _descriptor.Descriptor(
@@ -141,22 +45,118 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=137,
-  serialized_end=144,
+  serialized_start=41,
+  serialized_end=48,
 )
 
-DESCRIPTOR.message_types_by_name['TempResponse'] = _TEMPRESPONSE
+
+_CURRENTRESPONSE = _descriptor.Descriptor(
+  name='CurrentResponse',
+  full_name='environmentService.CurrentResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='oldTemp', full_name='environmentService.CurrentResponse.oldTemp', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=50,
+  serialized_end=84,
+)
+
+
+_TEMPREQUEST = _descriptor.Descriptor(
+  name='TempRequest',
+  full_name='environmentService.TempRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='setTemp', full_name='environmentService.TempRequest.setTemp', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=86,
+  serialized_end=116,
+)
+
+
+_TEMPRESPONSE = _descriptor.Descriptor(
+  name='TempResponse',
+  full_name='environmentService.TempResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='newTemp', full_name='environmentService.TempResponse.newTemp', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=118,
+  serialized_end=149,
+)
+
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['CurrentResponse'] = _CURRENTRESPONSE
 DESCRIPTOR.message_types_by_name['TempRequest'] = _TEMPREQUEST
-DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
+DESCRIPTOR.message_types_by_name['TempResponse'] = _TEMPRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-TempResponse = _reflection.GeneratedProtocolMessageType('TempResponse', (_message.Message,), {
-  'DESCRIPTOR' : _TEMPRESPONSE,
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
   '__module__' : 'environment_pb2'
-  # @@protoc_insertion_point(class_scope:environmentService.TempResponse)
+  # @@protoc_insertion_point(class_scope:environmentService.Empty)
   })
-_sym_db.RegisterMessage(TempResponse)
+_sym_db.RegisterMessage(Empty)
 
 CurrentResponse = _reflection.GeneratedProtocolMessageType('CurrentResponse', (_message.Message,), {
   'DESCRIPTOR' : _CURRENTRESPONSE,
@@ -172,12 +172,12 @@ TempRequest = _reflection.GeneratedProtocolMessageType('TempRequest', (_message.
   })
 _sym_db.RegisterMessage(TempRequest)
 
-Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
-  'DESCRIPTOR' : _EMPTY,
+TempResponse = _reflection.GeneratedProtocolMessageType('TempResponse', (_message.Message,), {
+  'DESCRIPTOR' : _TEMPRESPONSE,
   '__module__' : 'environment_pb2'
-  # @@protoc_insertion_point(class_scope:environmentService.Empty)
+  # @@protoc_insertion_point(class_scope:environmentService.TempResponse)
   })
-_sym_db.RegisterMessage(Empty)
+_sym_db.RegisterMessage(TempResponse)
 
 
 DESCRIPTOR._options = None
@@ -189,26 +189,26 @@ _ENVIRONMENTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=147,
-  serialized_end=339,
+  serialized_start=152,
+  serialized_end=344,
   methods=[
   _descriptor.MethodDescriptor(
-    name='setRoomTemp',
-    full_name='environmentService.EnvironmentService.setRoomTemp',
+    name='getCurrentRoomTemp',
+    full_name='environmentService.EnvironmentService.getCurrentRoomTemp',
     index=0,
     containing_service=None,
-    input_type=_TEMPREQUEST,
-    output_type=_TEMPRESPONSE,
+    input_type=_EMPTY,
+    output_type=_CURRENTRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='getCurrentRoomTemp',
-    full_name='environmentService.EnvironmentService.getCurrentRoomTemp',
+    name='setRoomTemp',
+    full_name='environmentService.EnvironmentService.setRoomTemp',
     index=1,
     containing_service=None,
-    input_type=_EMPTY,
-    output_type=_CURRENTRESPONSE,
+    input_type=_TEMPREQUEST,
+    output_type=_TEMPRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

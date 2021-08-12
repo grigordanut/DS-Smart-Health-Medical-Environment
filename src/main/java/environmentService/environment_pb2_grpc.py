@@ -14,29 +14,29 @@ class EnvironmentServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.setRoomTemp = channel.unary_unary(
-                '/environmentService.EnvironmentService/setRoomTemp',
-                request_serializer=environment__pb2.TempRequest.SerializeToString,
-                response_deserializer=environment__pb2.TempResponse.FromString,
-                )
         self.getCurrentRoomTemp = channel.unary_unary(
                 '/environmentService.EnvironmentService/getCurrentRoomTemp',
                 request_serializer=environment__pb2.Empty.SerializeToString,
                 response_deserializer=environment__pb2.CurrentResponse.FromString,
+                )
+        self.setRoomTemp = channel.unary_unary(
+                '/environmentService.EnvironmentService/setRoomTemp',
+                request_serializer=environment__pb2.TempRequest.SerializeToString,
+                response_deserializer=environment__pb2.TempResponse.FromString,
                 )
 
 
 class EnvironmentServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def setRoomTemp(self, request, context):
+    def getCurrentRoomTemp(self, request, context):
         """Unary call
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def getCurrentRoomTemp(self, request, context):
+    def setRoomTemp(self, request, context):
         """Unary call
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -46,15 +46,15 @@ class EnvironmentServiceServicer(object):
 
 def add_EnvironmentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'setRoomTemp': grpc.unary_unary_rpc_method_handler(
-                    servicer.setRoomTemp,
-                    request_deserializer=environment__pb2.TempRequest.FromString,
-                    response_serializer=environment__pb2.TempResponse.SerializeToString,
-            ),
             'getCurrentRoomTemp': grpc.unary_unary_rpc_method_handler(
                     servicer.getCurrentRoomTemp,
                     request_deserializer=environment__pb2.Empty.FromString,
                     response_serializer=environment__pb2.CurrentResponse.SerializeToString,
+            ),
+            'setRoomTemp': grpc.unary_unary_rpc_method_handler(
+                    servicer.setRoomTemp,
+                    request_deserializer=environment__pb2.TempRequest.FromString,
+                    response_serializer=environment__pb2.TempResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -65,23 +65,6 @@ def add_EnvironmentServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class EnvironmentService(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def setRoomTemp(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/environmentService.EnvironmentService/setRoomTemp',
-            environment__pb2.TempRequest.SerializeToString,
-            environment__pb2.TempResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def getCurrentRoomTemp(request,
@@ -97,5 +80,22 @@ class EnvironmentService(object):
         return grpc.experimental.unary_unary(request, target, '/environmentService.EnvironmentService/getCurrentRoomTemp',
             environment__pb2.Empty.SerializeToString,
             environment__pb2.CurrentResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def setRoomTemp(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/environmentService.EnvironmentService/setRoomTemp',
+            environment__pb2.TempRequest.SerializeToString,
+            environment__pb2.TempResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
