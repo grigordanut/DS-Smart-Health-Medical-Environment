@@ -1,7 +1,5 @@
 package patientAdministrationService;
 
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,41 +122,41 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 	
 	//Client Streaming
 	//Patient Register service
-//	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
-//		
-//		return new StreamObserver<RegisterRequest>() {
-//
-//			@Override
-//			public void onNext(RegisterRequest value) {
-//				System.out.println("Request received to register patient with, Name: " + value.getName()
-//																			+ ", Age: " + value.getAge()
-//																			+ ", Gender: " + value.getGender());
-//				
-//				String result = ("Patient Name: " + value.getName() 
-//												+ ", Age: " + value.getAge() 
-//												+ ", Gender: " + value.getGender());
-//				
-//				patientList.add(result);
-//				
-//				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
-//				responseObserver.onNext(reply);				
-//			}
-//
-//			@Override
-//			public void onError(Throwable t) {
-//				t.printStackTrace();				
-//			}
-//
-//			@Override
-//			public void onCompleted() {
-//				System.out.println("Patient registering request completed.");
-//				System.out.println("--------------------------------------\n");
-//				
-//				//completed too
-//				responseObserver.onCompleted();				
-//			}			
-//		};
-//	}
+	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
+		
+		return new StreamObserver<RegisterRequest>() {
+
+			@Override
+			public void onNext(RegisterRequest value) {
+				System.out.println("Request received to register patient with, Name: " + value.getName()
+																			+ ", Age: " + value.getAge()
+																			+ ", Gender: " + value.getGender());
+				
+				String result = ("Patient Name: " + value.getName() 
+												+ ", Age: " + value.getAge() 
+												+ ", Gender: " + value.getGender());
+				
+				patientList.add(result);
+				
+				RegisterResponse reply = RegisterResponse.newBuilder().setResult(result).build();
+				responseObserver.onNext(reply);				
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				t.printStackTrace();				
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.println("Patient registering request completed.");
+				System.out.println("--------------------------------------\n");
+				
+				//completed too
+				responseObserver.onCompleted();				
+			}			
+		};
+	}
 	
 //	//Server Streaming
 //	//Display Patients List
