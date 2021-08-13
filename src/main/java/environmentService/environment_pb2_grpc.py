@@ -16,7 +16,7 @@ class EnvironmentServiceStub(object):
         """
         self.getCurrentRoomTemp = channel.unary_unary(
                 '/environmentService.EnvironmentService/getCurrentRoomTemp',
-                request_serializer=environment__pb2.Empty.SerializeToString,
+                request_serializer=environment__pb2.CurrentRequest.SerializeToString,
                 response_deserializer=environment__pb2.CurrentResponse.FromString,
                 )
         self.setRoomTemp = channel.unary_unary(
@@ -48,7 +48,7 @@ def add_EnvironmentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'getCurrentRoomTemp': grpc.unary_unary_rpc_method_handler(
                     servicer.getCurrentRoomTemp,
-                    request_deserializer=environment__pb2.Empty.FromString,
+                    request_deserializer=environment__pb2.CurrentRequest.FromString,
                     response_serializer=environment__pb2.CurrentResponse.SerializeToString,
             ),
             'setRoomTemp': grpc.unary_unary_rpc_method_handler(
@@ -78,7 +78,7 @@ class EnvironmentService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/environmentService.EnvironmentService/getCurrentRoomTemp',
-            environment__pb2.Empty.SerializeToString,
+            environment__pb2.CurrentRequest.SerializeToString,
             environment__pb2.CurrentResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

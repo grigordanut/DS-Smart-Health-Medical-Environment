@@ -1,36 +1,35 @@
  syntax = "proto3";
- 
+
  option java_multiple_files = true;
  option java_package = "environmentService";
  option java_outer_classname = "EnvironmentServiceImpl";
- 
-  //package environmentService
+
+ 	//package environmentService
  package environmentService;
- 
+
  service EnvironmentService {
-  	
+
  	//Unary call
 	rpc getCurrentRoomTemp(CurrentRequest) returns(CurrentResponse){}
-	
-	//Server Streaming
-	rpc setRoomTemp(SetRequest) returns(stream SetResponse){}	
- } 
- 
+
+ 	//Unary call
+ 	rpc setRoomTemp(TempRequest) returns(TempResponse){}
+ }
+
  //Unary call
  message CurrentRequest{
- 	string requestTemp = 1; 
+ 	string current = 1;
  }
- 
+
  message CurrentResponse{
-	string currentTemp = 1;
+	string currentNew = 1;
  }
- 
- //Server Streaming
- message SetRequest{
-	string tempRequest = 1;
+
+ //Unary call
+ message TempRequest{
+	string temp = 1;
  }
- 
- message SetResponse{
-	string tempResponse = 1;
- } 
- 
+
+ message TempResponse{
+	string tempNew = 1;
+ }

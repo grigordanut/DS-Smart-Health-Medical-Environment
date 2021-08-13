@@ -4,19 +4,23 @@
 package environmentService;
 
 /**
- * Protobuf type {@code environmentService.SetResponse}
+ * <pre>
+ *Unary call
+ * </pre>
+ *
+ * Protobuf type {@code environmentService.TempRequest}
  */
-public  final class SetResponse extends
+public  final class TempRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:environmentService.SetResponse)
-    SetResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:environmentService.TempRequest)
+    TempRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use SetResponse.newBuilder() to construct.
-  private SetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use TempRequest.newBuilder() to construct.
+  private TempRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private SetResponse() {
-    tempResponse_ = "";
+  private TempRequest() {
+    temp_ = "";
   }
 
   @java.lang.Override
@@ -24,7 +28,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private SetResponse(
+  private TempRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -46,7 +50,7 @@ private static final long serialVersionUID = 0L;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            tempResponse_ = s;
+            temp_ = s;
             break;
           }
           default: {
@@ -70,45 +74,45 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return environmentService.EnvironmentServiceImpl.internal_static_environmentService_SetResponse_descriptor;
+    return environmentService.EnvironmentServiceImpl.internal_static_environmentService_TempRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return environmentService.EnvironmentServiceImpl.internal_static_environmentService_SetResponse_fieldAccessorTable
+    return environmentService.EnvironmentServiceImpl.internal_static_environmentService_TempRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            environmentService.SetResponse.class, environmentService.SetResponse.Builder.class);
+            environmentService.TempRequest.class, environmentService.TempRequest.Builder.class);
   }
 
-  public static final int TEMPRESPONSE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object tempResponse_;
+  public static final int TEMP_FIELD_NUMBER = 1;
+  private volatile java.lang.Object temp_;
   /**
-   * <code>string tempResponse = 1;</code>
+   * <code>string temp = 1;</code>
    */
-  public java.lang.String getTempResponse() {
-    java.lang.Object ref = tempResponse_;
+  public java.lang.String getTemp() {
+    java.lang.Object ref = temp_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      tempResponse_ = s;
+      temp_ = s;
       return s;
     }
   }
   /**
-   * <code>string tempResponse = 1;</code>
+   * <code>string temp = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getTempResponseBytes() {
-    java.lang.Object ref = tempResponse_;
+      getTempBytes() {
+    java.lang.Object ref = temp_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      tempResponse_ = b;
+      temp_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -129,8 +133,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getTempResponseBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, tempResponse_);
+    if (!getTempBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, temp_);
     }
     unknownFields.writeTo(output);
   }
@@ -141,8 +145,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getTempResponseBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, tempResponse_);
+    if (!getTempBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, temp_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -154,14 +158,14 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof environmentService.SetResponse)) {
+    if (!(obj instanceof environmentService.TempRequest)) {
       return super.equals(obj);
     }
-    environmentService.SetResponse other = (environmentService.SetResponse) obj;
+    environmentService.TempRequest other = (environmentService.TempRequest) obj;
 
     boolean result = true;
-    result = result && getTempResponse()
-        .equals(other.getTempResponse());
+    result = result && getTemp()
+        .equals(other.getTemp());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -173,76 +177,76 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + TEMPRESPONSE_FIELD_NUMBER;
-    hash = (53 * hash) + getTempResponse().hashCode();
+    hash = (37 * hash) + TEMP_FIELD_NUMBER;
+    hash = (53 * hash) + getTemp().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static environmentService.SetResponse parseFrom(byte[] data)
+  public static environmentService.TempRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static environmentService.SetResponse parseFrom(java.io.InputStream input)
+  public static environmentService.TempRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static environmentService.SetResponse parseDelimitedFrom(java.io.InputStream input)
+  public static environmentService.TempRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static environmentService.SetResponse parseDelimitedFrom(
+  public static environmentService.TempRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static environmentService.SetResponse parseFrom(
+  public static environmentService.TempRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -255,7 +259,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(environmentService.SetResponse prototype) {
+  public static Builder newBuilder(environmentService.TempRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -271,26 +275,30 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code environmentService.SetResponse}
+   * <pre>
+   *Unary call
+   * </pre>
+   *
+   * Protobuf type {@code environmentService.TempRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:environmentService.SetResponse)
-      environmentService.SetResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:environmentService.TempRequest)
+      environmentService.TempRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_SetResponse_descriptor;
+      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_TempRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_SetResponse_fieldAccessorTable
+      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_TempRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              environmentService.SetResponse.class, environmentService.SetResponse.Builder.class);
+              environmentService.TempRequest.class, environmentService.TempRequest.Builder.class);
     }
 
-    // Construct using environmentService.SetResponse.newBuilder()
+    // Construct using environmentService.TempRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -308,7 +316,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      tempResponse_ = "";
+      temp_ = "";
 
       return this;
     }
@@ -316,17 +324,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_SetResponse_descriptor;
+      return environmentService.EnvironmentServiceImpl.internal_static_environmentService_TempRequest_descriptor;
     }
 
     @java.lang.Override
-    public environmentService.SetResponse getDefaultInstanceForType() {
-      return environmentService.SetResponse.getDefaultInstance();
+    public environmentService.TempRequest getDefaultInstanceForType() {
+      return environmentService.TempRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public environmentService.SetResponse build() {
-      environmentService.SetResponse result = buildPartial();
+    public environmentService.TempRequest build() {
+      environmentService.TempRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -334,9 +342,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public environmentService.SetResponse buildPartial() {
-      environmentService.SetResponse result = new environmentService.SetResponse(this);
-      result.tempResponse_ = tempResponse_;
+    public environmentService.TempRequest buildPartial() {
+      environmentService.TempRequest result = new environmentService.TempRequest(this);
+      result.temp_ = temp_;
       onBuilt();
       return result;
     }
@@ -375,18 +383,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof environmentService.SetResponse) {
-        return mergeFrom((environmentService.SetResponse)other);
+      if (other instanceof environmentService.TempRequest) {
+        return mergeFrom((environmentService.TempRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(environmentService.SetResponse other) {
-      if (other == environmentService.SetResponse.getDefaultInstance()) return this;
-      if (!other.getTempResponse().isEmpty()) {
-        tempResponse_ = other.tempResponse_;
+    public Builder mergeFrom(environmentService.TempRequest other) {
+      if (other == environmentService.TempRequest.getDefaultInstance()) return this;
+      if (!other.getTemp().isEmpty()) {
+        temp_ = other.temp_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -404,11 +412,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      environmentService.SetResponse parsedMessage = null;
+      environmentService.TempRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (environmentService.SetResponse) e.getUnfinishedMessage();
+        parsedMessage = (environmentService.TempRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -418,71 +426,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object tempResponse_ = "";
+    private java.lang.Object temp_ = "";
     /**
-     * <code>string tempResponse = 1;</code>
+     * <code>string temp = 1;</code>
      */
-    public java.lang.String getTempResponse() {
-      java.lang.Object ref = tempResponse_;
+    public java.lang.String getTemp() {
+      java.lang.Object ref = temp_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        tempResponse_ = s;
+        temp_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string tempResponse = 1;</code>
+     * <code>string temp = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getTempResponseBytes() {
-      java.lang.Object ref = tempResponse_;
+        getTempBytes() {
+      java.lang.Object ref = temp_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        tempResponse_ = b;
+        temp_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string tempResponse = 1;</code>
+     * <code>string temp = 1;</code>
      */
-    public Builder setTempResponse(
+    public Builder setTemp(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      tempResponse_ = value;
+      temp_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string tempResponse = 1;</code>
+     * <code>string temp = 1;</code>
      */
-    public Builder clearTempResponse() {
+    public Builder clearTemp() {
       
-      tempResponse_ = getDefaultInstance().getTempResponse();
+      temp_ = getDefaultInstance().getTemp();
       onChanged();
       return this;
     }
     /**
-     * <code>string tempResponse = 1;</code>
+     * <code>string temp = 1;</code>
      */
-    public Builder setTempResponseBytes(
+    public Builder setTempBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      tempResponse_ = value;
+      temp_ = value;
       onChanged();
       return this;
     }
@@ -499,41 +507,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:environmentService.SetResponse)
+    // @@protoc_insertion_point(builder_scope:environmentService.TempRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:environmentService.SetResponse)
-  private static final environmentService.SetResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:environmentService.TempRequest)
+  private static final environmentService.TempRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new environmentService.SetResponse();
+    DEFAULT_INSTANCE = new environmentService.TempRequest();
   }
 
-  public static environmentService.SetResponse getDefaultInstance() {
+  public static environmentService.TempRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<SetResponse>
-      PARSER = new com.google.protobuf.AbstractParser<SetResponse>() {
+  private static final com.google.protobuf.Parser<TempRequest>
+      PARSER = new com.google.protobuf.AbstractParser<TempRequest>() {
     @java.lang.Override
-    public SetResponse parsePartialFrom(
+    public TempRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new SetResponse(input, extensionRegistry);
+      return new TempRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<SetResponse> parser() {
+  public static com.google.protobuf.Parser<TempRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<SetResponse> getParserForType() {
+  public com.google.protobuf.Parser<TempRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public environmentService.SetResponse getDefaultInstanceForType() {
+  public environmentService.TempRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

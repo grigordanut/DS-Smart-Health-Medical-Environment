@@ -19,20 +19,27 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\022environmentServiceB\026EnvironmentServiceImplP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"\x07\n\x05\x45mpty\"\"\n\x0f\x43urrentResponse\x12\x0f\n\x07oldTemp\x18\x01 \x01(\x05\"\x1e\n\x0bTempRequest\x12\x0f\n\x07setTemp\x18\x01 \x01(\t\"\x1f\n\x0cTempResponse\x12\x0f\n\x07newTemp\x18\x01 \x01(\t2\xc0\x01\n\x12\x45nvironmentService\x12V\n\x12getCurrentRoomTemp\x12\x19.environmentService.Empty\x1a#.environmentService.CurrentResponse\"\x00\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"!\n\x0e\x43urrentRequest\x12\x0f\n\x07\x63urrent\x18\x01 \x01(\t\"%\n\x0f\x43urrentResponse\x12\x12\n\ncurrentNew\x18\x01 \x01(\t\"\x1b\n\x0bTempRequest\x12\x0c\n\x04temp\x18\x01 \x01(\t\"\x1f\n\x0cTempResponse\x12\x0f\n\x07tempNew\x18\x01 \x01(\t2\xc9\x01\n\x12\x45nvironmentService\x12_\n\x12getCurrentRoomTemp\x12\".environmentService.CurrentRequest\x1a#.environmentService.CurrentResponse\"\x00\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
 )
 
 
 
 
-_EMPTY = _descriptor.Descriptor(
-  name='Empty',
-  full_name='environmentService.Empty',
+_CURRENTREQUEST = _descriptor.Descriptor(
+  name='CurrentRequest',
+  full_name='environmentService.CurrentRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='current', full_name='environmentService.CurrentRequest.current', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -46,7 +53,7 @@ _EMPTY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=41,
-  serialized_end=48,
+  serialized_end=74,
 )
 
 
@@ -59,9 +66,9 @@ _CURRENTRESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='oldTemp', full_name='environmentService.CurrentResponse.oldTemp', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='currentNew', full_name='environmentService.CurrentResponse.currentNew', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -77,8 +84,8 @@ _CURRENTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=50,
-  serialized_end=84,
+  serialized_start=76,
+  serialized_end=113,
 )
 
 
@@ -91,7 +98,7 @@ _TEMPREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='setTemp', full_name='environmentService.TempRequest.setTemp', index=0,
+      name='temp', full_name='environmentService.TempRequest.temp', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -109,8 +116,8 @@ _TEMPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=86,
-  serialized_end=116,
+  serialized_start=115,
+  serialized_end=142,
 )
 
 
@@ -123,7 +130,7 @@ _TEMPRESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='newTemp', full_name='environmentService.TempResponse.newTemp', index=0,
+      name='tempNew', full_name='environmentService.TempResponse.tempNew', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -141,22 +148,22 @@ _TEMPRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=118,
-  serialized_end=149,
+  serialized_start=144,
+  serialized_end=175,
 )
 
-DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
+DESCRIPTOR.message_types_by_name['CurrentRequest'] = _CURRENTREQUEST
 DESCRIPTOR.message_types_by_name['CurrentResponse'] = _CURRENTRESPONSE
 DESCRIPTOR.message_types_by_name['TempRequest'] = _TEMPREQUEST
 DESCRIPTOR.message_types_by_name['TempResponse'] = _TEMPRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
-  'DESCRIPTOR' : _EMPTY,
+CurrentRequest = _reflection.GeneratedProtocolMessageType('CurrentRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CURRENTREQUEST,
   '__module__' : 'environment_pb2'
-  # @@protoc_insertion_point(class_scope:environmentService.Empty)
+  # @@protoc_insertion_point(class_scope:environmentService.CurrentRequest)
   })
-_sym_db.RegisterMessage(Empty)
+_sym_db.RegisterMessage(CurrentRequest)
 
 CurrentResponse = _reflection.GeneratedProtocolMessageType('CurrentResponse', (_message.Message,), {
   'DESCRIPTOR' : _CURRENTRESPONSE,
@@ -189,15 +196,15 @@ _ENVIRONMENTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=152,
-  serialized_end=344,
+  serialized_start=178,
+  serialized_end=379,
   methods=[
   _descriptor.MethodDescriptor(
     name='getCurrentRoomTemp',
     full_name='environmentService.EnvironmentService.getCurrentRoomTemp',
     index=0,
     containing_service=None,
-    input_type=_EMPTY,
+    input_type=_CURRENTREQUEST,
     output_type=_CURRENTRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

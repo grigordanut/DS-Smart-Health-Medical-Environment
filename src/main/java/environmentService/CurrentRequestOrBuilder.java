@@ -8,12 +8,12 @@ public interface CurrentRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string requestTemp = 1;</code>
+   * <code>string current = 1;</code>
    */
-  java.lang.String getRequestTemp();
+  java.lang.String getCurrent();
   /**
-   * <code>string requestTemp = 1;</code>
+   * <code>string current = 1;</code>
    */
   com.google.protobuf.ByteString
-      getRequestTempBytes();
+      getCurrentBytes();
 }

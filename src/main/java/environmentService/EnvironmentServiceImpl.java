@@ -25,15 +25,15 @@ public final class EnvironmentServiceImpl {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_environmentService_CurrentResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_environmentService_SetRequest_descriptor;
+    internal_static_environmentService_TempRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_environmentService_SetRequest_fieldAccessorTable;
+      internal_static_environmentService_TempRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_environmentService_SetResponse_descriptor;
+    internal_static_environmentService_TempResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_environmentService_SetResponse_fieldAccessorTable;
+      internal_static_environmentService_TempResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -44,17 +44,16 @@ public final class EnvironmentServiceImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\021environment.proto\022\022environmentService\"" +
-      "%\n\016CurrentRequest\022\023\n\013requestTemp\030\001 \001(\t\"&" +
-      "\n\017CurrentResponse\022\023\n\013currentTemp\030\001 \001(\t\"!" +
-      "\n\nSetRequest\022\023\n\013tempRequest\030\001 \001(\t\"#\n\013Set" +
-      "Response\022\024\n\014tempResponse\030\001 \001(\t2\311\001\n\022Envir" +
-      "onmentService\022_\n\022getCurrentRoomTemp\022\".en" +
-      "vironmentService.CurrentRequest\032#.enviro" +
-      "nmentService.CurrentResponse\"\000\022R\n\013setRoo" +
-      "mTemp\022\036.environmentService.SetRequest\032\037." +
-      "environmentService.SetResponse\"\0000\001B.\n\022en" +
-      "vironmentServiceB\026EnvironmentServiceImpl" +
-      "P\001b\006proto3"
+      "!\n\016CurrentRequest\022\017\n\007current\030\001 \001(\t\"%\n\017Cu" +
+      "rrentResponse\022\022\n\ncurrentNew\030\001 \001(\t\"\033\n\013Tem" +
+      "pRequest\022\014\n\004temp\030\001 \001(\t\"\037\n\014TempResponse\022\017" +
+      "\n\007tempNew\030\001 \001(\t2\311\001\n\022EnvironmentService\022_" +
+      "\n\022getCurrentRoomTemp\022\".environmentServic" +
+      "e.CurrentRequest\032#.environmentService.Cu" +
+      "rrentResponse\"\000\022R\n\013setRoomTemp\022\037.environ" +
+      "mentService.TempRequest\032 .environmentSer" +
+      "vice.TempResponse\"\000B.\n\022environmentServic" +
+      "eB\026EnvironmentServiceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -73,25 +72,25 @@ public final class EnvironmentServiceImpl {
     internal_static_environmentService_CurrentRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_environmentService_CurrentRequest_descriptor,
-        new java.lang.String[] { "RequestTemp", });
+        new java.lang.String[] { "Current", });
     internal_static_environmentService_CurrentResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_environmentService_CurrentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_environmentService_CurrentResponse_descriptor,
-        new java.lang.String[] { "CurrentTemp", });
-    internal_static_environmentService_SetRequest_descriptor =
+        new java.lang.String[] { "CurrentNew", });
+    internal_static_environmentService_TempRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_environmentService_SetRequest_fieldAccessorTable = new
+    internal_static_environmentService_TempRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_environmentService_SetRequest_descriptor,
-        new java.lang.String[] { "TempRequest", });
-    internal_static_environmentService_SetResponse_descriptor =
+        internal_static_environmentService_TempRequest_descriptor,
+        new java.lang.String[] { "Temp", });
+    internal_static_environmentService_TempResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_environmentService_SetResponse_fieldAccessorTable = new
+    internal_static_environmentService_TempResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_environmentService_SetResponse_descriptor,
-        new java.lang.String[] { "TempResponse", });
+        internal_static_environmentService_TempResponse_descriptor,
+        new java.lang.String[] { "TempNew", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
