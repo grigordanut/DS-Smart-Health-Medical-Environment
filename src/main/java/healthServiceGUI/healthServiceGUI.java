@@ -153,20 +153,20 @@ public class healthServiceGUI implements ActionListener {
         adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
         
         //Discovering Patient Monitoring Service
-		String monitoring_service_type = "_monitoring._tcp.local.";
-		discoveryPatientMonitoringService(monitoring_service_type);
-		int monitoringPort = monitoringServiceInfo.getPort();
-		
-		@SuppressWarnings("deprecation")
-		String monitoringHost = monitoringServiceInfo.getHostAddress();
-		
-		ManagedChannel monitoringChannel = ManagedChannelBuilder
-										.forAddress(monitoringHost, monitoringPort)
-										.usePlaintext()
-										.build();
-		
-		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+//		String monitoring_service_type = "_monitoring._tcp.local.";
+//		discoveryPatientMonitoringService(monitoring_service_type);
+//		int monitoringPort = monitoringServiceInfo.getPort();
+//		
+//		@SuppressWarnings("deprecation")
+//		String monitoringHost = monitoringServiceInfo.getHostAddress();
+//		
+//		ManagedChannel monitoringChannel = ManagedChannelBuilder
+//										.forAddress(monitoringHost, monitoringPort)
+//										.usePlaintext()
+//										.build();
+//		
+//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
 			
 		initialize();
 	}
@@ -193,6 +193,7 @@ public class healthServiceGUI implements ActionListener {
 					System.out.println("\t name: " + event.getName());
 					System.out.println("\t description/properties: " + adminServiceInfo.getNiceTextString());
 					System.out.println("\t host: " + adminServiceInfo.getHostAddress());
+					System.out.println("--------------------------------------------------\n");
 				}
 				
 				@Override
@@ -449,6 +450,7 @@ public class healthServiceGUI implements ActionListener {
 						@Override
 						public void onCompleted() {
 							System.out.println("Registering Patient is completed.");
+							System.out.println("---------------------------------\n");
 							
 						}
 						

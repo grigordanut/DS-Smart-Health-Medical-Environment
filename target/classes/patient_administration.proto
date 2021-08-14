@@ -12,13 +12,11 @@
  	//Client Streaming
  	//rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
  	
- 	rpc registerPatient(RegisterRequest) returns (stream RegisterResponse){} 
+ 	rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
  	
  	//Server Streaming	
- 	//rpc displayPatients(DisplayRequest) returns (stream DisplayResponse){}
- 	
- 	//rpc displayPatients(stream DisplayRequest) returns (DisplayResponse){}
- 	
+ 	rpc displayPatients(DisplayRequest) returns (stream DisplayResponse){}
+ 	 	
  	//Unary Call
  	rpc calculatePrice(CalculateRequest) returns (CalculateResponse){} 	 
  }
