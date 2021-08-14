@@ -33,7 +33,7 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 											.build()
 											.start();
 			
-			System.out.println("Patient Administration Server started listening on port: " +adminPort +"\n");
+			System.out.println("Patient Administration Server started listening on port: " + adminPort +"\n");
 			
 			adminServer.awaitTermination();
 			
@@ -124,9 +124,9 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 
 			@Override
 			public void onNext(RegisterRequest value) {
-				System.out.println("Request received to register patient with, Name: " + value.getName()
+				System.out.println("Request received to register patient with, Name:\n" + value.getName()
 																			+ ", Age: " + value.getAge()
-																			+ ", Gender: " + value.getGender());
+																			+ ", Gender: " + value.getGender() + "\n");
 				
 				String result = ("Patient Name: " + value.getName() 
 												+ ", Age: " + value.getAge() 
@@ -153,8 +153,7 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 	}
 	
 	public void displayPatients(DisplayRequest request, StreamObserver<DisplayResponse> responseObserver) {
-		// server receives request for bank account stats
-		// and returns stream of responses to client
+		
 		System.out.print("Receiving a request to show the patient list.\n\n" + request.getPatList());
 
 		ArrayList<String> patList = new ArrayList<String>();
@@ -178,19 +177,21 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		
 		System.out.println("Showing Patients list completed.");
 		System.out.println("--------------------------------\n");
-		responseObserver.onCompleted();		
-		
+		responseObserver.onCompleted();			
 	}	
 	
 	//Unary Call
 	//Calculate Patient Accommodation price
 	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
 		
-		System.out.println("Receiving calculate accommodation price for: " 
-		+ request.getPatName() + ", for: " + request.getNumberDays() +" days " + ", in: " +request.getRoom() + " room.");
+		System.out.println("Receiving request to calculate accommodation price for:\n" 
+											+ request.getPatName() + ", for: " 
+											+ request.getNumberDays() +" days " + ", in a: "
+											+ request.getRoom() + " room.\n");
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;

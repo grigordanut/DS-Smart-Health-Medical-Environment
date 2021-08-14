@@ -198,14 +198,15 @@ public class healthServiceGUI implements ActionListener {
 				
 				@Override
 				public void serviceRemoved(ServiceEvent event) {
-					System.out.println("Patient Administration Service removed: " +event.getInfo());					
+					System.out.println("Patient Administration Service removed: " +event.getInfo());	
+					System.out.println("--------------------------------------------------\n");
 				}
 
 				@Override
 				public void serviceAdded(ServiceEvent event) {
-					System.out.println("Patient Administration Service added: " +event.getInfo());					
+					System.out.println("Patient Administration Service added: " +event.getInfo());	
+					System.out.println("--------------------------------------------------\n");
 				}				
-				
 			});
 			
 			//Wait a bit
@@ -220,8 +221,7 @@ public class healthServiceGUI implements ActionListener {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	private void discoveryPatientMonitoringService(String service_type) {		
@@ -230,8 +230,7 @@ public class healthServiceGUI implements ActionListener {
 			//Create a JmDNS instance
 			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 						
-			jmdns.addServiceListener(service_type, new ServiceListener(){
-				
+			jmdns.addServiceListener(service_type, new ServiceListener(){				
 				
 				@SuppressWarnings("deprecation")
 				@Override
@@ -247,20 +246,19 @@ public class healthServiceGUI implements ActionListener {
 					System.out.println("\t name: " + event.getName());
 					System.out.println("\t description/properties: " + monitoringServiceInfo.getNiceTextString());
 					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());	
-					System.out.println("--------------------------------------------------\n");
-					
+					System.out.println("--------------------------------------------------\n");					
 				}				
 
 				@Override
 				public void serviceRemoved(ServiceEvent event) {
-					System.out.println("Patient Monitoring Service removed: " + event.getInfo());
-					
+					System.out.println("Patient Monitoring Service removed: " + event.getInfo());	
+					System.out.println("--------------------------------------------------\n");	
 				}		
 				
 				@Override
 				public void serviceAdded(ServiceEvent event) {
-					System.out.println("Patient Monitoring Service added: " + event.getInfo());
-					
+					System.out.println("Patient Monitoring Service added: " + event.getInfo());	
+					System.out.println("--------------------------------------------------\n");	
 				}
 			});
 			
@@ -435,25 +433,21 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(RegisterResponse value) {
-							txtArea_patDetails.append(value.getResult());
-							patientList.add(value.getResult());
-							
-							System.out.println("Received request to register patient with, " +value.getResult());					
+							System.out.println("Received request to register patient with, \n" +value.getResult() + "\n");
+							txtArea_patDetails.append(" " + value.getResult());
+							patientList.add(value.getResult());												
 						}
 
 						@Override
 						public void onError(Throwable t) {
-							t.printStackTrace();
-							
+							t.printStackTrace();							
 						}
 
 						@Override
 						public void onCompleted() {
 							System.out.println("Registering Patient is completed.");
-							System.out.println("---------------------------------\n");
-							
-						}
-						
+							System.out.println("---------------------------------\n");							
+						}						
 					};
 					
 					StreamObserver<RegisterRequest> requestObserver = adminAsyncStub.registerPatient(responseObserver);
@@ -464,8 +458,7 @@ public class healthServiceGUI implements ActionListener {
 														.build());
 					
 					//Mark the end of requests
-					requestObserver.onCompleted();					
-					
+					requestObserver.onCompleted();						
 				}				
 			}
 		});
@@ -499,7 +492,8 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(DisplayResponse value) {
-							System.out.println("Patients list: " + value.getAllPatients());									
+							//System.out.println("Patients list: " + value.getAllPatients());
+							//System.out.println("Received request to show the Patients list: ");
 						}
 
 						@Override
@@ -510,13 +504,16 @@ public class healthServiceGUI implements ActionListener {
 						@Override
 						public void onCompleted() {
 							System.out.println("Displaying patient list request completed.");
-							
+							System.out.println("------------------------------------------\n");
 						}			
 					};
+					
+					System.out.println("Received request to show the Patients list:\n");
 											
 					for(int i = 0; i<patientList.size(); i++) {	
 						
-						txtArea_patDetails.append(patientList.get(i));		            	
+						txtArea_patDetails.append(" " + patientList.get(i));
+						System.out.println(patientList.get(i) + "\n");						
 		            }	 
 					
 					adminAsyncStub.displayPatients(request, responseObserver);	 				
@@ -652,7 +649,7 @@ public class healthServiceGUI implements ActionListener {
 				}
 				
 				else {
-					patientName = txt_patName.getText();
+					patientName = (txt_patName.getText());
 					numberDays = Integer.parseInt(txt_noDays.getText());
 					
 					int index = comboBox_price.getSelectedIndex();
@@ -663,13 +660,20 @@ public class healthServiceGUI implements ActionListener {
 													.setNumberDays(numberDays)
 													.setRoom(room)
 													.build();
+					
+					System.out.println("Receiving request to calculate accommodation price for:\n" 
+														+ request.getPatName() + ", for: " 
+														+ request.getNumberDays() +" days " + ", in a: " 
+														+ request.getRoom() + " room.\n");
+					
 					CalculateResponse response = adminBlockingStub.calculatePrice(request);
 					
-					textArea_totalPrice.append(response.getMessage());
+					textArea_totalPrice.append(" " + response.getMessage());
 					System.out.println(response.getMessage());
 					
-				}
-				
+					System.out.println("Patient calculate Accommodation Price request completed.");
+					System.out.println("--------------------------------------------------------\n");						
+				}				
 			}
 		});
 		btn_totalPrice.setBounds(440, 250, 135, 50);

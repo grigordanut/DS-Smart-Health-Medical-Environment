@@ -49,8 +49,7 @@ public class PatientAdministrationClient {
 			@Override
 			public void onCompleted() {
 				System.out.println("Patient registering completed.");	
-				System.out.println("------------------------------\n");
-				
+				System.out.println("------------------------------\n");				
 			}			
 		};
 		
@@ -76,7 +75,7 @@ public class PatientAdministrationClient {
 	//Server Streaming
 	//Display Patients List
 	public static void displayPatients() {
-		// creating request to send server for account stats
+		//creating request to send the patients list
 		DisplayRequest request = DisplayRequest.newBuilder()
 				.setPatList("")
 				.build();
@@ -99,7 +98,7 @@ public class PatientAdministrationClient {
 	}
 	
 	//Unary Call
-	//Calculate Patient Accomodation price
+	//Calculate Patient Accommodation price
 	public static void calculatePrice () {
 			
 		int noDays = 2;
