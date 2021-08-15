@@ -1,4 +1,4 @@
-syntax = "proto3";
+ syntax = "proto3";
  
  option java_multiple_files = true;
  option java_package = "patientMonitoringService";
@@ -18,14 +18,14 @@ syntax = "proto3";
  
  //Unary Call 
  message DeviceRequest{ 
-  	bool deviceStatus = 1;  
+  	string text = 1;  
  }
  
  message DeviceResponse{ 
- 	bool deviceStatus = 1; 
+ 	string value = 1; 
  }
  
- //Bidirectional
+ //Bi-Directional
  message PressureRequest{  
  	float systolic = 1;
  	float diastolic = 2; 	
@@ -34,4 +34,3 @@ syntax = "proto3";
  message PressureResponse{ 
  	string result = 1; 	
  }  
- 

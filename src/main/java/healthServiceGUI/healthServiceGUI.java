@@ -34,7 +34,6 @@ import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdmi
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceStub;
 import patientAdministrationService.RegisterRequest;
 import patientAdministrationService.RegisterResponse;
-import patientMonitoringService.BloodPressureTableGUI;
 import patientMonitoringService.DeviceRequest;
 import patientMonitoringService.DeviceResponse;
 import patientMonitoringService.PatientMonitoringServiceGrpc;
@@ -60,7 +59,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 
 public class healthServiceGUI implements ActionListener {
 	
@@ -70,8 +68,7 @@ public class healthServiceGUI implements ActionListener {
     //Patient Administration Service
     private static PatientAdministrationServiceBlockingStub adminBlockingStub;
     private static PatientAdministrationServiceStub adminAsyncStub;
-    private ServiceInfo adminServiceInfo;
-    
+    private ServiceInfo adminServiceInfo;    
 
     //Patient Monitoring Service
 	private static PatientMonitoringServiceBlockingStub monitoringBlockingStub;
@@ -153,20 +150,20 @@ public class healthServiceGUI implements ActionListener {
         adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
         
         //Discovering Patient Monitoring Service
-//		String monitoring_service_type = "_monitoring._tcp.local.";
-//		discoveryPatientMonitoringService(monitoring_service_type);
-//		int monitoringPort = monitoringServiceInfo.getPort();
-//		
-//		@SuppressWarnings("deprecation")
-//		String monitoringHost = monitoringServiceInfo.getHostAddress();
-//		
-//		ManagedChannel monitoringChannel = ManagedChannelBuilder
-//										.forAddress(monitoringHost, monitoringPort)
-//										.usePlaintext()
-//										.build();
-//		
-//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+		String monitoring_service_type = "_monitoring._tcp.local.";
+		discoveryPatientMonitoringService(monitoring_service_type);
+		int monitoringPort = monitoringServiceInfo.getPort();
+		
+		@SuppressWarnings("deprecation")
+		String monitoringHost = monitoringServiceInfo.getHostAddress();
+		
+		ManagedChannel monitoringChannel = ManagedChannelBuilder
+										.forAddress(monitoringHost, monitoringPort)
+										.usePlaintext()
+										.build();
+		
+		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
 			
 		initialize();
 	}
@@ -295,7 +292,7 @@ public class healthServiceGUI implements ActionListener {
 		frame.getContentPane().add(tabbedPane);			
 		
 		/////////////////////////////////////////////
-		/// Pacient Administration Service        ///
+		/// Patient Administration Service        ///
 		/////////////////////////////////////////////		
 		
 		//Panel Administration Service
@@ -433,7 +430,7 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(RegisterResponse value) {
-							System.out.println("Received request to register patient with, \n" +value.getResult() + "\n");
+							System.out.println("Server responded; Patient registered with, \n" +value.getResult() + "\n");
 							txtArea_patDetails.append(" " + value.getResult());
 							patientList.add(value.getResult());												
 						}
@@ -445,8 +442,8 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onCompleted() {
-							System.out.println("Registering Patient is completed.");
-							System.out.println("---------------------------------\n");							
+							System.out.println("Patient registration completed.");
+							System.out.println("-------------------------------\n");							
 						}						
 					};
 					
@@ -476,7 +473,7 @@ public class healthServiceGUI implements ActionListener {
 		btn_patList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				txtArea_patDetails.setText("");	
+				txtArea_patDetails.setText(" ");	
 				
 				//check if Array List is empty
 		        if (patientList.isEmpty()){
@@ -486,7 +483,9 @@ public class healthServiceGUI implements ActionListener {
 		        
 		        else{ 		        	
 		        		
-		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();	        		
+		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();
+		        	
+		        	System.out.println("Server responded; Patient list is displayed: " + patientList.toString());
 		            	
 		            StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
 
@@ -512,7 +511,7 @@ public class healthServiceGUI implements ActionListener {
 											
 					for(int i = 0; i<patientList.size(); i++) {	
 						
-						txtArea_patDetails.append(" " + patientList.get(i));
+						txtArea_patDetails.append(patientList.get(i) + "\n ");
 						System.out.println(patientList.get(i) + "\n");						
 		            }	 
 					
@@ -560,7 +559,7 @@ public class healthServiceGUI implements ActionListener {
 		lbl_patName.setBounds(20, 250, 110, 25);
 		panel_administration.add(lbl_patName);
 		
-		//Text Field patien
+		//Text Field patient name
 		txt_patName = new JTextField();
 		txt_patName.addMouseListener(new MouseAdapter() {
 			@Override
@@ -635,7 +634,9 @@ public class healthServiceGUI implements ActionListener {
 		btn_totalPrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String patientName = "";
+				textArea_totalPrice.setText(" ");
+				
+				String patientName = " ";
 				int numberDays = (int)0.00;
 				
 				if (txt_patName.getText().isEmpty()) {
@@ -668,7 +669,7 @@ public class healthServiceGUI implements ActionListener {
 					
 					CalculateResponse response = adminBlockingStub.calculatePrice(request);
 					
-					textArea_totalPrice.append(" " + response.getMessage());
+					textArea_totalPrice.append(response.getMessage());
 					System.out.println(response.getMessage());
 					
 					System.out.println("Patient calculate Accommodation Price request completed.");
@@ -690,8 +691,7 @@ public class healthServiceGUI implements ActionListener {
 		separator2A = new JSeparator();
 		separator2A.setBackground(Color.BLACK);
 		separator2A.setBounds(5, 380, 590, 1);
-		panel_administration.add(separator2A);
-		
+		panel_administration.add(separator2A);		
 		
 		/////////////////////////////////////////////
 		/// Patient Monitoring Service            ///
@@ -950,46 +950,57 @@ public class healthServiceGUI implements ActionListener {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(525, 250, 60, 25);
 		panel_monitoring.add(lblNewLabel_1);		
-		
 	}
 
 	//Toggle Button On/Off
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		String statusOn = "On";
+		String statusOff = "Off";
+		
 		if (tglbtn_deviceOnOff.isSelected()) {
 			tglbtn_deviceOnOff.setText("Off");
-			monitoringDeviceOnOff(false);
+			DeviceRequest request = DeviceRequest.newBuilder().setText(statusOn).build();
+			DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);			
+			txt_showStatus.setText(response.getValue());
+			System.out.println("The device has been turned: " + response.getValue());
+			System.out.println("Changing the status of the monitoring device has been completed.");
+			System.out.println("----------------------------------------------------------------");
 		}
 	
 		else {
 			tglbtn_deviceOnOff.setText("On");
-			monitoringDeviceOnOff(true);			
+			DeviceRequest request = DeviceRequest.newBuilder().setText(statusOff).build();
+			DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);			
+			txt_showStatus.setText(response.getValue());
+			System.out.println("The device has been turned: " + response.getValue());
+			System.out.println("Changing the status of the monitoring device has been completed.");
+			System.out.println("----------------------------------------------------------------");						
 		}		
 	}
 	
-	//GRPC Unary procedure call
-	//TURN ON/OFF Monitoring Device		
-	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
-		
-		System.out.println("Recivied request to change the Monitoring Device status");
-		
-		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
-		DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);
-	
-		Boolean status = response.getDeviceStatus();
-		
-		if (status) {
-			txt_showStatus.setText("On");
-			System.out.println("The device has been turned: On");
-		}
-		
-		else {
-			txt_showStatus.setText("Off");
-			System.out.println("The device has been turned: Off");
-		}
-		System.out.println("Changing Monitoring Device status completed.");
-		System.out.println("--------------------------------------------\n");
-		
-	}
+//	//GRPC Unary procedure call
+//	//TURN ON/OFF Monitoring Device		
+//	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
+//		
+//		System.out.println("Recivied request to change the Monitoring Device status");
+//		
+//		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
+//		DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);
+//	
+//		Boolean status = response.getDeviceStatus();
+//		
+//		if (status) {
+//			txt_showStatus.setText("On");
+//			System.out.println("The device has been turned: On");
+//		}
+//		
+//		else {
+//			txt_showStatus.setText("Off");
+//			System.out.println("The device has been turned: Off");
+//		}
+//		System.out.println("Changing Monitoring Device status completed.");
+//		System.out.println("--------------------------------------------\n");		
+//	}
 }

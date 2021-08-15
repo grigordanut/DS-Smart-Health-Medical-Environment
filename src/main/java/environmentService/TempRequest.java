@@ -20,7 +20,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private TempRequest() {
-    temp_ = "";
+    temp_ = 0;
   }
 
   @java.lang.Override
@@ -47,10 +47,9 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 8: {
 
-            temp_ = s;
+            temp_ = input.readInt32();
             break;
           }
           default: {
@@ -86,37 +85,12 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int TEMP_FIELD_NUMBER = 1;
-  private volatile java.lang.Object temp_;
+  private int temp_;
   /**
-   * <code>string temp = 1;</code>
+   * <code>int32 temp = 1;</code>
    */
-  public java.lang.String getTemp() {
-    java.lang.Object ref = temp_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      temp_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string temp = 1;</code>
-   */
-  public com.google.protobuf.ByteString
-      getTempBytes() {
-    java.lang.Object ref = temp_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      temp_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public int getTemp() {
+    return temp_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -133,8 +107,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getTempBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, temp_);
+    if (temp_ != 0) {
+      output.writeInt32(1, temp_);
     }
     unknownFields.writeTo(output);
   }
@@ -145,8 +119,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getTempBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, temp_);
+    if (temp_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, temp_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -164,8 +139,8 @@ private static final long serialVersionUID = 0L;
     environmentService.TempRequest other = (environmentService.TempRequest) obj;
 
     boolean result = true;
-    result = result && getTemp()
-        .equals(other.getTemp());
+    result = result && (getTemp()
+        == other.getTemp());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -178,7 +153,7 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TEMP_FIELD_NUMBER;
-    hash = (53 * hash) + getTemp().hashCode();
+    hash = (53 * hash) + getTemp();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -316,7 +291,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      temp_ = "";
+      temp_ = 0;
 
       return this;
     }
@@ -393,9 +368,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(environmentService.TempRequest other) {
       if (other == environmentService.TempRequest.getDefaultInstance()) return this;
-      if (!other.getTemp().isEmpty()) {
-        temp_ = other.temp_;
-        onChanged();
+      if (other.getTemp() != 0) {
+        setTemp(other.getTemp());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -426,71 +400,28 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object temp_ = "";
+    private int temp_ ;
     /**
-     * <code>string temp = 1;</code>
+     * <code>int32 temp = 1;</code>
      */
-    public java.lang.String getTemp() {
-      java.lang.Object ref = temp_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        temp_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public int getTemp() {
+      return temp_;
     }
     /**
-     * <code>string temp = 1;</code>
+     * <code>int32 temp = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getTempBytes() {
-      java.lang.Object ref = temp_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        temp_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string temp = 1;</code>
-     */
-    public Builder setTemp(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
+    public Builder setTemp(int value) {
+      
       temp_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string temp = 1;</code>
+     * <code>int32 temp = 1;</code>
      */
     public Builder clearTemp() {
       
-      temp_ = getDefaultInstance().getTemp();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string temp = 1;</code>
-     */
-    public Builder setTempBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      temp_ = value;
+      temp_ = 0;
       onChanged();
       return this;
     }

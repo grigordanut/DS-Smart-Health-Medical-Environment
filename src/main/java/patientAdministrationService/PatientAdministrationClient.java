@@ -38,7 +38,7 @@ public class PatientAdministrationClient {
 
 			@Override
 			public void onNext(RegisterResponse value) {
-				System.out.println("Patient Registered with, " + value.getResult());	
+				System.out.println("Server responded; Patient registered with,\n" + value.getResult() + "\n");	
 			}
 
 			@Override
@@ -48,8 +48,8 @@ public class PatientAdministrationClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Patient registering completed.");	
-				System.out.println("------------------------------\n");				
+				System.out.println("Patient registration completed.");	
+				System.out.println("-------------------------------\n");				
 			}			
 		};
 		
@@ -80,17 +80,20 @@ public class PatientAdministrationClient {
 				.setPatList("")
 				.build();
 		
+		System.out.println("Server responded; Patient list is displayed,\n");
+		
 		// try catch for error handling
 		try {
 			// while the server is still responding/ sending data back, keep printing data
 			Iterator<DisplayResponse> responses = adminBlockingStub.displayPatients(request);
 			
 			while (responses.hasNext()) {
-				DisplayResponse temp = responses.next();
-				System.out.println(temp.getAllPatients() + "\n");
+				DisplayResponse patList = responses.next();				
+				System.out.println(patList.getAllPatients() + "\n");
+				//System.out.println(patList.getAllPatients());
 			}
-			System.out.println("Retrieved Patients listing completed.");
-			System.out.println("-------------------------------------\n");
+			System.out.println("Patient display list completed.");
+			System.out.println("-------------------------------\n");
 			
 		} catch (StatusRuntimeException e) {
 			e.printStackTrace();
@@ -107,7 +110,7 @@ public class PatientAdministrationClient {
 		CalculateRequest request = CalculateRequest.newBuilder().setPatName(patName).setNumberDays(noDays).build();
 		CalculateResponse response = adminBlockingStub.calculatePrice(request);
 			
-		System.out.println(response.getMessage());
+		System.out.println("Server responded; Patient's accommodation price calculated,\n" + response.getMessage());
 		System.out.println("Patient calculate Accommodation Price completed.");	
 		System.out.println("------------------------------------------------\n");			
 	}

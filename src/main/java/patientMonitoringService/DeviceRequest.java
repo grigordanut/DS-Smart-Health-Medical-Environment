@@ -20,7 +20,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private DeviceRequest() {
-    deviceStatus_ = false;
+    text_ = "";
   }
 
   @java.lang.Override
@@ -47,9 +47,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
 
-            deviceStatus_ = input.readBool();
+            text_ = s;
             break;
           }
           default: {
@@ -84,13 +85,38 @@ private static final long serialVersionUID = 0L;
             patientMonitoringService.DeviceRequest.class, patientMonitoringService.DeviceRequest.Builder.class);
   }
 
-  public static final int DEVICESTATUS_FIELD_NUMBER = 1;
-  private boolean deviceStatus_;
+  public static final int TEXT_FIELD_NUMBER = 1;
+  private volatile java.lang.Object text_;
   /**
-   * <code>bool deviceStatus = 1;</code>
+   * <code>string text = 1;</code>
    */
-  public boolean getDeviceStatus() {
-    return deviceStatus_;
+  public java.lang.String getText() {
+    java.lang.Object ref = text_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      text_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string text = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getTextBytes() {
+    java.lang.Object ref = text_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      text_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -107,8 +133,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (deviceStatus_ != false) {
-      output.writeBool(1, deviceStatus_);
+    if (!getTextBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, text_);
     }
     unknownFields.writeTo(output);
   }
@@ -119,9 +145,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (deviceStatus_ != false) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(1, deviceStatus_);
+    if (!getTextBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, text_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -139,8 +164,8 @@ private static final long serialVersionUID = 0L;
     patientMonitoringService.DeviceRequest other = (patientMonitoringService.DeviceRequest) obj;
 
     boolean result = true;
-    result = result && (getDeviceStatus()
-        == other.getDeviceStatus());
+    result = result && getText()
+        .equals(other.getText());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -152,9 +177,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + DEVICESTATUS_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getDeviceStatus());
+    hash = (37 * hash) + TEXT_FIELD_NUMBER;
+    hash = (53 * hash) + getText().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -292,7 +316,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      deviceStatus_ = false;
+      text_ = "";
 
       return this;
     }
@@ -320,7 +344,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public patientMonitoringService.DeviceRequest buildPartial() {
       patientMonitoringService.DeviceRequest result = new patientMonitoringService.DeviceRequest(this);
-      result.deviceStatus_ = deviceStatus_;
+      result.text_ = text_;
       onBuilt();
       return result;
     }
@@ -369,8 +393,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(patientMonitoringService.DeviceRequest other) {
       if (other == patientMonitoringService.DeviceRequest.getDefaultInstance()) return this;
-      if (other.getDeviceStatus() != false) {
-        setDeviceStatus(other.getDeviceStatus());
+      if (!other.getText().isEmpty()) {
+        text_ = other.text_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -401,28 +426,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private boolean deviceStatus_ ;
+    private java.lang.Object text_ = "";
     /**
-     * <code>bool deviceStatus = 1;</code>
+     * <code>string text = 1;</code>
      */
-    public boolean getDeviceStatus() {
-      return deviceStatus_;
+    public java.lang.String getText() {
+      java.lang.Object ref = text_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        text_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
-     * <code>bool deviceStatus = 1;</code>
+     * <code>string text = 1;</code>
      */
-    public Builder setDeviceStatus(boolean value) {
-      
-      deviceStatus_ = value;
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      java.lang.Object ref = text_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        text_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string text = 1;</code>
+     */
+    public Builder setText(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      text_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>bool deviceStatus = 1;</code>
+     * <code>string text = 1;</code>
      */
-    public Builder clearDeviceStatus() {
+    public Builder clearText() {
       
-      deviceStatus_ = false;
+      text_ = getDefaultInstance().getText();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string text = 1;</code>
+     */
+    public Builder setTextBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      text_ = value;
       onChanged();
       return this;
     }

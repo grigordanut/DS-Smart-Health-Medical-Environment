@@ -8,7 +8,12 @@ public interface DeviceResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>bool deviceStatus = 1;</code>
+   * <code>string value = 1;</code>
    */
-  boolean getDeviceStatus();
+  java.lang.String getValue();
+  /**
+   * <code>string value = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getValueBytes();
 }

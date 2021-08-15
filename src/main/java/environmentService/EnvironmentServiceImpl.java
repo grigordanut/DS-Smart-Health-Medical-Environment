@@ -44,9 +44,9 @@ public final class EnvironmentServiceImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\021environment.proto\022\022environmentService\"" +
-      "!\n\016CurrentRequest\022\017\n\007current\030\001 \001(\t\"%\n\017Cu" +
+      "!\n\016CurrentRequest\022\017\n\007current\030\001 \001(\005\"%\n\017Cu" +
       "rrentResponse\022\022\n\ncurrentNew\030\001 \001(\t\"\033\n\013Tem" +
-      "pRequest\022\014\n\004temp\030\001 \001(\t\"\037\n\014TempResponse\022\017" +
+      "pRequest\022\014\n\004temp\030\001 \001(\005\"\037\n\014TempResponse\022\017" +
       "\n\007tempNew\030\001 \001(\t2\311\001\n\022EnvironmentService\022_" +
       "\n\022getCurrentRoomTemp\022\".environmentServic" +
       "e.CurrentRequest\032#.environmentService.Cu" +

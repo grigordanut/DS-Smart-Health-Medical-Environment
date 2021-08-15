@@ -27,32 +27,40 @@ public class PatientMonitoringClient {
 
 	}
 	
-	//GRPC Unary remote procedure call
+	//Unary call
 	//TURN ON/OFF Monitoring Device	
 	public static void monitoringDeviceOnOff() {
 		
+		String status = "On";
+		
 		//sent the request
-		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(false).build();
+		DeviceRequest request = DeviceRequest.newBuilder().setText(status).build();
 		
 		//check the response
 		DeviceResponse response = blockingStub.monitoringDeviceOnOff(request);
-		//System.out.println("Server responded with: "+request.getDeviceStatus());
+		
+		System.out.println("Server responded; The Monitoring device has been turned: " + response.getValue());
+		System.out.println("Changing the status of the monitoring device has been completed.");
+		System.out.println("----------------------------------------------------------------\n");
+		
+		
 		
 		//print appropriate response		
-		if(response.getDeviceStatus()) {
-			System.out.println("Server responded with, The Device has been turned: On!");
-			System.out.println("Monitoring Device changing status completed.");
-			System.out.println("--------------------------------------------\n");
-		}
-				
-		else {
-			System.out.println("Server responded with, The Device has been turned: Off!");
-			System.out.println("Monitoring Device changing status completed.");
-			System.out.println("--------------------------------------------\n");
-		}			
+//		if(response.getDeviceStatus()) {
+//			System.out.println("Server responded with: "+request.getDeviceStatus());
+//			//System.out.println("Server responded; The Monitoring device has been turned: On.");
+//			System.out.println("Changing the status of the monitoring device has been completed.");
+//			System.out.println("----------------------------------------------------------------\n");
+//		}
+//				
+//		else {
+//			System.out.println("Server responded with, The Monitotoring Device has been turned: Off");
+//			System.out.println("Monitoring Device changing status completed.");
+//			System.out.println("--------------------------------------------\n");
+//		}			
 	}
 	
-	//GRPC Bidirectional remote procedure call	
+	//Bi-Directional	
 	//Blood Pressure monitoring
 	public static void bloodPressure() {
 		
@@ -60,7 +68,7 @@ public class PatientMonitoringClient {
 
 			@Override
 			public void onNext(PressureResponse value) {
-				System.out.println("Received Blood Pressure request result: " + value.getResult());				
+				System.out.println("Server responded; Received Blood Pressure request result: " + value.getResult());				
 			}
 
 			@Override
@@ -71,8 +79,7 @@ public class PatientMonitoringClient {
 			@Override
 			public void onCompleted() {
 				System.out.println("Blood Pressure receiving completed.");
-				System.out.println("-----------------------------------\n");
-				
+				System.out.println("-----------------------------------\n");				
 			}			
 		};
 		

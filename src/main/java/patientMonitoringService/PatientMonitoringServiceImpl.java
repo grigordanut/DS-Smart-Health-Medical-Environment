@@ -44,19 +44,19 @@ public final class PatientMonitoringServiceImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\030patient_monitoring.proto\022\030patientMonit" +
-      "oringService\"%\n\rDeviceRequest\022\024\n\014deviceS" +
-      "tatus\030\001 \001(\010\"&\n\016DeviceResponse\022\024\n\014deviceS" +
-      "tatus\030\001 \001(\010\"6\n\017PressureRequest\022\020\n\010systol" +
-      "ic\030\001 \001(\002\022\021\n\tdiastolic\030\002 \001(\002\"\"\n\020PressureR" +
-      "esponse\022\016\n\006result\030\001 \001(\t2\366\001\n\030PatientMonit" +
-      "oringService\022l\n\025monitoringDeviceOnOff\022\'." +
-      "patientMonitoringService.DeviceRequest\032(" +
-      ".patientMonitoringService.DeviceResponse" +
-      "\"\000\022l\n\rbloodPressure\022).patientMonitoringS" +
-      "ervice.PressureRequest\032*.patientMonitori" +
-      "ngService.PressureResponse\"\000(\0010\001B:\n\030pati" +
-      "entMonitoringServiceB\034PatientMonitoringS" +
-      "erviceImplP\001b\006proto3"
+      "oringService\"\035\n\rDeviceRequest\022\014\n\004text\030\001 " +
+      "\001(\t\"\037\n\016DeviceResponse\022\r\n\005value\030\001 \001(\t\"6\n\017" +
+      "PressureRequest\022\020\n\010systolic\030\001 \001(\002\022\021\n\tdia" +
+      "stolic\030\002 \001(\002\"\"\n\020PressureResponse\022\016\n\006resu" +
+      "lt\030\001 \001(\t2\366\001\n\030PatientMonitoringService\022l\n" +
+      "\025monitoringDeviceOnOff\022\'.patientMonitori" +
+      "ngService.DeviceRequest\032(.patientMonitor" +
+      "ingService.DeviceResponse\"\000\022l\n\rbloodPres" +
+      "sure\022).patientMonitoringService.Pressure" +
+      "Request\032*.patientMonitoringService.Press" +
+      "ureResponse\"\000(\0010\001B:\n\030patientMonitoringSe" +
+      "rviceB\034PatientMonitoringServiceImplP\001b\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -75,13 +75,13 @@ public final class PatientMonitoringServiceImpl {
     internal_static_patientMonitoringService_DeviceRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_patientMonitoringService_DeviceRequest_descriptor,
-        new java.lang.String[] { "DeviceStatus", });
+        new java.lang.String[] { "Text", });
     internal_static_patientMonitoringService_DeviceResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_patientMonitoringService_DeviceResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_patientMonitoringService_DeviceResponse_descriptor,
-        new java.lang.String[] { "DeviceStatus", });
+        new java.lang.String[] { "Value", });
     internal_static_patientMonitoringService_PressureRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_patientMonitoringService_PressureRequest_fieldAccessorTable = new

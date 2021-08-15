@@ -8,14 +8,11 @@ import environment_pb2_grpc
 
 class EnvironmentServer(environment_pb2_grpc.EnvironmentServiceServicer):
 
-    maxTemp = 24
-    mintTemp = 16
-
     def getCurrentRoomTemp(self, request, context):
-        return environment_pb2.CurrentResponse(currentNew='The current temperature is: %s C!' % request.current)
+        return environment_pb2.CurrentResponse(currentNew='The current temperature is: %s C.' % request.current)
 
     def setRoomTemp(self, request, context):
-        return environment_pb2.TempResponse(tempNew='The temperature has been set to: %s C!' % request.temp)
+        return environment_pb2.TempResponse(tempNew='The temperature has been set to: %s C.' % request.temp)
 
 
 def serve():

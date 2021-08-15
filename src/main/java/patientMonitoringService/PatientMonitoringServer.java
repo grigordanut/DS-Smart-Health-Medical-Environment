@@ -17,7 +17,7 @@ import patientMonitoringService.PatientMonitoringServiceGrpc.PatientMonitoringSe
 
 public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 	
-	private boolean updateDevice = false;		
+	//private boolean updateDevice = false;		
 
 	public static void main(String[] args) {
 		
@@ -35,7 +35,8 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 										.build()
 										.start();
 			
-			System.out.println("Patient Monitoring Server started listening on port: " +port +"\n");
+			System.out.println("Patient Monitoring Server started listening on port: " + port);
+			System.out.println("------------------------------------------------------\n");	
 			
 			server.awaitTermination();			
 			
@@ -46,7 +47,6 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 	
 	private Properties getProperties() {
@@ -116,29 +116,28 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
+		}		
 	}
 	
-	//GRPC Unary remote procedure call
+	//Unary call
 	//TURN ON/OFF Monitoring Device	
 	@Override
-	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {
+	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {		
+				
+		System.out.println("Receiving Monitoring Device status change request: " + request.getText());
 		
-		System.out.println("Received request for changing Monititoring Device status!");
+		//updateDevice = !updateDevice;
 		
-		updateDevice = !updateDevice;
-		
-		DeviceResponse reply = DeviceResponse.newBuilder().setDeviceStatus(updateDevice).build();
+		DeviceResponse reply = DeviceResponse.newBuilder().setValue(request.getText()).build();
 		
 		responseObserver.onNext(reply);
 		responseObserver.onCompleted();
 		
-		System.out.println("Monititoring Device changing status request completed.");
-		System.out.println("------------------------------------------------------\n");		
+		System.out.println("Monitoring Device status changing request completed.");
+		System.out.println("----------------------------------------------------\n");		
 	}
 	
-	//GRPC Bidirectional remote procedure call	
+	//Bi-Directional
 	//Blood Pressure monitoring
 	public StreamObserver<PressureRequest> bloodPressure(StreamObserver<PressureResponse> responseObserver){
 		return new StreamObserver<PressureRequest>() {
@@ -146,8 +145,9 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			@Override
 			public void onNext(PressureRequest value) {
 				
-				System.out.println("Received systolic Blood Pressure: " + value.getSystolic() + "/mmHg");
-				System.out.println("Received diastolic Blood Pressure: " + value.getDiastolic() + "/mmHg");					
+				System.out.println("Receiving Blood Pressure check request with,");				
+				System.out.println("Systolic Blood Pressure value: " + value.getSystolic() + "/mmHg");
+				System.out.println("Diastolic Blood Pressure value " + value.getDiastolic() + "/mmHg");					
 			
 				String result = "";
 				
@@ -213,8 +213,8 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			@Override
 			public void onCompleted() {					
 				
-				System.out.println("Blood Pressure receiving request completed.");
-				System.out.println("-------------------------------------------\n");
+				System.out.println("Blood Pressure checking request completed.");
+				System.out.println("------------------------------------------\n");
 				
 				//completed too
 				responseObserver.onCompleted();				

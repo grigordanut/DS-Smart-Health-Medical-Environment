@@ -33,7 +33,8 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 											.build()
 											.start();
 			
-			System.out.println("Patient Administration Server started listening on port: " + adminPort +"\n");
+			System.out.println("Patient Administration Server started listening on port: " + adminPort);
+			System.out.println("--------------------------------------------------------------\n");
 			
 			adminServer.awaitTermination();
 			
@@ -116,17 +117,18 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 		}			
 	}
 		
-	//Client Streaming
-	//Patient Register service
+	//Client streaming
+	//Patient Registration 
 	public StreamObserver<RegisterRequest> registerPatient(StreamObserver<RegisterResponse> responseObserver){
 		
 		return new StreamObserver<RegisterRequest>() {
 
 			@Override
 			public void onNext(RegisterRequest value) {
-				System.out.println("Request received to register patient with, Name:\n" + value.getName()
+				System.out.println("Receiving patient registration request with,\nName: " + value.getName()
 																			+ ", Age: " + value.getAge()
-																			+ ", Gender: " + value.getGender() + "\n");
+																			+ ", Gender: " + value.getGender() 
+																			+ "\n");
 				
 				String result = ("Patient Name: " + value.getName() 
 												+ ", Age: " + value.getAge() 
@@ -152,9 +154,11 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 		};
 	}
 	
+	//Server streaming
+	//Display list of patients
 	public void displayPatients(DisplayRequest request, StreamObserver<DisplayResponse> responseObserver) {
 		
-		System.out.print("Receiving a request to show the patient list.\n\n" + request.getPatList());
+		System.out.print("Receiving patient list display request,\n\n" + request.getPatList());
 
 		ArrayList<String> patList = new ArrayList<String>();
 		patList.add("Patient Name: Grigor Danut, Age: 51, Gender: male");
@@ -165,11 +169,11 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 
 		for (int i = 0; i <  patList.size(); i++) {
 
-			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients( patList.get(i)).build();
+			DisplayResponse reply = DisplayResponse.newBuilder().setAllPatients(patList.get(i)).build();
 			
 			responseObserver.onNext(reply);
 			
-			System.out.println("Show details of patient: " + i + "\n" +  patList.set(i, null) +"\n");			
+			System.out.println("Display details of patient: " + i + "\n" + patList.set(i, null) +"\n");			
 			
 			// error handling
 			try {
@@ -179,19 +183,18 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			}
 		}
 		
-		System.out.println("Showing Patients list completed.");
+		System.out.println("Patient listing request completed.");
 		System.out.println("--------------------------------\n");
 		responseObserver.onCompleted();			
 	}	
 	
-	//Unary Call
+	//Unary call
 	//Calculate Patient Accommodation price
 	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
 		
-		System.out.println("Receiving request to calculate accommodation price for:\n" 
-											+ request.getPatName() + ", for: " 
-											+ request.getNumberDays() +" days " + ", in a: "
-											+ request.getRoom() + " room.\n");
+		System.out.println("Receiving patient accommodation price calculation request for,\nName: " + request.getPatName()
+																				+ ", for: " + request.getNumberDays() +" days, " 
+																				+ " in a: " + request.getRoom() + " room.\n");
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
@@ -235,7 +238,7 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 		responseObserver.onNext(reply);			
 		
 		responseObserver.onCompleted();		
-		System.out.println("Patient calculate Accommodation Price request completed.");
-		System.out.println("--------------------------------------------------------\n");		
+		System.out.println("Patient accommodation price calculation request completed.");
+		System.out.println("----------------------------------------------------------\n");		
 	}
 }

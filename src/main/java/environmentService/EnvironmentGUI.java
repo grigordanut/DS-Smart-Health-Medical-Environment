@@ -23,18 +23,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JPasswordField;
 
 public class EnvironmentGUI {
 	
-	//declare an array list patientList of Register class and set to null
-    public static ArrayList <String> tempList = null;
+	private Integer setTemp = null;
 
 	private JFrame frame;
 	
 	private static EnvironmentServiceBlockingStub envBlockingStub;	
 	JTextArea textArea_showTemp;
-	private JTextField txt_setTemp;
-	
+	private JTextField txt_setTemp;	
 
 	/**
 	 * Launch the application.
@@ -55,10 +54,7 @@ public class EnvironmentGUI {
 	/**
 	 * Create the application.
 	 */
-	public EnvironmentGUI() {
-		
-        //initalize a new Array List patientList
-        tempList = new ArrayList<String>(); 	
+	public EnvironmentGUI() {       
 		
 		ManagedChannel envChannel = ManagedChannelBuilder
 								.forAddress("localhost", 50054)
@@ -80,40 +76,47 @@ public class EnvironmentGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lbl_environmentService = new JLabel("New label");
-		lbl_environmentService.setBounds(194, 28, 242, 39);
+		JLabel lbl_environmentService = new JLabel("Enviromental Service");
+		lbl_environmentService.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_environmentService.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbl_environmentService.setBounds(200, 30, 240, 40);
 		frame.getContentPane().add(lbl_environmentService);
 		
 		JButton btn_showTemp = new JButton("Show Current Temp");
 		btn_showTemp.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_showTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea_showTemp.setText(" ");
+				textArea_showTemp.setText(null);				
 				
-		        if (tempList.isEmpty()){
-		        	
-		        	String curentTemp = "20";
+				if (setTemp == null) {	
+					
+					int curentTemp = (int)20;
 					
 					CurrentRequest request = CurrentRequest.newBuilder().setCurrent(curentTemp).build();
 					
 					CurrentResponse response = envBlockingStub.getCurrentRoomTemp(request);
 					System.out.println(response.getCurrentNew());					
-					textArea_showTemp.append(response.getCurrentNew());			        	
-		        }
-		        
-		        else {
-		        	for (int i = 0; i < tempList.size(); i++) {
-		        		textArea_showTemp.append(tempList.get(-1));
-		        	}
-		        }
+					textArea_showTemp.append(" " + response.getCurrentNew());						
+				}
+				
+				else {	
+					
+					//textArea_showTemp.setText(null);		        	
+	        	
+					CurrentRequest request = CurrentRequest.newBuilder().setCurrent(setTemp).build();
+				
+					CurrentResponse response = envBlockingStub.getCurrentRoomTemp(request);										
+					textArea_showTemp.append(" " + response.getCurrentNew());	
+					System.out.println(response.getCurrentNew());
+				}		        	        
 			}
 		});
-		btn_showTemp.setBounds(36, 128, 230, 39);
+		btn_showTemp.setBounds(30, 120, 230, 40);
 		frame.getContentPane().add(btn_showTemp);
 		
 		textArea_showTemp = new JTextArea();
 		textArea_showTemp.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textArea_showTemp.setBounds(302, 128, 370, 39);
+		textArea_showTemp.setBounds(280, 120, 350, 40);
 		frame.getContentPane().add(textArea_showTemp);
 		
 		JButton btn_setTemp = new JButton("Set New Temp");
@@ -121,27 +124,32 @@ public class EnvironmentGUI {
 		btn_setTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				textArea_showTemp.setText(" ");
-				int temp = (int)0;
+				textArea_showTemp.setText(" ");				
 				
 				if (txt_setTemp.getText().isEmpty()){
+					
 					JOptionPane.showMessageDialog(null, "Plase enter the new temperature");
 					txt_setTemp.requestFocus();
 				}
 				
 				else {
-					temp = Integer.parseInt(txt_setTemp.getText().toString());
-					TempRequest request = TempRequest.newBuilder().setTemp(String.valueOf(temp)).build();
+					
+					setTemp = Integer.parseInt(txt_setTemp.getText().toString());
+					TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
+					
+					System.out.println("Request received to change the environment temperarure to: " + request.getTemp() + " C!");
 					
 					TempResponse response = envBlockingStub.setRoomTemp(request);
-					tempList.add(response.getTempNew() + "\n");
 					textArea_showTemp.append(response.getTempNew());
-					System.out.println(response.getTempNew());		
-							
+					System.out.println(response.getTempNew());	
+					
+					System.out.println("Changing the environment temperature completed.");
+					System.out.println("------------------------------------------------");
+					
 				}	
 			}
 		});
-		btn_setTemp.setBounds(36, 192, 230, 39);
+		btn_setTemp.setBounds(30, 200, 230, 39);
 		frame.getContentPane().add(btn_setTemp);
 		
 		txt_setTemp = new JTextField();
@@ -150,11 +158,13 @@ public class EnvironmentGUI {
 			public void keyPressed(KeyEvent e) {
 				
 				int key = e.getKeyCode();
+				
 	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
 	            	txt_setTemp.setEditable(true);
 	            }
 	            
-	            else{	                
+	            else{
+	            	
 	                //show message box                 
 	                JOptionPane.showMessageDialog(null, "Enter numbers only, letters or any special characters are not allowed"); 
 	                txt_setTemp.setEditable(true);
@@ -171,21 +181,10 @@ public class EnvironmentGUI {
 		});
 		txt_setTemp.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_setTemp.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txt_setTemp.setBounds(314, 195, 146, 39);
+		txt_setTemp.setBounds(280, 200, 100, 40);
 		frame.getContentPane().add(txt_setTemp);
 		txt_setTemp.setColumns(10);
 		
 		
 	}
-	
-//	public void getCurrentRoomTemp() throws io.grpc.StatusRuntimeException{
-//		CurrentResponse response = envBlockingStub.getCurrentRoomTemp(null);
-//		System.out.println(response.getOldTemp());
-//		try {
-//			textArea_showTemp.append(" The current temperratutre is " + response.getOldTemp() + " oC");
-//		}catch(StatusRuntimeException e){
-//			System.out.println(e.getStatus());
-//		}
-//	}	
-
 }

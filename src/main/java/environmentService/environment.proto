@@ -18,7 +18,7 @@
 
  //Unary call
  message CurrentRequest{
- 	string current = 1;
+ 	int32 current = 1;
  }
 
  message CurrentResponse{
@@ -27,7 +27,7 @@
 
  //Unary call
  message TempRequest{
-	string temp = 1;
+	int32 temp = 1;
  }
 
  message TempResponse{

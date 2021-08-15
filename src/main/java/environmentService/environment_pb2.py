@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\022environmentServiceB\026EnvironmentServiceImplP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"!\n\x0e\x43urrentRequest\x12\x0f\n\x07\x63urrent\x18\x01 \x01(\t\"%\n\x0f\x43urrentResponse\x12\x12\n\ncurrentNew\x18\x01 \x01(\t\"\x1b\n\x0bTempRequest\x12\x0c\n\x04temp\x18\x01 \x01(\t\"\x1f\n\x0cTempResponse\x12\x0f\n\x07tempNew\x18\x01 \x01(\t2\xc9\x01\n\x12\x45nvironmentService\x12_\n\x12getCurrentRoomTemp\x12\".environmentService.CurrentRequest\x1a#.environmentService.CurrentResponse\"\x00\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x11\x65nvironment.proto\x12\x12\x65nvironmentService\"!\n\x0e\x43urrentRequest\x12\x0f\n\x07\x63urrent\x18\x01 \x01(\x05\"%\n\x0f\x43urrentResponse\x12\x12\n\ncurrentNew\x18\x01 \x01(\t\"\x1b\n\x0bTempRequest\x12\x0c\n\x04temp\x18\x01 \x01(\x05\"\x1f\n\x0cTempResponse\x12\x0f\n\x07tempNew\x18\x01 \x01(\t2\xc9\x01\n\x12\x45nvironmentService\x12_\n\x12getCurrentRoomTemp\x12\".environmentService.CurrentRequest\x1a#.environmentService.CurrentResponse\"\x00\x12R\n\x0bsetRoomTemp\x12\x1f.environmentService.TempRequest\x1a .environmentService.TempResponse\"\x00\x42.\n\x12\x65nvironmentServiceB\x16\x45nvironmentServiceImplP\x01\x62\x06proto3'
 )
 
 
@@ -35,8 +35,8 @@ _CURRENTREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='current', full_name='environmentService.CurrentRequest.current', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -99,8 +99,8 @@ _TEMPREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='temp', full_name='environmentService.TempRequest.temp', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
