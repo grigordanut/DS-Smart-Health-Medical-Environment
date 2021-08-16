@@ -39,11 +39,9 @@ public class PatientMonitoringClient {
 		//check the response
 		DeviceResponse response = blockingStub.monitoringDeviceOnOff(request);
 		
-		System.out.println("Server responded; The Monitoring device has been turned: " + response.getValue());
+		System.out.println("Server responded; The Monitoring Device has been turned: " + response.getValue());
 		System.out.println("Changing the status of the monitoring device has been completed.");
-		System.out.println("----------------------------------------------------------------\n");
-		
-		
+		System.out.println("----------------------------------------------------------------\n");		
 		
 		//print appropriate response		
 //		if(response.getDeviceStatus()) {
@@ -68,7 +66,7 @@ public class PatientMonitoringClient {
 
 			@Override
 			public void onNext(PressureResponse value) {
-				System.out.println("Server responded; Received Blood Pressure request result: " + value.getResult());				
+				System.out.println("Server responded; The result of blood checking is: " + value.getResult());				
 			}
 
 			@Override
@@ -78,8 +76,8 @@ public class PatientMonitoringClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Blood Pressure receiving completed.");
-				System.out.println("-----------------------------------\n");				
+				System.out.println("Blood Pressure check completed.");
+				System.out.println("-------------------------------\n");				
 			}			
 		};
 		

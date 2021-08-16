@@ -279,16 +279,14 @@ public class healthServiceGUI implements ActionListener {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setType(Type.UTILITY);
 		frame.getContentPane().setBackground(new Color(234, 234, 234));
 		frame.setFont(new Font("Dialog", Font.BOLD, 20));
-		frame.setTitle("Smart Medical Environment");
-		frame.setBounds(100, 100, 635, 555);
+		frame.setBounds(100, 100, 635, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);		
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(5, 5, 605, 495);
+		tabbedPane.setBounds(5, 50, 605, 495);
 		frame.getContentPane().add(tabbedPane);			
 		
 		/////////////////////////////////////////////
@@ -298,7 +296,7 @@ public class healthServiceGUI implements ActionListener {
 		//Panel Administration Service
 		JPanel panel_administration = new JPanel();
 		panel_administration.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tabbedPane.addTab("Patient Administration", null, panel_administration, "Accomodation Service");
+		tabbedPane.addTab("Patient Administration Service", null, panel_administration, "Accomodation Service");
 		panel_administration.setLayout(null);		
 		
 		////////////////////////
@@ -481,11 +479,11 @@ public class healthServiceGUI implements ActionListener {
 		            txt_patientName.requestFocus();
 		        }  
 		        
-		        else{ 		        	
-		        		
-		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();
+		        else{ 		        
 		        	
-		        	System.out.println("Server responded; Patient list is displayed: " + patientList.toString());
+		        	System.out.println("Server responded; Patient list is displayed:\n");
+		        		
+		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();		        	
 		            	
 		            StreamObserver<DisplayResponse> responseObserver = new StreamObserver<DisplayResponse>() {
 
@@ -502,12 +500,10 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onCompleted() {
-							System.out.println("Displaying patient list request completed.");
-							System.out.println("------------------------------------------\n");
+							System.out.println("The display of the patient list has been completed.");
+							System.out.println("---------------------------------------------------\n");
 						}			
 					};
-					
-					System.out.println("Received request to show the Patients list:\n");
 											
 					for(int i = 0; i<patientList.size(); i++) {	
 						
@@ -662,18 +658,19 @@ public class healthServiceGUI implements ActionListener {
 													.setRoom(room)
 													.build();
 					
-					System.out.println("Receiving request to calculate accommodation price for:\n" 
-														+ request.getPatName() + ", for: " 
-														+ request.getNumberDays() +" days " + ", in a: " 
-														+ request.getRoom() + " room.\n");
+//					System.out.println("Receiving request to calculate accommodation price for:\n" 
+//														+ request.getPatName() + ", for: " 
+//														+ request.getNumberDays() +" days " + ", in a: " 
+//														+ request.getRoom() + " room.\n");
 					
 					CalculateResponse response = adminBlockingStub.calculatePrice(request);
 					
 					textArea_totalPrice.append(response.getMessage());
-					System.out.println(response.getMessage());
+					System.out.println("Server responded; Patient's accommodation price calculated,\n" 
+																				+ response.getMessage());
 					
-					System.out.println("Patient calculate Accommodation Price request completed.");
-					System.out.println("--------------------------------------------------------\n");						
+					System.out.println("Calculation of the patient's accommodation price completed.");
+					System.out.println("-----------------------------------------------------------\n");						
 				}				
 			}
 		});
@@ -682,7 +679,7 @@ public class healthServiceGUI implements ActionListener {
 		
 		////Text Area show the pacient accommodation price 
 		textArea_totalPrice = new JTextArea();
-		textArea_totalPrice.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textArea_totalPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textArea_totalPrice.setEditable(false);
 		textArea_totalPrice.setBounds(20, 315, 555, 50);
 		panel_administration.add(textArea_totalPrice);
@@ -690,7 +687,7 @@ public class healthServiceGUI implements ActionListener {
 		//Services separator 2 Administration	
 		separator2A = new JSeparator();
 		separator2A.setBackground(Color.BLACK);
-		separator2A.setBounds(5, 380, 590, 1);
+		separator2A.setBounds(5, 385, 590, 1);
 		panel_administration.add(separator2A);		
 		
 		/////////////////////////////////////////////
@@ -700,7 +697,7 @@ public class healthServiceGUI implements ActionListener {
 		//Panel Patient Monitoring Service
 		JPanel panel_monitoring = new JPanel();
 		panel_monitoring.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tabbedPane.addTab("Patient Monitoring", null, panel_monitoring, "Monitoring Service");
+		tabbedPane.addTab("Patient Monitoring Service", null, panel_monitoring, "Monitoring Service");
 		panel_monitoring.setLayout(null);			
 
 		/////////////////////////////////////////
@@ -708,7 +705,7 @@ public class healthServiceGUI implements ActionListener {
 		/////////////////////////////////////////
 
 		//Main Label Patient Monitoring Service
-		JLabel lbl_monitoringService = new JLabel("Patient Monitoring Service");
+		JLabel lbl_monitoringService = new JLabel("Patient Monitoring Device");
 		lbl_monitoringService.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_monitoringService.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lbl_monitoringService.setBounds(170, 10, 280, 25);
@@ -770,7 +767,7 @@ public class healthServiceGUI implements ActionListener {
 		JTextArea textA_bloodPressure = new JTextArea();
 		textA_bloodPressure.setEditable(false);
 		textA_bloodPressure.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		textA_bloodPressure.setBounds(15, 190, 315, 125);
+		textA_bloodPressure.setBounds(15, 230, 315, 125);
 		textA_bloodPressure.setText("  Measure your blood pressure to: "
 			+ "\r\n -helps health team to diagnose any "
 			+ "\r\n health problems early. "
@@ -783,14 +780,14 @@ public class healthServiceGUI implements ActionListener {
 		JLabel lbl_bpResults = new JLabel("Blood Pressure Resuts");
 		lbl_bpResults.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_bpResults.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lbl_bpResults.setBounds(380, 190, 190, 25);
+		lbl_bpResults.setBounds(380, 230, 190, 25);
 		panel_monitoring.add(lbl_bpResults);
 	
 		//Label systolic results
 		JLabel lbl_systolic = new JLabel("Systolic:");
 		lbl_systolic.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_systolic.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_systolic.setBounds(355, 220, 75, 25);
+		lbl_systolic.setBounds(355, 260, 75, 25);
 		panel_monitoring.add(lbl_systolic);		
 	
 		//Text Field systolic results
@@ -824,7 +821,7 @@ public class healthServiceGUI implements ActionListener {
 		});
 		txt_systolic.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_systolic.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txt_systolic.setBounds(430, 220, 90, 25);
+		txt_systolic.setBounds(430, 260, 90, 25);
 		panel_monitoring.add(txt_systolic);
 		txt_systolic.setColumns(10);		
 	
@@ -832,7 +829,7 @@ public class healthServiceGUI implements ActionListener {
 		JLabel lblNewLabel_2 = new JLabel("Diastolic");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(355, 250, 75, 25);
+		lblNewLabel_2.setBounds(355, 290, 75, 25);
 		panel_monitoring.add(lblNewLabel_2);
 	
 		//Text Field diastolic results
@@ -865,7 +862,7 @@ public class healthServiceGUI implements ActionListener {
 		});
 		txt_diastolic.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_diastolic.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txt_diastolic.setBounds(430, 250, 90, 25);
+		txt_diastolic.setBounds(430, 290, 90, 25);
 		panel_monitoring.add(txt_diastolic);
 		txt_diastolic.setColumns(10);
 	
@@ -896,7 +893,7 @@ public class healthServiceGUI implements ActionListener {
 						@Override
 						public void onNext(PressureResponse value) {
 							txt_bpCategory.setText(value.getResult());	
-							System.out.println("Received Blood Pressure request result is: " + value.getResult());
+							System.out.println("Server responded; The result of blood checking is: " + value.getResult());
 						}
 	
 						@Override
@@ -906,8 +903,8 @@ public class healthServiceGUI implements ActionListener {
 	
 						@Override
 						public void onCompleted() {							
-							System.out.println("Blood Pressure checking request is completed.");
-							System.out.println("---------------------------------------------");
+							System.out.println("Blood Pressure check completed.");
+							System.out.println("-------------------------------");
 						}					
 					};
 	
@@ -919,37 +916,50 @@ public class healthServiceGUI implements ActionListener {
 				}
 			}
 		});
-		btn_submit.setBounds(415, 285, 125, 30);
+		btn_submit.setBounds(415, 325, 125, 30);
 		panel_monitoring.add(btn_submit);
 	
 		//Label blood pressure category
 		JLabel lbl_bpCategory = new JLabel("Blood Pressure Category:");
 		lbl_bpCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_bpCategory.setBounds(15, 320, 180, 30);
+		lbl_bpCategory.setBounds(15, 360, 180, 30);
 		panel_monitoring.add(lbl_bpCategory);
 	
 		//Text Field blood pressure category
 		txt_bpCategory = new JTextField();
 		txt_bpCategory.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txt_bpCategory.setBounds(200, 325, 375, 25);
+		txt_bpCategory.setBounds(200, 365, 380, 25);
 		panel_monitoring.add(txt_bpCategory);
 		txt_bpCategory.setColumns(10);	
 	
 		//Services separator 2		
 		separator2M = new JSeparator();
 		separator2M.setBackground(Color.BLACK);
-		separator2M.setBounds(5, 360, 590, 1);
+		separator2M.setBounds(5, 400, 590, 1);
 		panel_monitoring.add(separator2M);
 	
 		JLabel lblNewLabel = new JLabel("mmHg");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(525, 220, 60, 25);
+		lblNewLabel.setBounds(525, 260, 60, 25);
 		panel_monitoring.add(lblNewLabel);
 	
 		JLabel lblNewLabel_1 = new JLabel("mmHg");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(525, 250, 60, 25);
+		lblNewLabel_1.setBounds(525, 290, 60, 25);
 		panel_monitoring.add(lblNewLabel_1);		
+		
+		JLabel lblNewLabel_3 = new JLabel("Blood Pressure Monitoring");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_3.setBounds(170, 190, 280, 25);
+		panel_monitoring.add(lblNewLabel_3);
+		
+		JLabel lbl_appTitle = new JLabel("Smart Medical Environment");
+		lbl_appTitle.setForeground(Color.WHITE);
+		lbl_appTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbl_appTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_appTitle.setBounds(150, 5, 300, 35);
+		frame.getContentPane().add(lbl_appTitle);
 	}
 
 	//Toggle Button On/Off
@@ -964,7 +974,7 @@ public class healthServiceGUI implements ActionListener {
 			DeviceRequest request = DeviceRequest.newBuilder().setText(statusOn).build();
 			DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);			
 			txt_showStatus.setText(response.getValue());
-			System.out.println("The device has been turned: " + response.getValue());
+			System.out.println("The Monitoring Device has been turned: " + response.getValue());
 			System.out.println("Changing the status of the monitoring device has been completed.");
 			System.out.println("----------------------------------------------------------------");
 		}
@@ -974,33 +984,9 @@ public class healthServiceGUI implements ActionListener {
 			DeviceRequest request = DeviceRequest.newBuilder().setText(statusOff).build();
 			DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);			
 			txt_showStatus.setText(response.getValue());
-			System.out.println("The device has been turned: " + response.getValue());
+			System.out.println("The Monitoring Device has been turned: " + response.getValue());
 			System.out.println("Changing the status of the monitoring device has been completed.");
 			System.out.println("----------------------------------------------------------------");						
 		}		
 	}
-	
-//	//GRPC Unary procedure call
-//	//TURN ON/OFF Monitoring Device		
-//	public void monitoringDeviceOnOff(boolean monitoringDeviceOnOff) {
-//		
-//		System.out.println("Recivied request to change the Monitoring Device status");
-//		
-//		DeviceRequest request = DeviceRequest.newBuilder().setDeviceStatus(monitoringDeviceOnOff).build();
-//		DeviceResponse response = monitoringBlockingStub.monitoringDeviceOnOff(request);
-//	
-//		Boolean status = response.getDeviceStatus();
-//		
-//		if (status) {
-//			txt_showStatus.setText("On");
-//			System.out.println("The device has been turned: On");
-//		}
-//		
-//		else {
-//			txt_showStatus.setText("Off");
-//			System.out.println("The device has been turned: Off");
-//		}
-//		System.out.println("Changing Monitoring Device status completed.");
-//		System.out.println("--------------------------------------------\n");		
-//	}
 }

@@ -36,7 +36,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 										.start();
 			
 			System.out.println("Patient Monitoring Server started listening on port: " + port);
-			System.out.println("------------------------------------------------------\n");	
+			System.out.println("----------------------------------------------------------\n");	
 			
 			server.awaitTermination();			
 			
