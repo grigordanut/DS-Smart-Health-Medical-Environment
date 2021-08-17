@@ -94,20 +94,22 @@ public class EnvironmentGUI {
 					
 					CurrentRequest request = CurrentRequest.newBuilder().setCurrent(curentTemp).build();
 					
-					CurrentResponse response = envBlockingStub.getCurrentRoomTemp(request);
-					System.out.println(response.getCurrentNew());					
-					textArea_showTemp.append(" " + response.getCurrentNew());						
+					CurrentResponse response = envBlockingStub.getCurrentRoomTemp(request);									
+					textArea_showTemp.append(" " + response.getCurrentNew());	
+					System.out.println(response.getCurrentNew());	
+					System.out.println("Displaying the current temperature has been completed.");
+					System.out.println("------------------------------------------------------\n");
 				}
 				
-				else {	
-					
-					//textArea_showTemp.setText(null);		        	
+				else {	        	
 	        	
 					CurrentRequest request = CurrentRequest.newBuilder().setCurrent(setTemp).build();
 				
 					CurrentResponse response = envBlockingStub.getCurrentRoomTemp(request);										
 					textArea_showTemp.append(" " + response.getCurrentNew());	
-					System.out.println(response.getCurrentNew());
+					System.out.println(response.getCurrentNew());	
+					System.out.println("Displaying the current temperature has been completed.");
+					System.out.println("------------------------------------------------------\n");
 				}		        	        
 			}
 		});
@@ -124,6 +126,9 @@ public class EnvironmentGUI {
 		btn_setTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				int minTemp = (int) 16;
+				int maxTemp = (int) 24;
+				
 				textArea_showTemp.setText(" ");				
 				
 				if (txt_setTemp.getText().isEmpty()){
@@ -133,19 +138,42 @@ public class EnvironmentGUI {
 				}
 				
 				else {
-					
 					setTemp = Integer.parseInt(txt_setTemp.getText().toString());
-					TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
 					
-					System.out.println("Request received to change the environment temperarure to: " + request.getTemp() + " C!");
+					if (setTemp < minTemp) {
+						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
+						
+						TempResponse response = envBlockingStub.setRoomTemp(request);
+						JOptionPane.showMessageDialog(null, response.getTempNew());
+						System.out.println(response.getTempNew());	
+						
+						System.out.println("Changing the environment temperature has been completed.");
+						System.out.println("--------------------------------------------------------\n");
+						
+					}
 					
-					TempResponse response = envBlockingStub.setRoomTemp(request);
-					textArea_showTemp.append(response.getTempNew());
-					System.out.println(response.getTempNew());	
+					else if (setTemp > maxTemp) {
+						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
+						
+						TempResponse response = envBlockingStub.setRoomTemp(request);
+						JOptionPane.showMessageDialog(null, response.getTempNew());
+						System.out.println(response.getTempNew());	
+						
+						System.out.println("Changing the environment temperature has been completed.");
+						System.out.println("--------------------------------------------------------\n");
+						
+					}
 					
-					System.out.println("Changing the environment temperature completed.");
-					System.out.println("------------------------------------------------");
-					
+					else {
+						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
+						
+						TempResponse response = envBlockingStub.setRoomTemp(request);
+						textArea_showTemp.append(response.getTempNew());
+						System.out.println(response.getTempNew());	
+						
+						System.out.println("Changing the environment temperature has been completed.");
+						System.out.println("--------------------------------------------------------\n");						
+					}					
 				}	
 			}
 		});
