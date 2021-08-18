@@ -19,13 +19,13 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			
 	public static void main(String[] args) {
 
-		PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
+PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 		
 		Properties adminProp = patAdminServer.getAdminProperties();
 		
 		patAdminServer.registeringPatientAdministationService(adminProp);
 		
-		int adminPort = Integer.valueOf( adminProp.getProperty("service_port")); //#50052
+		int adminPort = Integer.valueOf( adminProp.getProperty("administration_service_port")); //#50052
 		
 		try {
 			Server adminServer = ServerBuilder.forPort(adminPort)
@@ -61,10 +61,10 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			
 			//get the properties value and print it out
 			System.out.println("Accommodation Service properties ...");
-			System.out.println("\t service_type: " + adminProp.getProperty("service_type"));
-			System.out.println("\t service_name: " + adminProp.getProperty("service_name"));					
-			System.out.println("\t service_description: " + adminProp.getProperty("service_description"));
-			System.out.println("\t service_port: " + adminProp.getProperty("service_port"));
+			System.out.println("\t service_type: " + adminProp.getProperty("administration_service_type"));
+			System.out.println("\t service_name: " + adminProp.getProperty("administration_service_name"));					
+			System.out.println("\t service_description: " + adminProp.getProperty("administration_service_description"));
+			System.out.println("\t service_port: " + adminProp.getProperty("administration_service_port"));
 											
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -84,20 +84,20 @@ public class PatientAdministrationServer extends PatientAdministrationServiceImp
 			 */
 			
 			//Assume that there is registering an http server
-			String service_type = adminProp.getProperty("service_type"); //"_patient_administration._tcp.local.";
-			String service_name = adminProp.getProperty("service_name"); //"patient_administration_service";
-			int service_port = Integer.valueOf( adminProp.getProperty("service_port")); //#50052;
-			String service_description_properties = adminProp.getProperty("service_description"); //"path=index.html";
+			String administration_service_type = adminProp.getProperty("administration_service_type"); //"_patient_administration._tcp.local.";
+			String administration_service_name = adminProp.getProperty("administration_service_name"); //"patient_administration_service";
+			int administration_service_port = Integer.valueOf( adminProp.getProperty("administration_service_port")); //#50052;
+			String administration_service_description_properties = adminProp.getProperty("administration_service_description"); //"path=index.html";
 			
 			//Register a service			
-			ServiceInfo adminServiceInfo = ServiceInfo.create(service_type, 
-															service_name, 
-															service_port, 
-															service_description_properties);
+			ServiceInfo adminServiceInfo = ServiceInfo.create(administration_service_type, 
+															administration_service_name, 
+															administration_service_port, 
+															administration_service_description_properties);
 			
 			jmdns.registerService(adminServiceInfo);
 			
-			System.out.printf("Registering service with type: %s and name: %s \n", service_type, service_name);
+			System.out.printf("Registering service with type: %s and name: %s \n", administration_service_type, administration_service_name);
 			
 			////Wait a bit
 			Thread.sleep(1000);
