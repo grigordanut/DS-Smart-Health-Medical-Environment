@@ -125,7 +125,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 
 			@Override
 			public void onNext(RegisterRequest value) {
-				System.out.println("Receiving patient registration request with,\nName: " + value.getName()
+				System.out.println("Receiving patient registration request with,\nPatient Name: " + value.getName()
 																			+ ", Age: " + value.getAge()
 																			+ ", Gender: " + value.getGender() 
 																			+ "\n");
@@ -161,11 +161,11 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 		System.out.print("Receiving patient list display request,\n\n" + request.getPatList());
 
 		ArrayList<String> patList = new ArrayList<String>();
-		patList.add("Patient Name: Grigor Danut, Age: 51, Gender: male");
-		patList.add("Patient Name: Maria Danut, Age: 42, Gender: female");
-		patList.add("Patient Name: John Skydmore, Age: 57, Gender: male");
-		patList.add("Patient Name: Wendy Gamnon, Age: 45, Gender: female");
-		patList.add("Patient Name: Gary Lineker, Age: 59, Gender: male");		
+		patList.add("Patient Name: Gary Skidmore, Age: 51, Gender: male");
+		patList.add("Patient Name: Wendy Gamnon, Age: 42, Gender: female");
+		patList.add("Patient Name: Peter Mark, Age: 57, Gender: male");
+		patList.add("Patient Name: Lisa Hogan, Age: 45, Gender: female");
+		patList.add("Patient Name: Gavin Smith, Age: 59, Gender: male");		
 
 		for (int i = 0; i <  patList.size(); i++) {
 
@@ -192,12 +192,16 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 	//Calculate Patient Accommodation price
 	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
 		
-		System.out.println("Receiving patient accommodation price calculation request for,\nName: " + request.getPatName()
-																				+ ", for: " + request.getNumberDays() +" days, " 
-																				+ " in a: " + request.getRoom() + " room.\n");
+		System.out.println("Receiving patient accommodation price calculation request for,\nPatient Name: " + request.getPatName()
+																				+ ", for: " + request.getNumberDays() 
+																				+" days, in a: " + request.getRoom() + " room.\n");
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
+		String message = "The total accommodation price for,\n patient: " + request.getPatName() + 
+															", for: "+ request.getNumberDays() + 
+															" days, in a: " + request.getRoom() + " room is € ";
+		
 		String result = "";
 		
 		if (request.getRoom()==Room.PUBLIC) {	
@@ -205,9 +209,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			priceDay = (float) 100.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
-					+"\nand the total price for: " + request.getPatName() 
-					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice + "\n";			
+			result = message + totalPrice + "\n";			
 		}
 		
 		else if (request.getRoom()==Room.SEMIPRIVATE) {
@@ -215,9 +217,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			priceDay = (float) 200.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
-					+"\nand the total price for: " + request.getPatName() 
-					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice + "\n";
+			result = message + totalPrice + "\n";			
 		}
 		
 		else if (request.getRoom()==Room.PRIVATE) {
@@ -225,9 +225,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			priceDay = (float) 500.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
 			
-			result = "The acomodation price in a: " + request.getRoom() + " room for a day is: € " + priceDay + " per day, " 
-					+"\nand the total price for: " + request.getPatName() 
-					+" for: "+ request.getNumberDays() + " days is: € " + totalPrice + "\n";
+			result = message + totalPrice + "\n";
 		}
 		
 		else {

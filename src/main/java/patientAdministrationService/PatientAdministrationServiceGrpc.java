@@ -151,6 +151,9 @@ public final class PatientAdministrationServiceGrpc {
   public static abstract class PatientAdministrationServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     *Client Streaming 	
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<patientAdministrationService.RegisterRequest> registerPatient(
         io.grpc.stub.StreamObserver<patientAdministrationService.RegisterResponse> responseObserver) {
@@ -223,6 +226,9 @@ public final class PatientAdministrationServiceGrpc {
     }
 
     /**
+     * <pre>
+     *Client Streaming 	
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<patientAdministrationService.RegisterRequest> registerPatient(
         io.grpc.stub.StreamObserver<patientAdministrationService.RegisterResponse> responseObserver) {

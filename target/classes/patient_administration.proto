@@ -9,9 +9,7 @@
  
  service PatientAdministrationService {
  
- 	//Client Streaming
- 	//rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
- 	
+ 	//Client Streaming 	
  	rpc registerPatient(stream RegisterRequest) returns (RegisterResponse){} 
  	
  	//Server Streaming	

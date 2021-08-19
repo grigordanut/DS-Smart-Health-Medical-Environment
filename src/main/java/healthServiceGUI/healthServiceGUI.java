@@ -75,8 +75,7 @@ public class healthServiceGUI implements ActionListener {
     
     //Patient Administration Service
     private static PatientAdministrationServiceBlockingStub adminBlockingStub;
-    private static PatientAdministrationServiceStub adminAsyncStub;
-     
+    private static PatientAdministrationServiceStub adminAsyncStub;     
 
     //Patient Monitoring Service
 	private static PatientMonitoringServiceBlockingStub monitoringBlockingStub;
@@ -118,7 +117,6 @@ public class healthServiceGUI implements ActionListener {
 	
 	private JSeparator separator2M;		
 	
-	
 	//Panel Environment Monitoring Service
 	JTextArea textArea_showTemp;
 	private JTextField txt_setTemp;
@@ -150,15 +148,16 @@ public class healthServiceGUI implements ActionListener {
         if (patientList==null)   
             
         //initalize a new Array List patientList
-        patientList = new ArrayList<String>(); 			
-		
+        patientList = new ArrayList<String>(); 	
+        
+        //Discover the services based of service_type		
         String service_type = "_medical._tcp.local.";
         discoveyMedicalServices(service_type);
                 
         @SuppressWarnings("deprecation")
 		String host = serviceInfo.getHostAddress();
         
-      //Discovering Environment Monitoring Service		
+        //Discovering Environment Monitoring Service		
       	ManagedChannel environmentChannel = ManagedChannelBuilder
       										.forAddress(host, 50055)
       										.usePlaintext()
@@ -175,23 +174,14 @@ public class healthServiceGUI implements ActionListener {
         adminBlockingStub = PatientAdministrationServiceGrpc.newBlockingStub(adminChannel);
         adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
         
-//        //Discovering Patient Monitoring Service
-//		String monitoring_service_type = "_monitoring._tcp.local.";
-//		discoveryPatientMonitoringService(monitoring_service_type);
-//		int monitoringPort = monitoringServiceInfo.getPort();
-//		
-//		@SuppressWarnings("deprecation")
-//		String monitoringHost = monitoringServiceInfo.getHostAddress();
-//		
-//		ManagedChannel monitoringChannel = ManagedChannelBuilder
-//										.forAddress(monitoringHost, monitoringPort)
-//										.usePlaintext()
-//										.build();
-//		
-//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
-        
+        //Discovering Patient Monitoring Service	
+		ManagedChannel monitoringChannel = ManagedChannelBuilder
+										.forAddress(host, 50053)
+										.usePlaintext()
+										.build();
 		
+		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);		
 		
 		initialize();
 	}
@@ -249,107 +239,6 @@ public class healthServiceGUI implements ActionListener {
 		}		
 	}
 	
-//	private void discoveryPatientMonitoringService(String service_type) {		
-//		
-//		try {
-//			//Create a JmDNS instance
-//			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-//						
-//			jmdns.addServiceListener(service_type, new ServiceListener(){				
-//				
-//				@SuppressWarnings("deprecation")
-//				@Override
-//				public void serviceResolved(ServiceEvent event) {
-//					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
-//					
-//					monitoringServiceInfo = event.getInfo();
-//					int port = monitoringServiceInfo.getPort();
-//					
-//					System.out.println("Resolving " + service_type + " with properties ...");
-//					System.out.println("\t port: " + port);
-//					System.out.println("\t type: " + event.getType());
-//					System.out.println("\t name: " + event.getName());
-//					System.out.println("\t description/properties: " + monitoringServiceInfo.getNiceTextString());
-//					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());	
-//					System.out.println("--------------------------------------------------\n");					
-//				}				
-//
-//				@Override
-//				public void serviceRemoved(ServiceEvent event) {
-//					System.out.println("Patient Monitoring Service removed: " + event.getInfo());	
-//					System.out.println("--------------------------------------------------\n");	
-//				}		
-//				
-//				@Override
-//				public void serviceAdded(ServiceEvent event) {
-//					System.out.println("Patient Monitoring Service added: " + event.getInfo());	
-//					System.out.println("--------------------------------------------------\n");	
-//				}
-//			});
-//			
-//			//Wait a bit
-//			Thread.sleep(2000);
-//			
-//			jmdns.close();
-//			
-//		} catch (UnknownHostException e) {			
-//			System.out.println(e.getMessage());
-//		} catch (IOException e) {
-//			System.out.println(e.getMessage());
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}			
-//	}	
-	
-//	public void discoveryEnvironmentMonitoringService(String service_type) {		
-//		
-//		try {
-//			//Create a JmDNS instance
-//			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-//			
-//			jmdns.addServiceListener(service_type, new ServiceListener() {
-//				
-//				@SuppressWarnings("deprecation")
-//				@Override
-//				public void serviceResolved(ServiceEvent event) {
-//					System.out.println("Environment Monitoring Service resolved: " + event.getInfo());
-//					
-//					environmentServiceInfo = event.getInfo();
-//					
-//					int port = environmentServiceInfo.getPort();
-//					
-//					System.out.println("Resolving " + service_type + " with properties ...");
-//					System.out.println("\t port: " + port);
-//					System.out.println("\t type: " + event.getType());
-//					System.out.println("\t name: " + event.getName());
-//					System.out.println("\t description/properties: " + environmentServiceInfo.getNiceTextString());
-//					System.out.println("\t host: " + environmentServiceInfo.getHostAddress());
-//				}
-//				
-//				@Override
-//				public void serviceRemoved(ServiceEvent event) {
-//					System.out.println("Environment Monitoring Service removed: " + event.getInfo());
-//				}
-//
-//				@Override
-//				public void serviceAdded(ServiceEvent event) {
-//					System.out.println("Environment Monitoring Service added: " + event.getInfo());					
-//				}				
-//			});		
-//			
-//			//Wait a bit
-//			Thread.sleep(2000);
-//			
-//		} catch (UnknownHostException e) {
-//			System.out.println(e.getMessage());
-//		} catch (IOException e) {
-//			System.out.println(e.getMessage());
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}	
-//	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -384,9 +273,9 @@ public class healthServiceGUI implements ActionListener {
 		tabbedPane.addTab("Patient Administration Service", null, panel_administration, "Accomodation Service");
 		panel_administration.setLayout(null);		
 		
-		////////////////////////
-		/// Register Patient ///
-		////////////////////////
+		/////////////////////////
+		/// Register Patients ///
+		/////////////////////////
 		
 		//Main Label Patient Registering Service
 		JLabel lbl_administrationService = new JLabel("Patient Registering Service");
@@ -574,8 +463,7 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(DisplayResponse value) {
-							//System.out.println("Patients list: " + value.getAllPatients());
-							//System.out.println("Received request to show the Patients list: ");
+							
 						}
 
 						@Override
@@ -645,7 +533,8 @@ public class healthServiceGUI implements ActionListener {
 		txt_patName.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textArea_totalPrice.setText("");
+				
+				textArea_totalPrice.setText("");	
 				
 			}
 		});
@@ -668,7 +557,9 @@ public class healthServiceGUI implements ActionListener {
 		txt_noDays.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				textArea_totalPrice.setText(null);
+				
 			}
 		});
 		
@@ -687,8 +578,7 @@ public class healthServiceGUI implements ActionListener {
 	                txt_noDays.setEditable(true);
 	                txt_noDays.setText("");
 	                txt_noDays.requestFocus();
-	            }
-				
+	            }				
 			}
 		});
 		txt_noDays.setBounds(225, 275, 50, 25);
@@ -1040,18 +930,21 @@ public class healthServiceGUI implements ActionListener {
 		/// Smart Medical Environment ///
 		/////////////////////////////////		
 		
+		//Pane Environment Service
 		JPanel panel_environment = new JPanel();
 		panel_environment.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_environment.setFont(new Font("Tahoma", Font.BOLD, 18));
 		tabbedPane.addTab("Environment Monitoring Service", null, panel_environment, null);
 		panel_environment.setLayout(null);		
 		
-		JLabel lblNewLabel_4 = new JLabel("Environmental Service");
+		//Main Lebel Environment service
+		JLabel lblNewLabel_4 = new JLabel("Environt Monitoring Service");
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_4.setBounds(180, 30, 240, 40);
+		lblNewLabel_4.setBounds(170, 30, 280, 40);
 		panel_environment.add(lblNewLabel_4);
 		
+		//Button show current temperature
 		JButton btn_shoeTemp = new JButton("Show Current Temp");
 		btn_shoeTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1079,20 +972,21 @@ public class healthServiceGUI implements ActionListener {
 					System.out.println(response.getCurrentNew());	
 					System.out.println("Displaying the current temperature has been completed.");
 					System.out.println("------------------------------------------------------\n");
-				}		        	        
-			
+				}    		
 			}
 		});
 		btn_shoeTemp.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btn_shoeTemp.setBounds(15, 100, 220, 40);
+		btn_shoeTemp.setBounds(35, 100, 220, 40);
 		panel_environment.add(btn_shoeTemp);
 		
+		//Text area shoew the temperature vales
 		textArea_showTemp = new JTextArea();
 		textArea_showTemp.setEditable(false);
 		textArea_showTemp.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textArea_showTemp.setBounds(245, 100, 300, 40);
+		textArea_showTemp.setBounds(265, 100, 300, 40);
 		panel_environment.add(textArea_showTemp);
 		
+		//Button show the set temperature
 		JButton btn_setTemp = new JButton("Set New Temp");
 		btn_setTemp.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_setTemp.addActionListener(new ActionListener() {
@@ -1119,8 +1013,7 @@ public class healthServiceGUI implements ActionListener {
 						System.out.println(response.getTempNew());	
 						
 						System.out.println("Changing the environment temperature has been completed.");
-						System.out.println("--------------------------------------------------------\n");
-						
+						System.out.println("--------------------------------------------------------\n");						
 					}
 					
 					else if (setTemp > maxTemp) {
@@ -1131,8 +1024,7 @@ public class healthServiceGUI implements ActionListener {
 						System.out.println(response.getTempNew());	
 						
 						System.out.println("Changing the environment temperature has been completed.");
-						System.out.println("--------------------------------------------------------\n");
-						
+						System.out.println("--------------------------------------------------------\n");						
 					}
 					
 					else {
@@ -1148,9 +1040,10 @@ public class healthServiceGUI implements ActionListener {
 				}				
 			}
 		});
-		btn_setTemp.setBounds(15, 180, 220, 40);
+		btn_setTemp.setBounds(35, 180, 220, 40);
 		panel_environment.add(btn_setTemp);
 		
+		//Text field enter new temperature
 		txt_setTemp = new JTextField();
 		txt_setTemp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1180,10 +1073,9 @@ public class healthServiceGUI implements ActionListener {
 			}
 		});
 		txt_setTemp.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txt_setTemp.setBounds(245, 180, 100, 40);
+		txt_setTemp.setBounds(265, 180, 100, 40);
 		panel_environment.add(txt_setTemp);
-		txt_setTemp.setColumns(10);
-		
+		txt_setTemp.setColumns(10);		
 	}
 
 	//Toggle Button On/Off

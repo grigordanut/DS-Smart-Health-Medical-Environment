@@ -110,7 +110,7 @@ public class PatientAdministrationClient {
 	//Calculate Patient Accommodation price
 	public static void calculatePrice () {
 			
-		int noDays = 2;
+		int noDays = (int) 2;
 		String patName = "Grigor Danut";
 			
 		CalculateRequest request = CalculateRequest.newBuilder().setPatName(patName).setNumberDays(noDays).build();
