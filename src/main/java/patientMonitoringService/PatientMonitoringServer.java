@@ -27,7 +27,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 		
 		patMonitorServer.registerService(prop);
 		
-		int port = Integer.valueOf( prop.getProperty("service_port")); //#50052
+		int port = Integer.valueOf( prop.getProperty("monitoring_service_port")); //#50053
 		
 		try {
 			Server server = ServerBuilder.forPort(port)
@@ -63,10 +63,10 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			
 			//get the properties value and print it out
 			System.out.println("Monitoring Service properties ...");
-			System.out.println("\t service_type: " +prop.getProperty("service_type"));
-			System.out.println("\t service_name: " + prop.getProperty("service_name"));
-			System.out.println("\t service_description: " + prop.getProperty("service_description"));
-			System.out.println("\t service_port: " + prop.getProperty("service_port"));			
+			System.out.println("\t service_type: " +prop.getProperty("monitoring_service_type"));
+			System.out.println("\t service_name: " + prop.getProperty("monitoring_service_name"));
+			System.out.println("\t service_description: " + prop.getProperty("monitoring_service_description"));
+			System.out.println("\t service_port: " + prop.getProperty("monitoring_service_port"));			
 			
 		} catch (IOException ex) {			
 			ex.printStackTrace();
@@ -86,20 +86,20 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			 */
 			
 			//Assume that there is registering an http server
-			String service_type = prop.getProperty("service_type"); //"_patient_monitoring._tcp.local.";
-			String service_name = prop.getProperty("service_name"); //"patient_monitoring_service";
-			int service_port = Integer.valueOf( prop.getProperty("service_port")); //#50053;
-			String service_description_properties = prop.getProperty("service_description"); //"path=index.html";
+			String monitoring_service_type = prop.getProperty("monitoring_service_type"); //"_medical._tcp.local.";
+			String monitoring_service_name = prop.getProperty("monitoring_service_name"); //"patient_monitoring_service";
+			int monitoring_service_port = Integer.valueOf( prop.getProperty("monitoring_service_port")); //#50053;
+			String monitoring_service_description_properties = prop.getProperty("monitoring_service_description"); //"path=index.html";
 			
 			//Register a service
-			ServiceInfo serviceInfo = ServiceInfo.create(service_type, 
-														service_name, 
-														service_port, 
-														service_description_properties);
+			ServiceInfo serviceInfo = ServiceInfo.create(monitoring_service_type, 
+														monitoring_service_name, 
+														monitoring_service_port, 
+														monitoring_service_description_properties);
 			
 			jmdns.registerService(serviceInfo);
 			
-			System.out.printf("Registering service with: type %s and name: %s \n", service_type, service_name);
+			System.out.printf("Registering service with: type %s and name: %s \n", monitoring_service_type, monitoring_service_name);
 			
 			//Wait a bit
 			Thread.sleep(1000);			

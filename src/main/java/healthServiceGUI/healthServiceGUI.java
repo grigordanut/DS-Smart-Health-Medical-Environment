@@ -75,17 +75,20 @@ public class healthServiceGUI implements ActionListener {
     
     //Patient Administration Service
     private static PatientAdministrationServiceBlockingStub adminBlockingStub;
-    private static PatientAdministrationServiceStub adminAsyncStub;     
+    private static PatientAdministrationServiceStub adminAsyncStub;  
+    private ServiceInfo adminServiceInfo; 
 
     //Patient Monitoring Service
 	private static PatientMonitoringServiceBlockingStub monitoringBlockingStub;
 	private static PatientMonitoringServiceStub monitoringAsyncStub;
+	private ServiceInfo monitoringServiceInfo;
 		
-	//Environment Moonitoring Service
+	//Environment Monitoring Service
 	private static EnvironmentServiceBlockingStub environmentBlockingStub;
 	private EnvironmentServiceStub environmentAsyncStub;
+	private ServiceInfo environmentServiceInfo;
 	
-	private ServiceInfo serviceInfo;
+	//private ServiceInfo serviceInfo;
 
 	private JFrame frame;		
 	
@@ -148,45 +151,205 @@ public class healthServiceGUI implements ActionListener {
         if (patientList==null)   
             
         //initalize a new Array List patientList
-        patientList = new ArrayList<String>(); 	
+        patientList = new ArrayList<String>();   
         
-        //Discover the services based of service_type		
+        //////////// Old //////////////
+        
+        //Discover Environment Monitoring Service  based of service_type		
         String service_type = "_medical._tcp.local.";
-        discoveyMedicalServices(service_type);
-                
-        @SuppressWarnings("deprecation")
-		String host = serviceInfo.getHostAddress();
-        
+        discoveyEnvironmentServices(service_type);
+              
+        //@SuppressWarnings("deprecation")
+        //String envHost = serviceInfo.getHostAddress();
+      
         //Discovering Environment Monitoring Service		
-      	ManagedChannel environmentChannel = ManagedChannelBuilder
-      										.forAddress(host, 50055)
-      										.usePlaintext()
-      										.build();		
-      	environmentBlockingStub = EnvironmentServiceGrpc.newBlockingStub(environmentChannel);
-      	environmentAsyncStub = EnvironmentServiceGrpc.newStub(environmentChannel);       
+        ManagedChannel environmentChannel = ManagedChannelBuilder
+    										.forAddress("localhost", 50055)
+    										.usePlaintext()
+    										.build();		
+        environmentBlockingStub = EnvironmentServiceGrpc.newBlockingStub(environmentChannel);
+        environmentAsyncStub = EnvironmentServiceGrpc.newStub(environmentChannel); 
+      	
+      	//Discovering Patient Administration Service
+        String administration_service_type = "_administration._tcp.local.";
+        discoveyPatientAdministrationService(administration_service_type);
+        int adminPort = adminServiceInfo.getPort();
         
-        //Discovering Patient Administration Service
+        @SuppressWarnings("deprecation")
+		String adminHost = adminServiceInfo.getHostAddress();
+        
         ManagedChannel adminChannel = ManagedChannelBuilder
-        							.forAddress(host, 50052)
+        							.forAddress(adminHost, adminPort)
         							.usePlaintext()
         							.build();
         
         adminBlockingStub = PatientAdministrationServiceGrpc.newBlockingStub(adminChannel);
-        adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
+        adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel); 
         
-        //Discovering Patient Monitoring Service	
-		ManagedChannel monitoringChannel = ManagedChannelBuilder
-										.forAddress(host, 50053)
-										.usePlaintext()
-										.build();
-		
-		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
-		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);		
+        //Discovering Patient Monitoring Service
+      	String monitoring_service_type = "_monitoring._tcp.local.";
+      	discoveryPatientMonitoringService(monitoring_service_type);
+      	int monitoringPort = monitoringServiceInfo.getPort();
+      		
+      	@SuppressWarnings("deprecation")
+      	String monitoringHost = monitoringServiceInfo.getHostAddress();
+      		
+      	ManagedChannel monitoringChannel = ManagedChannelBuilder
+      										.forAddress(monitoringHost, monitoringPort)
+      										.usePlaintext()
+      										.build();
+      		
+      	monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+      	monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);
+      	
+      	///////////// New ////////
+      	
+//      //Discover the services based of service_type		
+//      String service_type = "_medical._tcp.local.";
+//      discoveyMedicalServices(service_type);
+//              
+//      @SuppressWarnings("deprecation")
+//		String host = serviceInfo.getHostAddress();
+//      
+//      //Discovering Environment Monitoring Service		
+//    	ManagedChannel environmentChannel = ManagedChannelBuilder
+//    										.forAddress(host, 50055)
+//    										.usePlaintext()
+//    										.build();		
+//    	environmentBlockingStub = EnvironmentServiceGrpc.newBlockingStub(environmentChannel);
+//    	environmentAsyncStub = EnvironmentServiceGrpc.newStub(environmentChannel);      	
+        
+//      //Discovering Patient Administration Service
+//      ManagedChannel adminChannel = ManagedChannelBuilder
+//      							.forAddress(host, 50052)
+//      							.usePlaintext()
+//      							.build();
+//      
+//      adminBlockingStub = PatientAdministrationServiceGrpc.newBlockingStub(adminChannel);
+//      adminAsyncStub = PatientAdministrationServiceGrpc.newStub(adminChannel);
+        
+//      //Discovering Patient Monitoring Service based on service_type	
+//		ManagedChannel monitoringChannel = ManagedChannelBuilder
+//										.forAddress(host, 50053)
+//										.usePlaintext()
+//										.build();
+//		
+//		monitoringBlockingStub = PatientMonitoringServiceGrpc.newBlockingStub(monitoringChannel);
+//		monitoringAsyncStub = PatientMonitoringServiceGrpc.newStub(monitoringChannel);		
 		
 		initialize();
 	}
 	
-	private void discoveyMedicalServices(String service_type) {		
+//	//Discover Medical Services Based on service_type
+//	private void discoveyMedicalServices(String service_type) {		
+//		
+//		try {
+//			//Create a JmDNS instance
+//			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+//			
+//			jmdns.addServiceListener(service_type, new ServiceListener(){
+//				
+//				@SuppressWarnings("deprecation")
+//				@Override
+//				public void serviceResolved(ServiceEvent event) {
+//					System.out.println("Smart Medical Service resolved: " + event.getInfo());
+//					
+//					serviceInfo = event.getInfo();
+//					int port = serviceInfo.getPort();
+//					
+//					System.out.println("Resolving " + service_type + "with properties ...");
+//					System.out.println("\t port: " + port);
+//					System.out.println("\t type: " + event.getType());
+//					System.out.println("\t name: " + event.getName());
+//					System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
+//					System.out.println("\t host: " + serviceInfo.getHostAddress());
+//					System.out.println("--------------------------------------------------\n");
+//				}
+//				
+//				@Override
+//				public void serviceRemoved(ServiceEvent event) {
+//					System.out.println("Smart Medical Service removed: " +event.getInfo());	
+//					System.out.println("--------------------------------------------------\n");
+//				}
+//
+//				@Override
+//				public void serviceAdded(ServiceEvent event) {
+//					System.out.println("Smart Medical Service added: " +event.getInfo());	
+//					System.out.println("--------------------------------------------------\n");
+//				}				
+//			});
+//			
+//			//Wait a bit
+//			Thread.sleep(2000);
+//			
+//			jmdns.close();
+//		}
+//		catch (UnknownHostException e) {
+//			System.out.println(e.getMessage());
+//		}catch (IOException e) {
+//			System.out.println(e.getMessage());
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}		
+//	}	
+	
+	//Dicover Environment Monitoring Service
+	private void discoveyEnvironmentServices(String service_type) {		
+		
+		try {
+			//Create a JmDNS instance
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+			
+			jmdns.addServiceListener(service_type, new ServiceListener(){
+				
+				@SuppressWarnings("deprecation")
+				@Override
+				public void serviceResolved(ServiceEvent event) {
+					System.out.println("Environment Monitoring Service resolved: " + event.getInfo());
+					
+					environmentServiceInfo = event.getInfo();
+					int port = environmentServiceInfo.getPort();
+					
+					System.out.println("Resolving " + service_type + "with properties ...");
+					System.out.println("\t port: " + port);
+					System.out.println("\t type: " + event.getType());
+					System.out.println("\t name: " + event.getName());
+					System.out.println("\t description/properties: " + environmentServiceInfo.getNiceTextString());
+					System.out.println("\t host: " + environmentServiceInfo.getHostAddress());
+					System.out.println("--------------------------------------------------\n");
+				}
+				
+				@Override
+				public void serviceRemoved(ServiceEvent event) {
+					System.out.println("Environment Monitoring Service removed: " +event.getInfo());	
+					System.out.println("--------------------------------------------------\n");
+				}
+
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					System.out.println("Environment Monitoring Service added: " +event.getInfo());	
+					System.out.println("--------------------------------------------------\n");
+				}				
+			});
+			
+			//Wait a bit
+			Thread.sleep(2000);
+			
+			jmdns.close();
+		}
+		catch (UnknownHostException e) {
+			System.out.println(e.getMessage());
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	//Discovering Patient Administration Service
+	private void discoveyPatientAdministrationService(String service_type) {		
 		
 		try {
 			//Create a JmDNS instance
@@ -199,15 +362,15 @@ public class healthServiceGUI implements ActionListener {
 				public void serviceResolved(ServiceEvent event) {
 					System.out.println("Patient Administration Service resolved: " + event.getInfo());
 					
-					serviceInfo = event.getInfo();
-					int port = serviceInfo.getPort();
+					adminServiceInfo = event.getInfo();
+					int port = adminServiceInfo.getPort();
 					
 					System.out.println("Resolving " + service_type + "with properties ...");
 					System.out.println("\t port: " + port);
 					System.out.println("\t type: " + event.getType());
 					System.out.println("\t name: " + event.getName());
-					System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
-					System.out.println("\t host: " + serviceInfo.getHostAddress());
+					System.out.println("\t description/properties: " + adminServiceInfo.getNiceTextString());
+					System.out.println("\t host: " + adminServiceInfo.getHostAddress());
 					System.out.println("--------------------------------------------------\n");
 				}
 				
@@ -239,6 +402,60 @@ public class healthServiceGUI implements ActionListener {
 		}		
 	}
 	
+	//Discovering Patient Monitoring Service
+	private void discoveryPatientMonitoringService(String service_type) {		
+		
+		try {
+			//Create a JmDNS instance
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+						
+			jmdns.addServiceListener(service_type, new ServiceListener(){				
+				
+				@SuppressWarnings("deprecation")
+				@Override
+				public void serviceResolved(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service resolved: " + event.getInfo());
+					
+					monitoringServiceInfo = event.getInfo();
+					int port = monitoringServiceInfo.getPort();
+					
+					System.out.println("Resolving " + service_type + " with properties ...");
+					System.out.println("\t port: " + port);
+					System.out.println("\t type: " + event.getType());
+					System.out.println("\t name: " + event.getName());
+					System.out.println("\t description/properties: " + monitoringServiceInfo.getNiceTextString());
+					System.out.println("\t host: " + monitoringServiceInfo.getHostAddress());	
+					System.out.println("--------------------------------------------------\n");					
+				}				
+
+				@Override
+				public void serviceRemoved(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service removed: " + event.getInfo());	
+					System.out.println("--------------------------------------------------\n");	
+				}		
+				
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					System.out.println("Patient Monitoring Service added: " + event.getInfo());	
+					System.out.println("--------------------------------------------------\n");	
+				}
+			});
+			
+			//Wait a bit
+			Thread.sleep(2000);
+			
+			jmdns.close();
+			
+		} catch (UnknownHostException e) {			
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+	}	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -246,12 +463,12 @@ public class healthServiceGUI implements ActionListener {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(234, 234, 234));
 		frame.setFont(new Font("Dialog", Font.BOLD, 20));
-		frame.setBounds(100, 100, 635, 600);
+		frame.setBounds(100, 100, 690, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);		
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(5, 50, 605, 495);
+		tabbedPane.setBounds(5, 50, 660, 495);
 		frame.getContentPane().add(tabbedPane);
 		
 		//Main Label Application Title
@@ -269,7 +486,7 @@ public class healthServiceGUI implements ActionListener {
 		//Panel Administration Service
 		JPanel panel_administration = new JPanel();
 		panel_administration.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_administration.setFont(new Font("Tahoma", Font.BOLD, 18));
+		panel_administration.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Patient Administration Service", null, panel_administration, "Accomodation Service");
 		panel_administration.setLayout(null);		
 		
@@ -280,15 +497,15 @@ public class healthServiceGUI implements ActionListener {
 		//Main Label Patient Registering Service
 		JLabel lbl_administrationService = new JLabel("Patient Registering Service");
 		lbl_administrationService.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_administrationService.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lbl_administrationService.setBounds(170, 10, 280, 25);
+		lbl_administrationService.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbl_administrationService.setBounds(175, 15, 290, 30);
 		panel_administration.add(lbl_administrationService);
 		
 		//Label patient name		
 		JLabel lbl_patientName = new JLabel("Patient Name");
-		lbl_patientName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_patientName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_patientName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_patientName.setBounds(20, 45, 110, 25);
+		lbl_patientName.setBounds(25, 55, 110, 30);
 		panel_administration.add(lbl_patientName);
 		
 		//Text Field patient Name	
@@ -299,20 +516,20 @@ public class healthServiceGUI implements ActionListener {
 				txtArea_patDetails.setText("");
 			}
 		});
-		txt_patientName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txt_patientName.setBounds(20, 70, 200, 25);
+		txt_patientName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txt_patientName.setBounds(20, 85, 220, 35);
 		panel_administration.add(txt_patientName);
 		txt_patientName.setColumns(10);
 		
 		//Label patient age
 		JLabel lbl_patientAge = new JLabel("Age");
-		lbl_patientAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_patientAge.setBounds(245, 45, 35, 25);
+		lbl_patientAge.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_patientAge.setBounds(275, 55, 35, 30);
 		panel_administration.add(lbl_patientAge);
 		
 		//Text Field patient age
 		txt_patientAge = new JTextField();		
-		txt_patientAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txt_patientAge.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txt_patientAge.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -339,20 +556,20 @@ public class healthServiceGUI implements ActionListener {
 			}
 		});
 		txt_patientAge.setHorizontalAlignment(SwingConstants.RIGHT);
-		txt_patientAge.setBounds(240, 70, 40, 25);
+		txt_patientAge.setBounds(265, 85, 55, 35);
 		panel_administration.add(txt_patientAge);
 		txt_patientAge.setColumns(10);		
 		
 		//Radio Button male
 		rdbtn_male = new JRadioButton("Male");
-		rdbtn_male.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		rdbtn_male.setBounds(300, 50, 90, 25);
+		rdbtn_male.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		rdbtn_male.setBounds(340, 65, 90, 30);
 		panel_administration.add(rdbtn_male);
 		
 		//Radio Button female
 		rdbtn_female = new JRadioButton("Female");
-		rdbtn_female.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		rdbtn_female.setBounds(300, 75, 90, 25);
+		rdbtn_female.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		rdbtn_female.setBounds(340, 95, 90, 30);
 		panel_administration.add(rdbtn_female);
 		
 		btn_Group = new ButtonGroup();	
@@ -432,7 +649,7 @@ public class healthServiceGUI implements ActionListener {
 			}
 		});
 		btn_register.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btn_register.setBounds(425, 55, 140, 50);
+		btn_register.setBounds(495, 65, 140, 50);
 		panel_administration.add(btn_register);
 		
 		//////////////////////////
@@ -488,26 +705,26 @@ public class healthServiceGUI implements ActionListener {
 		        }    
 			}
 		});
-		btn_patList.setBounds(425, 130, 140, 50);
+		btn_patList.setBounds(495, 150, 140, 50);
 		panel_administration.add(btn_patList);
 		
 		//Text Area show Patient Details
 		txtArea_patDetails = new JTextArea();
-		txtArea_patDetails.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtArea_patDetails.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtArea_patDetails.setBounds(20, 105, 385, 75);
 		txtArea_patDetails.setEditable(false); // set textArea non-editable
 		panel_administration.add(txtArea_patDetails);	
 		
 		//Add Scroll to Text Area
 		JScrollPane scroll = new JScrollPane(txtArea_patDetails);
-		scroll.setSize(385, 75);
-		scroll.setLocation(20, 105);
+		scroll.setSize(455, 80);
+		scroll.setLocation(20, 135);
 		panel_administration.add(scroll);
 		
 		//Services separator 1 Administration	
 		separator1A = new JSeparator();
 		separator1A.setBackground(Color.BLACK);
-		separator1A.setBounds(5, 200, 590, 1);
+		separator1A.setBounds(5, 230, 645, 2);
 		panel_administration.add(separator1A);
 		
 		/////////////////////////////////////////////
@@ -516,16 +733,16 @@ public class healthServiceGUI implements ActionListener {
 		
 		//Main Label Calculate Patient Accommodation price
 		JLabel lbl_calculatePrice = new JLabel("Calculate Accomodation Price");
-		lbl_calculatePrice.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbl_calculatePrice.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lbl_calculatePrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_calculatePrice.setBounds(170, 210, 280, 25);
+		lbl_calculatePrice.setBounds(160, 245, 320, 30);
 		panel_administration.add(lbl_calculatePrice);
 		
 		//Label patient name
 		JLabel lbl_patName = new JLabel("Patient Name");
 		lbl_patName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_patName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_patName.setBounds(20, 250, 110, 25);
+		lbl_patName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_patName.setBounds(20, 285, 120, 30);
 		panel_administration.add(lbl_patName);
 		
 		//Text Field patient name
@@ -538,21 +755,21 @@ public class healthServiceGUI implements ActionListener {
 				
 			}
 		});
-		txt_patName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txt_patName.setBounds(20, 275, 190, 25);
+		txt_patName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txt_patName.setBounds(20, 315, 205, 35);
 		panel_administration.add(txt_patName);
 		txt_patName.setColumns(10);
 		
 		//Label number of days
 		JLabel lbl_noDays = new JLabel("No. Days");
 		lbl_noDays.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_noDays.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_noDays.setBounds(215, 245, 70, 25);
+		lbl_noDays.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_noDays.setBounds(235, 285, 80, 35);
 		panel_administration.add(lbl_noDays);
 		
 		//Text Field number of days of accommodation
 		txt_noDays = new JTextField();		
-		txt_noDays.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txt_noDays.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txt_noDays.setHorizontalAlignment(SwingConstants.RIGHT);
 		txt_noDays.addMouseListener(new MouseAdapter() {
 			@Override
@@ -581,22 +798,22 @@ public class healthServiceGUI implements ActionListener {
 	            }				
 			}
 		});
-		txt_noDays.setBounds(225, 275, 50, 25);
+		txt_noDays.setBounds(250, 315, 55, 35);
 		panel_administration.add(txt_noDays);
 		txt_noDays.setColumns(10);
 		
 		//Label priece per day of accommodation
 		JLabel lbl_piceDay = new JLabel("Room Type");
 		lbl_piceDay.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_piceDay.setBounds(300, 245, 95, 25);
-		lbl_piceDay.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl_piceDay.setBounds(335, 285, 100, 30);
+		lbl_piceDay.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panel_administration.add(lbl_piceDay);
 		
 		//Combobox type of accommodation
 		JComboBox comboBox_price = new JComboBox();
-		comboBox_price.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		comboBox_price.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		comboBox_price.setModel(new DefaultComboBoxModel(new String[] {"PUBLIC", "SEMIPRIVATE","PRIVATE"}));
-		comboBox_price.setBounds(290, 275, 135, 25);
+		comboBox_price.setBounds(330, 315, 150, 35);
 		panel_administration.add(comboBox_price);
 		
 		//Button calculate the price of the accommodation
@@ -644,20 +861,20 @@ public class healthServiceGUI implements ActionListener {
 				}				
 			}
 		});
-		btn_totalPrice.setBounds(440, 250, 135, 50);
+		btn_totalPrice.setBounds(500, 300, 135, 50);
 		panel_administration.add(btn_totalPrice);
 		
 		////Text Area show the pacient accommodation price 
 		textArea_totalPrice = new JTextArea();
-		textArea_totalPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		textArea_totalPrice.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textArea_totalPrice.setEditable(false);
-		textArea_totalPrice.setBounds(20, 315, 555, 50);
+		textArea_totalPrice.setBounds(20, 365, 560, 55);
 		panel_administration.add(textArea_totalPrice);
 		
 		//Services separator 2 Administration	
 		separator2A = new JSeparator();
 		separator2A.setBackground(Color.BLACK);
-		separator2A.setBounds(5, 385, 590, 1);
+		separator2A.setBounds(5, 435, 645, 2);
 		panel_administration.add(separator2A);		
 		
 		/////////////////////////////////////////////
@@ -667,7 +884,7 @@ public class healthServiceGUI implements ActionListener {
 		//Panel Patient Monitoring Service
 		JPanel panel_monitoring = new JPanel();
 		panel_monitoring.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_monitoring.setFont(new Font("Tahoma", Font.BOLD, 18));
+		panel_monitoring.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Patient Monitoring Service", null, panel_monitoring, "Monitoring Service");
 		panel_monitoring.setLayout(null);			
 
@@ -923,17 +1140,16 @@ public class healthServiceGUI implements ActionListener {
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_3.setBounds(170, 190, 280, 25);
-		panel_monitoring.add(lblNewLabel_3);
+		panel_monitoring.add(lblNewLabel_3);		
 		
-		
-		/////////////////////////////////
-		/// Smart Medical Environment ///
-		/////////////////////////////////		
+		//////////////////////////////////////
+		/// Environment Monitoring Service ///
+		//////////////////////////////////////	
 		
 		//Pane Environment Service
 		JPanel panel_environment = new JPanel();
 		panel_environment.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_environment.setFont(new Font("Tahoma", Font.BOLD, 18));
+		panel_environment.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Environment Monitoring Service", null, panel_environment, null);
 		panel_environment.setLayout(null);		
 		

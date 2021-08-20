@@ -55,7 +55,7 @@ public class PatientAdministrationClient {
 		
 		StreamObserver<RegisterRequest> requestObserver = adminAsyncStub.registerPatient(responseObserver);
 		requestObserver.onNext(RegisterRequest.newBuilder()
-											.setName("Grigor Danut")
+											.setName("Gary Skidmore")
 											.setAge("51")
 											.setGender("Male")
 											.build());	
@@ -111,7 +111,7 @@ public class PatientAdministrationClient {
 	public static void calculatePrice () {
 			
 		int noDays = (int) 2;
-		String patName = "Grigor Danut";
+		String patName = "Lisa Hogan";
 			
 		CalculateRequest request = CalculateRequest.newBuilder().setPatName(patName).setNumberDays(noDays).build();
 		CalculateResponse response = adminBlockingStub.calculatePrice(request);

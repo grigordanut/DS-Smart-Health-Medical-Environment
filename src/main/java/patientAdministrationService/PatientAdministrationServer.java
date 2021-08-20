@@ -84,7 +84,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			 */
 			
 			//Assume that there is registering an http server
-			String administration_service_type = adminProp.getProperty("administration_service_type"); //"_patient_administration._tcp.local.";
+			String administration_service_type = adminProp.getProperty("administration_service_type"); //"_medical._tcp.local.";
 			String administration_service_name = adminProp.getProperty("administration_service_name"); //"patient_administration_service";
 			int administration_service_port = Integer.valueOf( adminProp.getProperty("administration_service_port")); //#50052;
 			String administration_service_description_properties = adminProp.getProperty("administration_service_description"); //"path=index.html";
@@ -162,9 +162,9 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 
 		ArrayList<String> patList = new ArrayList<String>();
 		patList.add("Patient Name: Gary Skidmore, Age: 51, Gender: male");
-		patList.add("Patient Name: Wendy Gamnon, Age: 42, Gender: female");
+		patList.add("Patient Name: Lisa Hogan, Age: 45, Gender: female");		
 		patList.add("Patient Name: Peter Mark, Age: 57, Gender: male");
-		patList.add("Patient Name: Lisa Hogan, Age: 45, Gender: female");
+		patList.add("Patient Name: Wendy Gamnon, Age: 42, Gender: female");
 		patList.add("Patient Name: Gavin Smith, Age: 59, Gender: male");		
 
 		for (int i = 0; i <  patList.size(); i++) {
@@ -198,9 +198,9 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
-		String message = "The total accommodation price for,\n patient: " + request.getPatName() + 
+		String message = "The total accommodation price for, patient:\n " + request.getPatName() + 
 															", for: "+ request.getNumberDays() + 
-															" days, in a: " + request.getRoom() + " room is € ";
+															" days, in a: " + request.getRoom() + " room is: € ";
 		
 		String result = "";
 		
