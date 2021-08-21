@@ -444,7 +444,7 @@ public class healthServiceGUI implements ActionListener {
 		txt_patientAge.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+				//check if the user is entering only number
 				int key = e.getKeyCode();
 	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
 	            	txt_patientAge.setEditable(true);
@@ -489,11 +489,13 @@ public class healthServiceGUI implements ActionListener {
 				String patAge = "";
 				String gender = "";
 				
+				//check if the patName text field is empty
 				if (txt_patientName.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter Patient Name, the field can not be empty.");	
 					txt_patientName.requestFocus();
 				}
 				
+				//check if the patAge text field is empty
 				else if (txt_patientAge.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter Patient Age, the field can not be empty");
 					txt_patientAge.requestFocus();
@@ -523,6 +525,8 @@ public class healthServiceGUI implements ActionListener {
 
 						@Override
 						public void onNext(RegisterResponse value) {
+							
+							//Register the patient
 							System.out.println("Server responded; Patient registered with, \n" +value.getResult() + "\n");
 							txtArea_patDetails.append(" " + value.getResult());
 							patientList.add(value.getResult());												
@@ -601,6 +605,7 @@ public class healthServiceGUI implements ActionListener {
 											
 					for(int i = 0; i<patientList.size(); i++) {	
 						
+						//Display the patient list
 						txtArea_patDetails.append(patientList.get(i) + "\n ");
 						System.out.println(patientList.get(i) + "\n");						
 		            }	 
@@ -687,7 +692,7 @@ public class healthServiceGUI implements ActionListener {
 		txt_noDays.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+				//check if the user is entering only numbers
 				int key = e.getKeyCode();
 	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
 	            	txt_noDays.setEditable(true);
@@ -731,11 +736,13 @@ public class healthServiceGUI implements ActionListener {
 				String patientName = " ";
 				int numberDays = (int)0.00;
 				
+				//check if the txt_patName is empty
 				if (txt_patName.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter Patient Name, the field can not be empty");
 					txt_patName.requestFocus();
 				}
 				
+				//check if the txt_noDays is empty
 				else if (txt_noDays.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter the Number of Days, the field can not be empty");
 					txt_noDays.requestFocus();
@@ -893,7 +900,8 @@ public class healthServiceGUI implements ActionListener {
 		txt_systolic.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-	
+				
+				//check if the user is entering only numbers
 				int key = e.getKeyCode();
 				if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
 					txt_systolic.setEditable(true);
@@ -935,6 +943,7 @@ public class healthServiceGUI implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 	
+				//check if the user is entering only numbers
 				int key = e.getKeyCode();
 				if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
 				txt_diastolic.setEditable(true);
@@ -962,18 +971,22 @@ public class healthServiceGUI implements ActionListener {
 				
 				float systolic = (float) 0.00;						
 				float diastolic = (float) 0.00;
-
+				
+				//check if the txt_systolic is empty
 				if (txt_systolic.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Pleae enter Systolic value, the field can not be empty");
 					txt_systolic.requestFocus();
 				}
 
+				//check if the txt_diastolic is empty
 				else if (txt_diastolic.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Pleae enter Diastolic value, the field can not be empty");
 					txt_diastolic.requestFocus();
 				}
 
-				else {						
+				else {	
+					
+					//read data from text fields
 					systolic = Float.parseFloat(txt_systolic.getText());
 					diastolic = Float.parseFloat(txt_diastolic.getText());				
 	
@@ -1107,6 +1120,7 @@ public class healthServiceGUI implements ActionListener {
 				
 				textArea_showTemp.setText(" ");				
 				
+				//check if txt_setTemp is empty
 				if (txt_setTemp.getText().isEmpty()){
 					
 					JOptionPane.showMessageDialog(null, "Plase enter the new temperature, the field can not be empty");
@@ -1116,6 +1130,7 @@ public class healthServiceGUI implements ActionListener {
 				else {
 					setTemp = Integer.parseInt(txt_setTemp.getText().toString());
 					
+					//check if entered temperature is too low
 					if (setTemp < minTemp) {
 						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
 						
@@ -1127,6 +1142,7 @@ public class healthServiceGUI implements ActionListener {
 						System.out.println("--------------------------------------------------------\n");						
 					}
 					
+					//check if entered temperature is too high
 					else if (setTemp > maxTemp) {
 						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
 						
@@ -1139,6 +1155,7 @@ public class healthServiceGUI implements ActionListener {
 					}
 					
 					else {
+						//set the environment temperature
 						TempRequest request = TempRequest.newBuilder().setTemp(setTemp).build();
 						
 						TempResponse response = environmentBlockingStub.setRoomTemp(request);
