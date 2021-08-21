@@ -11,7 +11,7 @@ def current():
         stub = environment_pb2_grpc.EnvironmentServiceStub(channel)
         response = stub.getCurrentRoomTemp(environment_pb2.CurrentRequest(current=int(20)))
         print('Receiving the request to show the current temperature.'"\n" + response.currentNew +
-              "\n"'-------------------------------------------------')
+              "\n"'-----------------------------------------------\n')
 
 
 def temperature():
@@ -20,7 +20,7 @@ def temperature():
 
         response = stub.setRoomTemp(environment_pb2.TempRequest(temp=int(22)))
         print('Receiving the request to set the temperature to 22 C.'"\n" + response.tempNew +
-              "\n"'-----------------------------------------------')
+              "\n"'-----------------------------------------------\n')
 
 
 if __name__ == '__main__':

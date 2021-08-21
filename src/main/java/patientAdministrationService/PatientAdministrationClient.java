@@ -76,10 +76,7 @@ public class PatientAdministrationClient {
 	//Display Patients List
 	public static void displayPatients() {
 		//creating request to send the patients list
-		DisplayRequest request = DisplayRequest.newBuilder()
-				.setPatList("")
-				.build();
-		
+		DisplayRequest request = DisplayRequest.newBuilder().setPatList("").build();		
 		
 		
 		// try catch for error handling
@@ -92,11 +89,7 @@ public class PatientAdministrationClient {
 			while (responses.hasNext()) {
 				DisplayResponse patList = responses.next();				
 				System.out.println(patList.getAllPatients() + "\n");
-				//System.out.println(patList.getAllPatients());
-			}
-			
-			
-			
+			}	
 			
 			System.out.println("The display of the patient list has been completed.");
 			System.out.println("---------------------------------------------------\n");

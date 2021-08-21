@@ -17,8 +17,6 @@ import patientMonitoringService.PatientMonitoringServiceGrpc.PatientMonitoringSe
 
 public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 	
-	//private boolean updateDevice = false;		
-
 	public static void main(String[] args) {
 		
 		PatientMonitoringServer patMonitorServer = new PatientMonitoringServer();
@@ -35,7 +33,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 										.build()
 										.start();
 			
-			System.out.println("Patient Monitoring Server started listening on port: " + port);
+			System.out.println(" Patient Monitoring Server started listening on port: " + port);
 			System.out.println("----------------------------------------------------------\n");	
 			
 			server.awaitTermination();			
@@ -62,7 +60,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			prop.load(input);
 			
 			//get the properties value and print it out
-			System.out.println("Monitoring Service properties ...");
+			System.out.println(" Patient Monitoring Service properties ...");
 			System.out.println("\t service_type: " +prop.getProperty("monitoring_service_type"));
 			System.out.println("\t service_name: " + prop.getProperty("monitoring_service_name"));
 			System.out.println("\t service_description: " + prop.getProperty("monitoring_service_description"));
@@ -99,7 +97,7 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 			
 			jmdns.registerService(serviceInfo);
 			
-			System.out.printf("Registering service with: type %s and name: %s \n", monitoring_service_type, monitoring_service_name);
+			System.out.printf(" Registering service with type: %s\n and name: %s \n", monitoring_service_type, monitoring_service_name);
 			
 			//Wait a bit
 			Thread.sleep(1000);			
@@ -125,8 +123,6 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 	public void monitoringDeviceOnOff(DeviceRequest request, StreamObserver<DeviceResponse> responseObserver) {		
 				
 		System.out.println("Receiving Monitoring Device status change request: " + request.getText());
-		
-		//updateDevice = !updateDevice;
 		
 		DeviceResponse reply = DeviceResponse.newBuilder().setValue(request.getText()).build();
 		
@@ -178,17 +174,17 @@ public class PatientMonitoringServer extends PatientMonitoringServiceImplBase {
 				
 				//Prehypertesion (High Normale)
 				else if (((float) value.getSystolic() >= 120 && value.getSystolic() < 140) || (value.getDiastolic() >= 80 && value.getDiastolic() < 90 )) {
-					result = ("Prehypertesion (High Normale)!");					
+					result = ("Prehypertension (High Normal)!");					
 				}
 				
 				//Hypertesion Stage 1
 				else if (((float) value.getSystolic() >= 140 && value.getSystolic() < 160) || (value.getDiastolic() >= 90 && value.getDiastolic() < 100 )) {
-					result = ("Hypertesion Stage 1!");					
+					result = ("Hypertension Stage 1!");					
 				}	
 				
 				//Hypertision Stage 2
 				else if ((value.getSystolic() >= 160 && value.getSystolic() < 180) || (value.getDiastolic() >= 100 && value.getDiastolic() < 110 )) {
-					result = ("Hypertision Stage 2!");					
+					result = ("Hypertension Stage 2!");					
 				}
 				
 				//Hypertensive Crisis (Medical Emergency)

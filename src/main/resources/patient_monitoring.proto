@@ -12,7 +12,7 @@
  	//Unary Call
  	rpc monitoringDeviceOnOff(DeviceRequest) returns (DeviceResponse){}
  
- 	//Bidirectional
+ 	//Bi-Directional
  	rpc bloodPressure(stream PressureRequest) returns (stream PressureResponse){} 
  }
  

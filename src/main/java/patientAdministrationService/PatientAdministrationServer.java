@@ -33,7 +33,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 											.build()
 											.start();
 			
-			System.out.println("Patient Administration Server started listening on port: " + adminPort);
+			System.out.println(" Patient Administration Server started listening on port: " + adminPort);
 			System.out.println("--------------------------------------------------------------\n");
 			
 			adminServer.awaitTermination();
@@ -60,7 +60,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			adminProp.load(adminInput);		
 			
 			//get the properties value and print it out
-			System.out.println("Accommodation Service properties ...");
+			System.out.println(" Patient Administration Service properties ...");
 			System.out.println("\t service_type: " + adminProp.getProperty("administration_service_type"));
 			System.out.println("\t service_name: " + adminProp.getProperty("administration_service_name"));					
 			System.out.println("\t service_description: " + adminProp.getProperty("administration_service_description"));
@@ -84,7 +84,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			 */
 			
 			//Assume that there is registering an http server
-			String administration_service_type = adminProp.getProperty("administration_service_type"); //"_medical._tcp.local.";
+			String administration_service_type = adminProp.getProperty("administration_service_type"); //"_administration._tcp.local.";
 			String administration_service_name = adminProp.getProperty("administration_service_name"); //"patient_administration_service";
 			int administration_service_port = Integer.valueOf( adminProp.getProperty("administration_service_port")); //#50052;
 			String administration_service_description_properties = adminProp.getProperty("administration_service_description"); //"path=index.html";
@@ -97,7 +97,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			
 			jmdns.registerService(adminServiceInfo);
 			
-			System.out.printf("Registering service with type: %s and name: %s \n", administration_service_type, administration_service_name);
+			System.out.printf(" Registering service with type: %s\n and name: %s \n", administration_service_type, administration_service_name);
 			
 			////Wait a bit
 			Thread.sleep(1000);
@@ -198,7 +198,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 		
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
-		String message = "The total accommodation price for, patient:\n " + request.getPatName() + 
+		String message = "The total accommodation price for the patient:\n " + request.getPatName() + 
 															", for: "+ request.getNumberDays() + 
 															" days, in a: " + request.getRoom() + " room is: € ";
 		

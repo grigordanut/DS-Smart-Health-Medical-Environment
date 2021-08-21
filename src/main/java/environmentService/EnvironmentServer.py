@@ -36,7 +36,7 @@ def serve():
     environment_pb2_grpc.add_EnvironmentServiceServicer_to_server(EnvironmentService(), server)
     server.add_insecure_port('[::]:50055')
     server.start()
-    print("Environment Server started listening on port 50055")
+    print("Environment Server started listening on port: 50055")
     server.wait_for_termination()
 
 
@@ -45,8 +45,8 @@ def register():
     desc = {'path': 'environment.properties'}
 
     info = ServiceInfo(
-        "_medical._tcp.local.",
-        "environment_monitoring_service._medical._tcp.local.",
+        "_environment._tcp.local.",
+        "environment_monitoring_service._environment._tcp.local.",
         addresses=[socket.inet_aton("192.168.0.94")],
         port=50055,
         properties=desc,
@@ -61,7 +61,7 @@ def proprieties():
     configs = Properties()
     with open('environment.properties', 'rb') as config_file:
         configs.load(config_file)
-    print('Service properties')
+    print('Environment Service properties ...')
     print(configs.get("environment_service_type"))
     print(configs.get("environment_service_name"))
     print(configs.get("environment_service_description"))

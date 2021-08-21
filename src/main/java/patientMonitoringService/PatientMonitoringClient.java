@@ -41,21 +41,7 @@ public class PatientMonitoringClient {
 		
 		System.out.println("Server responded; The Monitoring Device has been turned: " + response.getValue());
 		System.out.println("Changing the status of the monitoring device has been completed.");
-		System.out.println("----------------------------------------------------------------\n");		
-		
-		//print appropriate response		
-//		if(response.getDeviceStatus()) {
-//			System.out.println("Server responded with: "+request.getDeviceStatus());
-//			//System.out.println("Server responded; The Monitoring device has been turned: On.");
-//			System.out.println("Changing the status of the monitoring device has been completed.");
-//			System.out.println("----------------------------------------------------------------\n");
-//		}
-//				
-//		else {
-//			System.out.println("Server responded with, The Monitotoring Device has been turned: Off");
-//			System.out.println("Monitoring Device changing status completed.");
-//			System.out.println("--------------------------------------------\n");
-//		}			
+		System.out.println("----------------------------------------------------------------\n");					
 	}
 	
 	//Bi-Directional	

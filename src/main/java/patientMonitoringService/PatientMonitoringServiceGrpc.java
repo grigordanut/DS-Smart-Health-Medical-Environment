@@ -130,7 +130,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Bidirectional
+     *Bi-Directional
      * </pre>
      */
     public io.grpc.stub.StreamObserver<patientMonitoringService.PressureRequest> bloodPressure(
@@ -189,7 +189,7 @@ public final class PatientMonitoringServiceGrpc {
 
     /**
      * <pre>
-     *Bidirectional
+     *Bi-Directional
      * </pre>
      */
     public io.grpc.stub.StreamObserver<patientMonitoringService.PressureRequest> bloodPressure(
