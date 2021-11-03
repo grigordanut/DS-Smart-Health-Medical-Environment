@@ -23,11 +23,11 @@ public interface CalculateRequestOrBuilder extends
   int getNumberDays();
 
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
    */
-  int getRoomValue();
+  int getRoomTypeValue();
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
    */
-  patientAdministrationService.CalculateRequest.Room getRoom();
+  patientAdministrationService.CalculateRequest.RoomType getRoomType();
 }

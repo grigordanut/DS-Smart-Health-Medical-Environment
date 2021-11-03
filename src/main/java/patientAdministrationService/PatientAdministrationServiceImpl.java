@@ -58,24 +58,24 @@ public final class PatientAdministrationServiceImpl {
       "\014\n\004name\030\001 \001(\t\022\013\n\003age\030\002 \001(\t\022\016\n\006gender\030\003 \001" +
       "(\t\"\"\n\020RegisterResponse\022\016\n\006result\030\001 \001(\t\"!" +
       "\n\016DisplayRequest\022\017\n\007patList\030\001 \001(\t\"&\n\017Dis" +
-      "playResponse\022\023\n\013allPatients\030\001 \001(\t\"\254\001\n\020Ca" +
+      "playResponse\022\023\n\013allPatients\030\001 \001(\t\"\270\001\n\020Ca" +
       "lculateRequest\022\017\n\007patName\030\001 \001(\t\022\022\n\nnumbe" +
-      "rDays\030\002 \001(\005\022A\n\004room\030\003 \001(\01623.PatientAdmin" +
-      "istrationService.CalculateRequest.Room\"0" +
-      "\n\004Room\022\n\n\006PUBLIC\020\000\022\017\n\013SEMIPRIVATE\020\001\022\013\n\007P" +
-      "RIVATE\020\002\"$\n\021CalculateResponse\022\017\n\007message" +
-      "\030\002 \001(\t2\375\002\n\034PatientAdministrationService\022" +
-      "t\n\017registerPatient\022-.PatientAdministrati" +
-      "onService.RegisterRequest\032..PatientAdmin" +
-      "istrationService.RegisterResponse\"\000(\001\022r\n" +
-      "\017displayPatients\022,.PatientAdministration" +
-      "Service.DisplayRequest\032-.PatientAdminist" +
-      "rationService.DisplayResponse\"\0000\001\022s\n\016cal" +
-      "culatePrice\022..PatientAdministrationServi" +
-      "ce.CalculateRequest\032/.PatientAdministrat" +
-      "ionService.CalculateResponse\"\000BB\n\034patien" +
-      "tAdministrationServiceB PatientAdministr" +
-      "ationServiceImplP\001b\006proto3"
+      "rDays\030\002 \001(\005\022I\n\010roomType\030\003 \001(\01627.PatientA" +
+      "dministrationService.CalculateRequest.Ro" +
+      "omType\"4\n\010RoomType\022\n\n\006PUBLIC\020\000\022\017\n\013SEMIPR" +
+      "IVATE\020\001\022\013\n\007PRIVATE\020\002\"$\n\021CalculateRespons" +
+      "e\022\017\n\007message\030\002 \001(\t2\375\002\n\034PatientAdministra" +
+      "tionService\022t\n\017registerPatient\022-.Patient" +
+      "AdministrationService.RegisterRequest\032.." +
+      "PatientAdministrationService.RegisterRes" +
+      "ponse\"\000(\001\022r\n\017displayPatients\022,.PatientAd" +
+      "ministrationService.DisplayRequest\032-.Pat" +
+      "ientAdministrationService.DisplayRespons" +
+      "e\"\0000\001\022s\n\016calculatePrice\022..PatientAdminis" +
+      "trationService.CalculateRequest\032/.Patien" +
+      "tAdministrationService.CalculateResponse" +
+      "\"\000BB\n\034patientAdministrationServiceB Pati" +
+      "entAdministrationServiceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -118,7 +118,7 @@ public final class PatientAdministrationServiceImpl {
     internal_static_PatientAdministrationService_CalculateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PatientAdministrationService_CalculateRequest_descriptor,
-        new java.lang.String[] { "PatName", "NumberDays", "Room", });
+        new java.lang.String[] { "PatName", "NumberDays", "RoomType", });
     internal_static_PatientAdministrationService_CalculateResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_PatientAdministrationService_CalculateResponse_fieldAccessorTable = new

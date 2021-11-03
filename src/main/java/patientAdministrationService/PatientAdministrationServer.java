@@ -12,7 +12,7 @@ import javax.jmdns.ServiceInfo;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import patientAdministrationService.CalculateRequest.Room;
+import patientAdministrationService.CalculateRequest.RoomType;
 import patientAdministrationService.PatientAdministrationServiceGrpc.PatientAdministrationServiceImplBase;
 
 public class PatientAdministrationServer extends PatientAdministrationServiceImplBase {
@@ -173,7 +173,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			
 			responseObserver.onNext(reply);
 			
-			System.out.println("Display details of patient: " + i + "\n" + patList.set(i, null) +"\n");			
+			System.out.println("Display details of patient: " + i + "\n" + patList.set(i, null) + "\n");			
 			
 			// error handling
 			try {
@@ -190,21 +190,24 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 	
 	//Unary call
 	//Calculate Patient Accommodation price
-	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {
+	public void calculatePrice(CalculateRequest request, StreamObserver<CalculateResponse> responseObserver) {		
 		
 		System.out.println("Receiving patient accommodation price calculation request for,\nPatient Name: " + request.getPatName()
 																				+ ", for: " + request.getNumberDays() 
-																				+" days, in a: " + request.getRoom() + " room.\n");
+																				+" days, in a: " + request.getRoomType() + " room.\n");
 		
+		@SuppressWarnings("unused")
+		String patName = "";
 		float priceDay = (float) 0.00;
 		float totalPrice = (float) 0.00;
 		String message = "The total accommodation price for the patient:\n " + request.getPatName() + 
 															", for: "+ request.getNumberDays() + 
-															" days, in a: " + request.getRoom() + " room is: € ";
+															" days, in a: " + request.getRoomType() + " room is: € ";
 		
-		String result = "";
 		
-		if (request.getRoom()==Room.PUBLIC) {	
+		String result = "";		
+		
+		if (request.getRoomType()==RoomType.PUBLIC) {	
 			
 			priceDay = (float) 100.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
@@ -212,7 +215,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			result = message + totalPrice + "\n";			
 		}
 		
-		else if (request.getRoom()==Room.SEMIPRIVATE) {
+		else if (request.getRoomType()==RoomType.SEMIPRIVATE) {
 			
 			priceDay = (float) 200.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;
@@ -220,7 +223,7 @@ PatientAdministrationServer patAdminServer = new PatientAdministrationServer();
 			result = message + totalPrice + "\n";			
 		}
 		
-		else if (request.getRoom()==Room.PRIVATE) {
+		else if (request.getRoomType()==RoomType.PRIVATE) {
 			
 			priceDay = (float) 500.00;
 			totalPrice = request.getNumberDays() * (float) priceDay;

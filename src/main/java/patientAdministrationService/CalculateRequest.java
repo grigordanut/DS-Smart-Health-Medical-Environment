@@ -22,7 +22,7 @@ private static final long serialVersionUID = 0L;
   private CalculateRequest() {
     patName_ = "";
     numberDays_ = 0;
-    room_ = 0;
+    roomType_ = 0;
   }
 
   @java.lang.Override
@@ -63,7 +63,7 @@ private static final long serialVersionUID = 0L;
           case 24: {
             int rawValue = input.readEnum();
 
-            room_ = rawValue;
+            roomType_ = rawValue;
             break;
           }
           default: {
@@ -99,9 +99,9 @@ private static final long serialVersionUID = 0L;
   }
 
   /**
-   * Protobuf enum {@code PatientAdministrationService.CalculateRequest.Room}
+   * Protobuf enum {@code PatientAdministrationService.CalculateRequest.RoomType}
    */
-  public enum Room
+  public enum RoomType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>PUBLIC = 0;</code>
@@ -144,11 +144,11 @@ private static final long serialVersionUID = 0L;
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static Room valueOf(int value) {
+    public static RoomType valueOf(int value) {
       return forNumber(value);
     }
 
-    public static Room forNumber(int value) {
+    public static RoomType forNumber(int value) {
       switch (value) {
         case 0: return PUBLIC;
         case 1: return SEMIPRIVATE;
@@ -157,15 +157,15 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<Room>
+    public static com.google.protobuf.Internal.EnumLiteMap<RoomType>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        Room> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Room>() {
-            public Room findValueByNumber(int number) {
-              return Room.forNumber(number);
+        RoomType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RoomType>() {
+            public RoomType findValueByNumber(int number) {
+              return RoomType.forNumber(number);
             }
           };
 
@@ -182,9 +182,9 @@ private static final long serialVersionUID = 0L;
       return patientAdministrationService.CalculateRequest.getDescriptor().getEnumTypes().get(0);
     }
 
-    private static final Room[] VALUES = values();
+    private static final RoomType[] VALUES = values();
 
-    public static Room valueOf(
+    public static RoomType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -198,11 +198,11 @@ private static final long serialVersionUID = 0L;
 
     private final int value;
 
-    private Room(int value) {
+    private RoomType(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:PatientAdministrationService.CalculateRequest.Room)
+    // @@protoc_insertion_point(enum_scope:PatientAdministrationService.CalculateRequest.RoomType)
   }
 
   public static final int PATNAME_FIELD_NUMBER = 1;
@@ -248,21 +248,21 @@ private static final long serialVersionUID = 0L;
     return numberDays_;
   }
 
-  public static final int ROOM_FIELD_NUMBER = 3;
-  private int room_;
+  public static final int ROOMTYPE_FIELD_NUMBER = 3;
+  private int roomType_;
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
    */
-  public int getRoomValue() {
-    return room_;
+  public int getRoomTypeValue() {
+    return roomType_;
   }
   /**
-   * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+   * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
    */
-  public patientAdministrationService.CalculateRequest.Room getRoom() {
+  public patientAdministrationService.CalculateRequest.RoomType getRoomType() {
     @SuppressWarnings("deprecation")
-    patientAdministrationService.CalculateRequest.Room result = patientAdministrationService.CalculateRequest.Room.valueOf(room_);
-    return result == null ? patientAdministrationService.CalculateRequest.Room.UNRECOGNIZED : result;
+    patientAdministrationService.CalculateRequest.RoomType result = patientAdministrationService.CalculateRequest.RoomType.valueOf(roomType_);
+    return result == null ? patientAdministrationService.CalculateRequest.RoomType.UNRECOGNIZED : result;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -285,8 +285,8 @@ private static final long serialVersionUID = 0L;
     if (numberDays_ != 0) {
       output.writeInt32(2, numberDays_);
     }
-    if (room_ != patientAdministrationService.CalculateRequest.Room.PUBLIC.getNumber()) {
-      output.writeEnum(3, room_);
+    if (roomType_ != patientAdministrationService.CalculateRequest.RoomType.PUBLIC.getNumber()) {
+      output.writeEnum(3, roomType_);
     }
     unknownFields.writeTo(output);
   }
@@ -304,9 +304,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(2, numberDays_);
     }
-    if (room_ != patientAdministrationService.CalculateRequest.Room.PUBLIC.getNumber()) {
+    if (roomType_ != patientAdministrationService.CalculateRequest.RoomType.PUBLIC.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(3, room_);
+        .computeEnumSize(3, roomType_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -328,7 +328,7 @@ private static final long serialVersionUID = 0L;
         .equals(other.getPatName());
     result = result && (getNumberDays()
         == other.getNumberDays());
-    result = result && room_ == other.room_;
+    result = result && roomType_ == other.roomType_;
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -344,8 +344,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getPatName().hashCode();
     hash = (37 * hash) + NUMBERDAYS_FIELD_NUMBER;
     hash = (53 * hash) + getNumberDays();
-    hash = (37 * hash) + ROOM_FIELD_NUMBER;
-    hash = (53 * hash) + room_;
+    hash = (37 * hash) + ROOMTYPE_FIELD_NUMBER;
+    hash = (53 * hash) + roomType_;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -487,7 +487,7 @@ private static final long serialVersionUID = 0L;
 
       numberDays_ = 0;
 
-      room_ = 0;
+      roomType_ = 0;
 
       return this;
     }
@@ -517,7 +517,7 @@ private static final long serialVersionUID = 0L;
       patientAdministrationService.CalculateRequest result = new patientAdministrationService.CalculateRequest(this);
       result.patName_ = patName_;
       result.numberDays_ = numberDays_;
-      result.room_ = room_;
+      result.roomType_ = roomType_;
       onBuilt();
       return result;
     }
@@ -573,8 +573,8 @@ private static final long serialVersionUID = 0L;
       if (other.getNumberDays() != 0) {
         setNumberDays(other.getNumberDays());
       }
-      if (other.room_ != 0) {
-        setRoomValue(other.getRoomValue());
+      if (other.roomType_ != 0) {
+        setRoomTypeValue(other.getRoomTypeValue());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -700,47 +700,47 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int room_ = 0;
+    private int roomType_ = 0;
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
      */
-    public int getRoomValue() {
-      return room_;
+    public int getRoomTypeValue() {
+      return roomType_;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
      */
-    public Builder setRoomValue(int value) {
-      room_ = value;
+    public Builder setRoomTypeValue(int value) {
+      roomType_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
      */
-    public patientAdministrationService.CalculateRequest.Room getRoom() {
+    public patientAdministrationService.CalculateRequest.RoomType getRoomType() {
       @SuppressWarnings("deprecation")
-      patientAdministrationService.CalculateRequest.Room result = patientAdministrationService.CalculateRequest.Room.valueOf(room_);
-      return result == null ? patientAdministrationService.CalculateRequest.Room.UNRECOGNIZED : result;
+      patientAdministrationService.CalculateRequest.RoomType result = patientAdministrationService.CalculateRequest.RoomType.valueOf(roomType_);
+      return result == null ? patientAdministrationService.CalculateRequest.RoomType.UNRECOGNIZED : result;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
      */
-    public Builder setRoom(patientAdministrationService.CalculateRequest.Room value) {
+    public Builder setRoomType(patientAdministrationService.CalculateRequest.RoomType value) {
       if (value == null) {
         throw new NullPointerException();
       }
       
-      room_ = value.getNumber();
+      roomType_ = value.getNumber();
       onChanged();
       return this;
     }
     /**
-     * <code>.PatientAdministrationService.CalculateRequest.Room room = 3;</code>
+     * <code>.PatientAdministrationService.CalculateRequest.RoomType roomType = 3;</code>
      */
-    public Builder clearRoom() {
+    public Builder clearRoomType() {
       
-      room_ = 0;
+      roomType_ = 0;
       onChanged();
       return this;
     }

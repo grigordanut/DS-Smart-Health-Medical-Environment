@@ -102,7 +102,7 @@ public class PatientAdministrationClient {
 	//Unary Call
 	//Calculate Patient Accommodation price
 	public static void calculatePrice () {
-			
+					
 		int noDays = (int) 2;
 		String patName = "Lisa Hogan";
 			

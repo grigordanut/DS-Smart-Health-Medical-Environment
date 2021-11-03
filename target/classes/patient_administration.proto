@@ -41,19 +41,19 @@
  }
  
  //Unary Call 
- message CalculateRequest { 
+ message CalculateRequest {  	
  	string patName = 1;
  	int32 numberDays = 2;
  	 	
-  enum Room{
+  	enum RoomType{
 
-  	PUBLIC = 0;
-  	SEMIPRIVATE = 1;
-  	PRIVATE = 2;
-  }
+  		PUBLIC = 0;
+  		SEMIPRIVATE = 1;
+  		PRIVATE = 2;
+ 	}
   
-  Room room = 3;
- }
+  	RoomType roomType = 3;
+ } 
 
  message CalculateResponse{
  	string message = 2;

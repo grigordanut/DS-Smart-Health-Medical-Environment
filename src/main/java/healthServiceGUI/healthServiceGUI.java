@@ -24,7 +24,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import patientAdministrationService.CalculateRequest;
-import patientAdministrationService.CalculateRequest.Room;
+import patientAdministrationService.CalculateRequest.RoomType;
 import patientAdministrationService.CalculateResponse;
 import patientAdministrationService.DisplayRequest;
 import patientAdministrationService.DisplayResponse;
@@ -94,13 +94,21 @@ public class healthServiceGUI implements ActionListener {
 	private JTextField txt_patientName;
 	private JTextField txt_patientAge;
 	private ButtonGroup btn_Group;	
-	JRadioButton rdbtn_male;
-	JRadioButton rdbtn_female;
+	private JRadioButton rdbtn_male;
+	private JRadioButton rdbtn_female;
 	private JTextArea txtArea_patDetails;
+	
+	private String patName = "";
+	private String patAge = "";
+	private String gender = "";
+	private String selectedItem;
+	private Integer numberDays = (int)0.00;
 	
 	private JSeparator separator1A;
 	
-	private JTextField txt_patName;
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBox_patName;
+	//private JTextField txt_patName;
 	private JTextField txt_noDays;
 	JTextArea textArea_totalPrice;
 	
@@ -197,7 +205,7 @@ public class healthServiceGUI implements ActionListener {
 		initialize();
 	}	
 	
-	//Dicover Environment Monitoring Service
+	//Discover Environment Monitoring Service
 	private void discoveyEnvironmentServices(String service_type) {		
 		
 		try {
@@ -363,9 +371,10 @@ public class healthServiceGUI implements ActionListener {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(234, 234, 234));
+		frame.getContentPane().setBackground(Color.GREEN);
 		frame.setFont(new Font("Dialog", Font.BOLD, 20));
 		frame.setBounds(100, 100, 690, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -380,7 +389,7 @@ public class healthServiceGUI implements ActionListener {
 		lbl_appTitle.setForeground(Color.WHITE);
 		lbl_appTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lbl_appTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_appTitle.setBounds(150, 5, 300, 35);
+		lbl_appTitle.setBounds(190, 5, 300, 35);
 		frame.getContentPane().add(lbl_appTitle);
 		
 		/////////////////////////////////////////////
@@ -389,6 +398,7 @@ public class healthServiceGUI implements ActionListener {
 		
 		//Panel Administration Service
 		JPanel panel_administration = new JPanel();
+		panel_administration.setBackground(Color.ORANGE);
 		panel_administration.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_administration.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Patient Administration Service", null, panel_administration, "Accomodation Service");
@@ -421,14 +431,14 @@ public class healthServiceGUI implements ActionListener {
 			}
 		});
 		txt_patientName.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txt_patientName.setBounds(20, 85, 220, 35);
+		txt_patientName.setBounds(20, 85, 200, 35);
 		panel_administration.add(txt_patientName);
 		txt_patientName.setColumns(10);
 		
 		//Label patient age
 		JLabel lbl_patientAge = new JLabel("Age");
 		lbl_patientAge.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lbl_patientAge.setBounds(275, 55, 35, 30);
+		lbl_patientAge.setBounds(250, 55, 35, 30);
 		panel_administration.add(lbl_patientAge);
 		
 		//Text Field patient age
@@ -444,6 +454,7 @@ public class healthServiceGUI implements ActionListener {
 		txt_patientAge.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
 				//check if the user is entering only number
 				int key = e.getKeyCode();
 	            if((key>=KeyEvent.VK_0 && key<=KeyEvent.VK_9)||(key>=KeyEvent.VK_NUMPAD0&&key<=KeyEvent.VK_NUMPAD9)||key==KeyEvent.VK_BACK_SPACE){
@@ -460,20 +471,26 @@ public class healthServiceGUI implements ActionListener {
 			}
 		});
 		txt_patientAge.setHorizontalAlignment(SwingConstants.RIGHT);
-		txt_patientAge.setBounds(265, 85, 55, 35);
+		txt_patientAge.setBounds(235, 85, 55, 35);
 		panel_administration.add(txt_patientAge);
-		txt_patientAge.setColumns(10);		
+		txt_patientAge.setColumns(10);	
+		
+		//Label Patient Gender
+		JLabel lbl_patientGender = new JLabel("Gender:");
+		lbl_patientGender.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_patientGender.setBounds(305, 80, 65, 30);
+		panel_administration.add(lbl_patientGender);
 		
 		//Radio Button male
 		rdbtn_male = new JRadioButton("Male");
 		rdbtn_male.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtn_male.setBounds(340, 65, 90, 30);
+		rdbtn_male.setBounds(375, 65, 90, 25);
 		panel_administration.add(rdbtn_male);
 		
 		//Radio Button female
 		rdbtn_female = new JRadioButton("Female");
 		rdbtn_female.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtn_female.setBounds(340, 95, 90, 30);
+		rdbtn_female.setBounds(375, 100, 90, 25);
 		panel_administration.add(rdbtn_female);
 		
 		btn_Group = new ButtonGroup();	
@@ -482,12 +499,9 @@ public class healthServiceGUI implements ActionListener {
 		btn_Group.add(rdbtn_female);
 		
 		JButton btn_register = new JButton("Submit");
+		btn_register.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btn_register.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String patName = "";
-				String patAge = "";
-				String gender = "";
+			public void actionPerformed(ActionEvent e) {				
 				
 				//check if the patName text field is empty
 				if (txt_patientName.getText().isEmpty()) {
@@ -514,12 +528,13 @@ public class healthServiceGUI implements ActionListener {
 		                gender = "Male";
 		            }
 		            else if (rdbtn_female.isSelected()){
-		                gender= "Female";
+		                gender = "Female";
 		            } 					
 					
 					txt_patientName.setText("");
 					txt_patientAge.setText("");
-					btn_Group.clearSelection();					
+					btn_Group.clearSelection();	
+					
 					
 					StreamObserver<RegisterResponse> responseObserver = new StreamObserver<RegisterResponse>() {
 
@@ -527,9 +542,15 @@ public class healthServiceGUI implements ActionListener {
 						public void onNext(RegisterResponse value) {
 							
 							//Register the patient
-							System.out.println("Server responded; Patient registered with, \n" +value.getResult() + "\n");
-							txtArea_patDetails.append(" " + value.getResult());
-							patientList.add(value.getResult());												
+							System.out.println("Server responded; Patient registered with,\n" +value.getResult());
+							
+							txtArea_patDetails.append(value.getResult());
+							
+							
+							//Print GUI MUltiple lines
+							patientList.add(value.getResult() + "\n");	
+							comboBox_patName.addItem(patName);
+							
 						}
 
 						@Override
@@ -567,10 +588,11 @@ public class healthServiceGUI implements ActionListener {
 		//Button show Patients list
 		JButton btn_patList = new JButton("Patient List");
 		btn_patList.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btn_patList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btn_patList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				txtArea_patDetails.setText(" ");	
+				txtArea_patDetails.setText("");	
 				
 				//check if Array List is empty
 		        if (patientList.isEmpty()){
@@ -580,7 +602,7 @@ public class healthServiceGUI implements ActionListener {
 		        
 		        else{ 		        
 		        	
-		        	System.out.println("Server responded; Patient list is displayed:\n");
+		        	System.out.println("Server responded; Patient list is displayed: ");
 		        		
 		        	DisplayRequest request = DisplayRequest.newBuilder().setPatList(patientList.toString()).build();		        	
 		            	
@@ -606,8 +628,8 @@ public class healthServiceGUI implements ActionListener {
 					for(int i = 0; i<patientList.size(); i++) {	
 						
 						//Display the patient list
-						txtArea_patDetails.append(patientList.get(i) + "\n ");
-						System.out.println(patientList.get(i) + "\n");						
+						txtArea_patDetails.append(patientList.get(i));
+						System.out.println(patientList.get(i));						
 		            }	 
 					
 					adminAsyncStub.displayPatients(request, responseObserver);	 				
@@ -653,21 +675,34 @@ public class healthServiceGUI implements ActionListener {
 		lbl_patName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_patName.setBounds(20, 290, 120, 30);
 		panel_administration.add(lbl_patName);
-		
-		//Text Field patient name
-		txt_patName = new JTextField();
-		txt_patName.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+	
+		//Combo box select the patient's name
+		comboBox_patName = new JComboBox();
+		comboBox_patName.setBackground(Color.WHITE);
+		comboBox_patName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
-				textArea_totalPrice.setText("");	
-				
+				if (patName.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Plesae add patients to patient list.");
+				}
+				else {					
+					selectedItem = comboBox_patName.getSelectedItem().toString();
+					
+					if (selectedItem.equals("Select a patient")) {
+						JOptionPane.showMessageDialog(null, "Please select a patient.");
+					}
+					
+					else {
+						selectedItem = comboBox_patName.getSelectedItem().toString();
+					}					
+				}								
 			}
 		});
-		txt_patName.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txt_patName.setBounds(20, 320, 205, 35);
-		panel_administration.add(txt_patName);
-		txt_patName.setColumns(10);
+		comboBox_patName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		comboBox_patName.setModel(new DefaultComboBoxModel(new String[] {"Select a patient"}));
+		comboBox_patName.setBounds(20, 320, 200, 35);
+		panel_administration.add(comboBox_patName);
+		
 		
 		//Label number of days
 		JLabel lbl_noDays = new JLabel("No. Days");
@@ -718,7 +753,7 @@ public class healthServiceGUI implements ActionListener {
 		lbl_piceDay.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panel_administration.add(lbl_piceDay);
 		
-		//Combobox type of accommodation
+		//Combobox type of accommodation room
 		JComboBox comboBox_price = new JComboBox();
 		comboBox_price.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		comboBox_price.setModel(new DefaultComboBoxModel(new String[] {"PUBLIC", "SEMIPRIVATE","PRIVATE"}));
@@ -727,19 +762,17 @@ public class healthServiceGUI implements ActionListener {
 		
 		//Button calculate the price of the accommodation
 		JButton btn_totalPrice = new JButton("Total Price");
+		btn_totalPrice.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btn_totalPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_totalPrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				textArea_totalPrice.setText(" ");
+				textArea_totalPrice.setText("");
 				
-				String patientName = " ";
-				int numberDays = (int)0.00;
-				
-				//check if the txt_patName is empty
-				if (txt_patName.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please enter Patient Name, the field can not be empty");
-					txt_patName.requestFocus();
+				selectedItem = comboBox_patName.getSelectedItem().toString();
+								
+				if (selectedItem.equals("Select a patient")) {
+					JOptionPane.showMessageDialog(null, "Please select a patient from Combo Box.");
 				}
 				
 				//check if the txt_noDays is empty
@@ -749,16 +782,17 @@ public class healthServiceGUI implements ActionListener {
 				}
 				
 				else {
-					patientName = (txt_patName.getText());
+					selectedItem = comboBox_patName.getSelectedItem().toString();
+					patName = selectedItem;
 					numberDays = Integer.parseInt(txt_noDays.getText());
 					
-					int index = comboBox_price.getSelectedIndex();
-					Room room = Room.forNumber(index);
+					int indexPrice = comboBox_price.getSelectedIndex();				
+					RoomType roomType = RoomType.forNumber(indexPrice);
 					
 					CalculateRequest request = CalculateRequest.newBuilder()
-													.setPatName(patientName)
+													.setPatName(patName)
 													.setNumberDays(numberDays)
-													.setRoom(room)
+													.setRoomType(roomType)
 													.build();
 									
 					CalculateResponse response = adminBlockingStub.calculatePrice(request);
@@ -788,6 +822,7 @@ public class healthServiceGUI implements ActionListener {
 
 		//Panel Patient Monitoring Service
 		JPanel panel_monitoring = new JPanel();
+		panel_monitoring.setBackground(Color.CYAN);
 		panel_monitoring.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_monitoring.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Patient Monitoring Service", null, panel_monitoring, "Monitoring Service");
@@ -1056,6 +1091,7 @@ public class healthServiceGUI implements ActionListener {
 		
 		//Pane Environment Service
 		JPanel panel_environment = new JPanel();
+		panel_environment.setBackground(Color.PINK);
 		panel_environment.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_environment.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tabbedPane.addTab("Environment Monitoring Service", null, panel_environment, null);
